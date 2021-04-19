@@ -6,6 +6,7 @@ Node::Node(){
    this->next = nullptr;
 }
 
+
 Node::Node(Tile* tile, Node* next)
 {
    // TODO
