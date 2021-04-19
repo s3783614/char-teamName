@@ -1,12 +1,24 @@
 
 #include "Node.h"
 
+Node::Node(){
+   this->tile = nullptr;
+   this->next = nullptr;
+}
+
 Node::Node(Tile* tile, Node* next)
 {
    // TODO
+   this->tile = tile;
+   this->next = next;
 }
 
-Node::Node(Node& other)
+//Returns shallow copy for now
+Node::Node(Node& other):
+   tile(other.tile),
+   next(other.next)
 {
-   // TODO
+   // TODO - deep copy(i think)
+   // tile = other.tile;
+   // next = other.next;
 }

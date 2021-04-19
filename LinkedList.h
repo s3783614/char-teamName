@@ -10,6 +10,9 @@ public:
    LinkedList();
    ~LinkedList();
 
+   void addNode(Tile* tile);
+   void addBack(Tile* tile);
+
 private:
    Node* head;
 };
