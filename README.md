@@ -6,3 +6,5 @@ Team members
 | Aidan McGinniss  | s3545999 |
 | shewit Tikue | s3545853 |
 | Hamida Ehsani | s3653728 |
+
+<hr></hr>
