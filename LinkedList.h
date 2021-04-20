@@ -8,10 +8,14 @@ class LinkedList {
 public:
 
    LinkedList();
+
    ~LinkedList();
 
    void addNode(Tile* tile);
    void addBack(Tile* tile);
+
+   int size() const;
+
 
 private:
    Node* head;

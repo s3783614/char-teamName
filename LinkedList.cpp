@@ -4,15 +4,16 @@
 
 LinkedList::LinkedList() {
    // TODO
-   // head = nullptr;
+   head = nullptr;
 
-   head = NULL;
+   // head = NULL;
 
    // Node* node = new Node();
    
    // this->head = node;
 
 }
+
 
 LinkedList::~LinkedList() {
 }
