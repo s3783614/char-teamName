@@ -8,13 +8,17 @@ class LinkedList {
 public:
 
    LinkedList();
-
+   LinkedList(LinkedList& other);
    ~LinkedList();
 
-   void addNode(Tile* tile);
-   void addBack(Tile* tile);
+   int size();
+   void clear();
+   Tile* get(int index);
 
-   int size() const;
+   void addFront(Tile* tile);
+   void addBack(Tile* tile);
+   void removeFront();
+   void removeBack();
 
 
 private:

@@ -5,28 +5,86 @@
 LinkedList::LinkedList() {
    // TODO
    head = nullptr;
+}
 
-   // head = NULL;
+LinkedList::LinkedList(LinkedList& other):
+   head(other.head)
+{ }
 
-   // Node* node = new Node();
-   
-   // this->head = node;
+LinkedList::~LinkedList() 
+{
 
 }
 
+int LinkedList::size()
+{
+   int counter = 0;
+   Node* current = head;
 
-LinkedList::~LinkedList() {
-}
-
-void LinkedList::addNode(Tile* tile){
-
-   Node* newNode = new Node();
-   newNode->tile = tile;
-   newNode->next = NULL;
-
-   if(head == NULL)
+   while(current != head)
    {
-      head = newNode;
+      current = current->next;
+      counter++;
+   }
+
+   return counter;
+}
+
+void LinkedList::clear()
+{
+
+}
+
+Tile* LinkedList::get(int index)
+{
+   int counter = 0;
+   Node* current = head;
+
+   Tile* returnTile;
+
+   if(index < size())
+   {
+
+      while(counter < index)
+      {
+         counter ++;
+         current = current->next;
+      }
+      returnTile = current->tile;
+   }
+   else
+   {
+      throw std::out_of_range("Linked list get - Index out of range");
+   }
+
+   return returnTile;
+}
+
+void LinkedList::addFront(Tile* tile)
+{
+   Node* addedTile = new Node(tile, nullptr);
+
+   if(head == nullptr)
+   {
+      head = addedTile;
+   }
+   else
+   {
+      addedTile->next = head;
+      // reassign the head position to the added tile
+      head = addedTile;
+   }
+}
+
+void LinkedList::addBack(Tile* tile)
+{
+   Node* addedTile = new Node(tile, nullptr);
+   // addedTile->tile = tile;
+   // addedTile->next = nullptr;
+
+   if(head == nullptr)
+   {
+      head = addedTile;
    }
    else
    {
@@ -37,29 +95,11 @@ void LinkedList::addNode(Tile* tile){
          //traverses to the end of the list
          temp = temp->next;
       }
-      //add the newNode to the end of the list
-      temp->next = newNode;
+      //add the addedTile to the end of the list
+      temp->next = addedTile;
    }
-
-
 }
 
-//IGNORE FOR NOW 
-/*void LinkedList::addBack(Tile* tile){
-   Node* newNode = new Node(tile, nullptr);
 
-   Node* cur = this->head;
 
-   bool isEmpty = false;
-   //if the list is empty
-   if(this->head == nullptr)
-   {
-      head = newNode;
-      isEmpty = true;
-   }
-
-   
-   while()
-
-}*/
 
