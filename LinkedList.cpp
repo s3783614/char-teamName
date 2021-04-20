@@ -100,6 +100,34 @@ void LinkedList::addBack(Tile* tile)
    }
 }
 
+void LinkedList::removeFront()
+{
+   if(head != nullptr)
+   {
+      Node* secondaryElement = head->next;
+      delete head;
+      head = secondaryElement;
+   }
+}
+
+void LinkedList::removeBack()
+{
+   if(head != nullptr)
+   {
+      Node* current = head;
+      Node* previous;
+
+      while(current->next != nullptr)
+      {
+         previous = current;
+         current = current->next;
+      }
+
+      previous->next = nullptr;
+      delete current;
+   }
+}
+
 
 
 
