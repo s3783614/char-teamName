@@ -13,7 +13,7 @@ LinkedList::LinkedList(LinkedList& other):
 
 LinkedList::~LinkedList() 
 {
-
+   clear();
 }
 
 int LinkedList::size()
@@ -32,7 +32,10 @@ int LinkedList::size()
 
 void LinkedList::clear()
 {
-
+   while(head != nullptr)
+   {
+      removeFront();
+   }
 }
 
 Tile* LinkedList::get(int index)
