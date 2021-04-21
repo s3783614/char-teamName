@@ -12,7 +12,9 @@ Tile::Tile(Colour colour, Shape shape)
 Tile::~Tile(){}
 
 // Copy constructor of the tile. 
-Tile::Tile(Tile& otherTile)
+Tile::Tile(Tile& otherTile):
+   colour(otherTile.colour),
+   shape(otherTile.shape)
 {
     this->colour = colour;
     this->shape = shape;

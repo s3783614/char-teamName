@@ -118,7 +118,7 @@ void LinkedList::removeBack()
    if(head != nullptr)
    {
       Node* current = head;
-      Node* previous;
+      Node* previous = nullptr;
 
       while(current->next != nullptr)
       {
