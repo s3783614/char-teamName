@@ -1,5 +1,9 @@
-
 #include "LinkedList.h"
+#include "TileCodes.h"
+#include "Tile.h"
+#include "Node.h"
+#include "Board.h"
+#include "Player.h"
 
 #include <iostream>
 
