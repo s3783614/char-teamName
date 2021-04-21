@@ -1,6 +1,10 @@
-*    # ignores every thing
-!*/  # tells it to stop ignoring all directories
-!*.* # tells it to stop ignoring all files with an extension
+# ignores every thing
+*
+# tells it to stop ignoring all directories
+!*/  
+# tells it to stop ignoring all files with an extension
+!*.* 
+
 
 # Prerequisites
 *.d
@@ -34,4 +38,3 @@
 *.exe
 *.out
 *.app
-
