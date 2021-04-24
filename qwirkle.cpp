@@ -4,6 +4,7 @@
 #include "Node.h"
 #include "Board.h"
 #include "Player.h"
+#include "Bag.h"
 
 #include <iostream>
 
@@ -15,6 +16,13 @@ int main(void) {
 
    std::cout << "Welcome Qwirkle!" << std::endl;
    std::cout << "----------------" << std::endl;
+
+   // FOR TESTING THE BAG -- TODO
+   /*std::string TileBagFile = "TileBag.txt";
+   Tile* tileBag[MAX_TILES];
+
+   Bag* bag = new Bag();
+   tileBag->readAllTiles(TileBagFile, tileBag);*/
 
    return EXIT_SUCCESS;
 }
