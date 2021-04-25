@@ -5,11 +5,12 @@ Player::Player(std::string name)
 {
    this->name = name;
    this->score = 0;
+   hand = new Bag();
 }
 
 Player::~Player()
 {
-
+   delete hand;
 }
 
 // Update the name of a player with a string input
@@ -36,4 +37,13 @@ int Player::getScore()
    return this->score;
 }
 
-// Needs to have play tile etc after bag implemented
+// Print out the players hand
+void Player::printHand()
+{
+   // hand->printBag();
+}
+
+Tile* Player::getTile()
+{
+   // Need updates to bag to implement
+}

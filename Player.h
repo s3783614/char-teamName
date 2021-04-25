@@ -1,6 +1,7 @@
 #ifndef ASSIGN2_PLAYER_H
 #define ASSIGN2_PLAYER_H
 
+#include "Bag.h"
 #include <string>
 
 class Player{
@@ -11,10 +12,12 @@ public:
    std::string getName();
    void addScore(int scoreToAdd);
    int getScore();
+   void printHand();
+   Tile* getTile();
 private:
    std::string name;
    int score;
-   // Bag pointer for hand(when bag implemented)
+   Bag* hand;
 };
 
 # endif //PLAYER_H
