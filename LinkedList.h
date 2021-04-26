@@ -8,7 +8,18 @@ class LinkedList {
 public:
 
    LinkedList();
+   LinkedList(LinkedList& other);
    ~LinkedList();
+
+   int size();
+   void clear();
+   Tile* get(int index);
+
+   void addFront(Tile* tile);
+   void addBack(Tile* tile);
+   void removeFront();
+   void removeBack();
+
 
 private:
    Node* head;
