@@ -1,147 +1,49 @@
+#include <fstream>
+#include <iostream>
+#include <algorithm> //for std::shuffle
 
 #include "Bag.h"
 #include "Tile.h"
 #include "TileCodes.h"
-#include <fstream>
 
 Bag::Bag()
 {
-
+   this->tiles = new LinkedList();
 }
 
-void Bag::readAllTiles(std::string inputFileName, Tile* tileBag[])
+void Bag::initialiseTileBag()
 {
-    std::ifstream inputFile(inputFileName);
 
-    // increments till the eof
-    int numRead = 0;
+   Colour tileColours[] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE};
+   Shape tileShapes[] = {CIRCLE, STAR_4, DIAMOND, SQUARE, STAR_6, CLOVER};
 
-    while(!inputFile.eof())
-    {
-        Colour colour = RED;
-        Shape shape = CIRCLE;
+   std::vector<Tile *> orderedTiles;
 
-        bool readColourSuccess = false;
-        readColourSuccess = readColourTile(inputFile, &colour, &shape);
+   for (int i = 0; i < 2; i++)
+   {
+      for (Colour colour : tileColours)
+      {
+         for (Shape shape : tileShapes)
+         {
+            Tile *tile = new Tile(colour, shape);
+            orderedTiles.push_back(tile);
+         }
+      }
+   }
 
-        bool readShapeSuccess = false;
-        readShapeSuccess = readShapeTile(inputFile, &colour, &shape);
-        
-        bool readSuccess = false;
-        if (readColourSuccess == true && readShapeSuccess == true)
-        {
-            readSuccess = true;
-        }
-
-        if(!inputFile.eof() && readSuccess)
-        {
-
-            Tile* tile =  new Tile(colour, shape);
-            tileBag[numRead] = tile;
-            numRead++;
-        }
-    }
-
-    
-    
-    
-    
+   shuffleTiles(orderedTiles);
 }
 
-
-bool Bag::readColourTile(std::ifstream& inputFile, Colour* colour, Shape* shape)
+void Bag::shuffleTiles(std::vector<Tile *> orderedTiles)
 {
-    // READ COLOUR
-    Colour readColour = 'R';
-    inputFile >> readColour;
-    //might need to refactor the name a bit
-    bool readColourSuccess = true;
 
+   std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
 
-    if(readColour == 'R')
-    {
-        *colour = RED;
-    }
-    else if(readColour == 'O')
-    {
-        *colour = ORANGE;
-    }
-    else if(readColour == 'Y')
-    {
-        *colour = YELLOW;
-    }
-    else if(readColour == 'G')
-    {
-        *colour = GREEN;
-    }
-    else if(readColour == 'B')
-    {
-        *colour = BLUE;
-    }
-    else if(readColour == 'P')
-    {
-        *colour = PURPLE;
-    }
-    else
-    {
-        readColourSuccess = false;
-
-        //might be useful when we read input from user
-        // std::cout << "Incorrect colour try again!" << std::endl;
-        // idk..
-    }
-    
-    inputFile >> *shape;
-
-    
-
-    return readColourSuccess;
-
+for /*(Tile *tile : tiles)*/(int i = 0; i < orderedTiles.size(); i++)
+{
+   Tile *tempTile;
+   tempTile = orderedTiles[i];
+   tiles->addBack(tempTile);
+   delete tempTile;
 }
-
-bool Bag::readShapeTile(std::ifstream& inputFile, Colour* colour, Shape* shape)
-{
-
-    inputFile >> *colour;
-
-    // READ SHAPE
-    Shape readShape = 1;
-    inputFile >> readShape;
-    //might need to refactor the name a bit
-    bool readShapeSuccess = true;
-    
-    if(readShape == 1)
-    {
-        *shape = CIRCLE;
-    }
-    else if(readShape == 2)
-    {
-        *shape = STAR_4;
-    }
-    else if(readShape == 3)
-    {
-        *shape = DIAMOND;
-    }
-    else if(readShape == 4)
-    {
-        *shape = SQUARE;
-    }
-    else if(readShape == 5)
-    {
-        *shape = STAR_6;
-    }
-    else if(readShape == 6)
-    {
-        *shape = CLOVER;
-    }
-    else
-    {
-        readShapeSuccess = false;
-
-        //might be useful when we read input from user
-        // std::cout << "Incorrect shape try again!" << std::endl;
-        // idk..
-    }
-
-    return readShapeSuccess;
 }

@@ -3,25 +3,30 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <random>
 
 #include "Tile.h"
+#include "LinkedList.h"
 
-#define MAX_COLOURS     6
-#define MAX_SHAPES      6
-#define MAX_TILES       (MAX_COLOURS * MAX_SHAPES)
+// #define MAX_COLOURS     6
+// #define MAX_SHAPES      6
+// #define MAX_TILES       (MAX_COLOURS * MAX_SHAPES)
 
-class Bag{
+class Bag
+{
 public:
-    Bag();
+   Bag();
+   ~Bag();
 
-    void readAllTiles(std::string inputFileName, Tile* tileBag[]);
-    bool readColourTile(std::ifstream& inputFile, Colour* colour, Shape* shape);
-    bool readShapeTile(std::ifstream& inputFile, Colour* colour, Shape* shape);
+   void initialiseTileBag();
+   void shuffleTiles(std::vector<Tile *> orderedTiles);
 
 private:
-    Tile* tileBag[MAX_TILES];
-    Colour* colour;
-    Shape* shape;
+   LinkedList *tiles;
+
+   Colour *colour;
+   Shape *shape;
 };
 
 #endif //ASSIGN2_BAG_H
