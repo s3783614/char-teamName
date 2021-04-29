@@ -46,4 +46,5 @@ void Player::printHand()
 Tile* Player::getTile()
 {
    // Need updates to bag to implement
+   return nullptr;
 }

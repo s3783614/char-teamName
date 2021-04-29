@@ -11,6 +11,11 @@ Bag::Bag()
    this->tiles = new LinkedList();
 }
 
+Bag::~Bag()
+{
+   delete tiles;
+}
+
 void Bag::initialiseTileBag()
 {
 
@@ -39,7 +44,7 @@ void Bag::shuffleTiles(std::vector<Tile *> orderedTiles)
 
    std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
 
-for /*(Tile *tile : tiles)*/(int i = 0; i < orderedTiles.size(); i++)
+for (unsigned int i = 0; i < orderedTiles.size(); i++)
 {
    Tile *tempTile;
    tempTile = orderedTiles[i];
