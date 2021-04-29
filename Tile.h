@@ -13,6 +13,9 @@ public:
    Tile(Colour colour, Shape shape);
    ~Tile();
    Tile(Tile& otherTile);
+
+   void printTile();
+
    Colour getColour();
    Shape getShape();
    

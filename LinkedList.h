@@ -20,6 +20,8 @@ public:
    void removeFront();
    void removeBack();
 
+   void printLinkedList();
+
 
 private:
    Node* head;

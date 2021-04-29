@@ -3,6 +3,10 @@
 #include <iostream>
 #include <string>
 
+#include "Player.h"
+#include "Bag.h"
+#include "Board.h"
+
 #define EXIT_SUCCESS 0
 
 bool check(char *s);
@@ -59,6 +63,7 @@ int main(void)
       else if (userInput == "4")
       {
          Quit();
+         exit = true;
       }
       else
       {
@@ -83,9 +88,8 @@ void menu()
 
 void Quit()
 {
-   std::cout << std::endl
-             << "Goodbye";
-   // return EXIT_SUCCESS;
+   // std::cout << std::endl;
+   std::cout << "Goodbye" << std::endl;
 }
 
 // bool check(char *s)
@@ -113,6 +117,8 @@ bool NewGame()
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
    std::cout << ">";
    name1 = getName();
+   Player* player1 = new Player(name1);
+   std::cout << player1->getName() << std::endl;
    // if (!std::cin.getline(name1, 20))
    // {
    //    Quit();
@@ -128,9 +134,11 @@ bool NewGame()
    //       return false;
    //    }
    // }
-   std::cout << "Enter a name for palyer 2 (uppercase characters only)" << std::endl;
+   std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
    std::cout << ">";
    name2 = getName();
+   Player* player2 = new Player(name2);
+   std::cout << player2->getName() << std::endl;
    // if (!std::cin.getline(name2, 10))
    // {
    //    Quit();
@@ -146,6 +154,9 @@ bool NewGame()
    //       return false;
    //    }
    // }
+   Bag* bag = new Bag();
+   bag->initialiseTileBag();
+   bag->printBag();
    return true;
 }
 
@@ -156,14 +167,23 @@ std::string getName()
    bool checker = false;
    while (checker == false)
    {
-      std::cout << "Enter your name (CAPITALS AND NO SPACES)" << std::endl;
+      // std::cout << "Enter your name (CAPITALS AND NO SPACES)" << std::endl;
       std::cin >> name;
+      checker = true;
       for (unsigned int i = 0; i < name.length(); i++)
       {
-         if (name[i] >= 65 && name[i] <= 95)
+
+         if (name[i] < 65 || name[i] > 90)
          {
-            checker = true;
+            checker = false;
          }
+         
+      }
+      if(checker == false)
+      {
+         std::cout << "Invalid Input!" << std::endl;
+         std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
+         std::cout << ">" ;
       }
    }
    return name;

@@ -1,3 +1,4 @@
+#include <iostream>
 
 #include "Tile.h"
 
@@ -18,6 +19,11 @@ Tile::Tile(Tile& otherTile):
 {
     this->colour = colour;
     this->shape = shape;
+}
+
+void Tile::printTile()
+{
+    std::cout << colour << shape << std::endl;
 }
 
 // Returns the colour of the tile

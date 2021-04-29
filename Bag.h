@@ -21,12 +21,13 @@ public:
 
    void initialiseTileBag();
    void shuffleTiles(std::vector<Tile *> orderedTiles);
+   void printBag();
 
 private:
-   LinkedList *tiles;
+   LinkedList* tiles;
 
-   Colour *colour;
-   Shape *shape;
+   Colour* colour;
+   Shape* shape;
 };
 
 #endif //ASSIGN2_BAG_H

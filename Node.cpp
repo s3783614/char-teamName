@@ -24,3 +24,8 @@ Node::Node(Node& other):
    // tile = other.tile;
    // next = other.next;
 }
+
+void Node::printNode()
+{
+   tile->printTile();
+}

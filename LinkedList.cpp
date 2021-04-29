@@ -131,6 +131,21 @@ void LinkedList::removeBack()
    }
 }
 
+void LinkedList::printLinkedList()
+{
+   
+   Node* current = head;
+
+   while(current != head)
+   {
+      current->printNode();
+      current = current->next;
+      
+   }
+
+   
+}
+
 
 
 

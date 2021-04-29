@@ -44,11 +44,16 @@ void Bag::shuffleTiles(std::vector<Tile *> orderedTiles)
 
    std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
 
-for (unsigned int i = 0; i < orderedTiles.size(); i++)
-{
-   Tile *tempTile;
-   tempTile = orderedTiles[i];
-   tiles->addBack(tempTile);
-   delete tempTile;
+   for (unsigned int i = 0; i < orderedTiles.size(); i++)
+   {
+      Tile *tempTile;
+      tempTile = orderedTiles[i];
+      tiles->addBack(tempTile);
+      delete tempTile;
+   }
 }
+
+void Bag::printBag()
+{
+   tiles->printLinkedList();
 }
