@@ -136,7 +136,7 @@ void LinkedList::printLinkedList()
    
    Node* current = head;
 
-   while(current != head)
+   while(current->next != nullptr)
    {
       current->printNode();
       current = current->next;
