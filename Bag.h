@@ -9,25 +9,19 @@
 #include "Tile.h"
 #include "LinkedList.h"
 
-// #define MAX_COLOURS     6
-// #define MAX_SHAPES      6
-// #define MAX_TILES       (MAX_COLOURS * MAX_SHAPES)
-
 class Bag
 {
 public:
    Bag();
+   Bag(Bag& other);
    ~Bag();
 
-   void initialiseTileBag();
-   void shuffleTiles(std::vector<Tile *> orderedTiles);
+   void addToBag(Tile* tile);
    void printBag();
 
 private:
    LinkedList* tiles;
 
-//    Colour* colour;
-//    Shape* shape;
 };
 
 #endif //ASSIGN2_BAG_H

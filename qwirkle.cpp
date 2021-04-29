@@ -2,7 +2,9 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 
+#include "TileCodes.h"
 #include "Player.h"
 #include "Bag.h"
 #include "Board.h"
@@ -16,6 +18,8 @@ std::string getName();
 void menu();
 void Quit();
 void credits();
+
+std::vector<Tile* > initialiseTileBag();
 
 int main(void)
 {
@@ -155,8 +159,17 @@ bool NewGame()
    //    }
    // }
    Bag* bag = new Bag();
-   bag->initialiseTileBag();
+   // bag->initialiseTileBag();
+   
+
+   std::vector<Tile*> tPtrs = initialiseTileBag();
+   for (Tile* tile : tPtrs)
+   {
+      bag->addToBag(tile);
+   }
+
    bag->printBag();
+
    return true;
 }
 
@@ -193,4 +206,32 @@ void credits()
 {
    std::cout << "CREDITS" << std::endl;
    std::cout << "-------" << std::endl;
+}
+
+
+std::vector<Tile* > initialiseTileBag()
+{
+
+   Colour tileColours[] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE};
+   Shape tileShapes[] = {CIRCLE, STAR_4, DIAMOND, SQUARE, STAR_6, CLOVER};
+
+   std::vector<Tile *> orderedTiles;
+
+   for (int i = 0; i < 2; i++)
+   {
+      for (Colour colour : tileColours)
+      {
+         for (Shape shape : tileShapes)
+         {
+            Tile *tile = new Tile(colour, shape);
+            orderedTiles.push_back(tile);
+         }
+      }
+   }
+
+   std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
+
+   return orderedTiles;
+   // shuffleTiles(orderedTiles);
+   
 }
