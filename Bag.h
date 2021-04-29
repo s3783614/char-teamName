@@ -26,8 +26,8 @@ public:
 private:
    LinkedList* tiles;
 
-   Colour* colour;
-   Shape* shape;
+//    Colour* colour;
+//    Shape* shape;
 };
 
 #endif //ASSIGN2_BAG_H

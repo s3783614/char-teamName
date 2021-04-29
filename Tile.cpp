@@ -17,8 +17,8 @@ Tile::Tile(Tile& otherTile):
    colour(otherTile.colour),
    shape(otherTile.shape)
 {
-    this->colour = colour;
-    this->shape = shape;
+    // this->colour = colour;
+    // this->shape = shape;
 }
 
 void Tile::printTile()
