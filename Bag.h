@@ -18,6 +18,8 @@ public:
 
    void addToBag(Tile* tile);
    void printBag();
+   Tile* getFront();
+   void removeFront();
 
 private:
    LinkedList* tiles;

@@ -50,9 +50,7 @@ void Board::toString()
 
          if (theBoard[j][i] != nullptr)
          {
-            char theColour[1] = "";
-            theColour[0] = theBoard[j][i]->getColour();
-            std::string colour = theColour;
+            std::string colour(1, theBoard[j][i]->getColour());
             boardPrint.append(colour);
 
             int theShape = theBoard[j][i]->getShape();

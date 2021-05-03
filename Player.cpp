@@ -40,11 +40,16 @@ int Player::getScore()
 // Print out the players hand
 void Player::printHand()
 {
-   // hand->printBag();
+   hand->printBag();
 }
 
 Tile* Player::getTile()
 {
    // Need updates to bag to implement
    return nullptr;
+}
+
+void Player::addTile(Tile* newTile)
+{
+   hand->addToBag(newTile);
 }

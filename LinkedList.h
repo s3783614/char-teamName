@@ -21,7 +21,7 @@ public:
    void removeFront();
    void removeBack();
 
-   Tile* getFront(Bag* bag);
+   Tile* getFront();
 
    void printLinkedList();
 

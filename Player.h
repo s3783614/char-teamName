@@ -14,6 +14,8 @@ public:
    int getScore();
    void printHand();
    Tile* getTile();
+   void addTile(Tile* newTile);
+
 private:
    std::string name;
    int score;

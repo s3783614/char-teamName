@@ -35,3 +35,13 @@ void Bag::printBag()
 {
    tiles->printLinkedList();
 }
+
+Tile* Bag::getFront()
+{
+   return tiles->getFront();
+}
+
+void Bag::removeFront()
+{
+   tiles->removeFront();
+}

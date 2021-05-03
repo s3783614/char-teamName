@@ -20,6 +20,8 @@ void Quit();
 void credits();
 
 std::vector<Tile* > initialiseTileBag();
+void handingTilesToPlayers(Player* player1, Player* player2, Bag* theBag);
+
 
 int main(void)
 {
@@ -141,9 +143,12 @@ bool NewGame()
    // bag->printBag();
 
    Board *board = new Board();
-   Tile* theTile = new Tile(RED, CIRCLE);
-   board->placeTile(theTile, 12, 13);
-   board->toString();
+   handingTilesToPlayers(player1, player2, bag);
+   player1->printHand();
+   player2->printHand();
+   // Tile* theTile = new Tile(RED, CIRCLE);
+   // board->placeTile(theTile, 12, 13);
+   // board->toString();
    return true;
 }
 
@@ -208,4 +213,18 @@ std::vector<Tile* > initialiseTileBag()
    return orderedTiles;
    // shuffleTiles(orderedTiles);
    
+}
+
+void handingTilesToPlayers(Player* player1, Player* player2, Bag* theBag)
+{
+   Tile* theTile;
+   for (int i =0; i < 5; i++)
+   {
+      theTile = theBag->getFront();
+      player1->addTile(theTile);
+      theBag->removeFront();
+      theTile = theBag->getFront();
+      player2->addTile(theTile);
+      theBag->removeFront();
+   }
 }
