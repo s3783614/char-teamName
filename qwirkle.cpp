@@ -123,43 +123,13 @@ bool NewGame()
    name1 = getName();
    Player* player1 = new Player(name1);
    std::cout << player1->getName() << std::endl;
-   // if (!std::cin.getline(name1, 20))
-   // {
-   //    Quit();
-   //    return false;
-   // }
-   // while (!check(name1))
-   // {
-   //    std::cout << "Enter a name for palyer 1 (uppercase characters only)" << std::endl;
-   //    std::cout << ">";
-   //    if (!std::cin.getline(name1, 10))
-   //    {
-   //       Quit();
-   //       return false;
-   //    }
-   // }
+
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
    std::cout << ">";
    name2 = getName();
    Player* player2 = new Player(name2);
    std::cout << player2->getName() << std::endl;
-   // if (!std::cin.getline(name2, 10))
-   // {
-   //    Quit();
-   //    return false;
-   // }
-   // while (!check(name2))
-   // {
-   //    std::cout << "Enter a name for palyer 2 (uppercase characters only)" << std::endl;
-   //    std::cout << ">";
-   //    if (!std::cin.getline(name2, 10))
-   //    {
-   //       Quit();
-   //       return false;
-   //    }
-   // }
    Bag* bag = new Bag();
-   // bag->initialiseTileBag();
    
 
    std::vector<Tile*> tPtrs = initialiseTileBag();
@@ -168,8 +138,12 @@ bool NewGame()
       bag->addToBag(tile);
    }
 
-   bag->printBag();
+   // bag->printBag();
 
+   Board *board = new Board();
+   Tile* theTile = new Tile(RED, CIRCLE);
+   board->placeTile(theTile, 12, 13);
+   board->toString();
    return true;
 }
 
