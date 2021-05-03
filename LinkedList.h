@@ -3,6 +3,7 @@
 #define ASSIGN2_LINKEDLIST_H
 
 #include "Node.h"
+#include "Bag.h"
 
 class LinkedList {
 public:
@@ -19,6 +20,8 @@ public:
    void addBack(Tile* tile);
    void removeFront();
    void removeBack();
+
+   Tile* getFront(Bag* bag);
 
    void printLinkedList();
 

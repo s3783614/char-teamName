@@ -148,6 +148,17 @@ void LinkedList::printLinkedList()
    
 }
 
+Tile* LinkedList::getFront(Bag* bag)
+{
+   Tile* returnTile =  nullptr;
+   if (head != nullptr)
+   {
+      returnTile = head->tile;
+   }
+
+   return returnTile;
+}
+
 
 
 
