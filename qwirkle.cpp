@@ -142,7 +142,7 @@ bool NewGame()
 
    // bag->printBag();
 
-   Board *board = new Board();
+   // Board *board = new Board();
    handingTilesToPlayers(player1, player2, bag);
    player1->printHand();
    player2->printHand();
