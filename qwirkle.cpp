@@ -167,10 +167,10 @@ void playingTheGame(Player* player1, Player* player2, Board* theBoard)
    {
       wordsIn.push_back(tmpString);
    }
-   for (unsigned int i =0; i < wordsIn.size(); i++) // Print out vector
-   {
-      std::cout << wordsIn[i] << std::endl;
-   }
+   // for (unsigned int i =0; i < wordsIn.size(); i++) // Print out vector
+   // {
+   //    std::cout << wordsIn[i] << std::endl;
+   // }
       // std::cout << "Spot 1" << std::endl;
 
    if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at" &&  wordsIn[1].size() == 2 && wordsIn[3].size() == 2)
@@ -180,6 +180,7 @@ void playingTheGame(Player* player1, Player* player2, Board* theBoard)
       
 //CHANGE LATER --ASCII MAGIC
 // check letter is shape and number is Colour
+
       Tile* checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1]-48);
 
       
@@ -187,10 +188,27 @@ void playingTheGame(Player* player1, Player* player2, Board* theBoard)
 
 //CHANGE LATER --ASCII MAGIC
       int row = (int)wordsIn[3][0] - 65;
-      int col = (int)wordsIn[3][1] - 48;
+      int col = (int)wordsIn[3][1] - 48-1;
       //TODO -- check if row col are less than board size
       bool isTaken = theBoard->isSpotTaken(row,col);
       // std::cout << "check: " << check << "isTaken: " << isTaken << std::endl;
+      std::cout << "Spot 1" << std::endl;
+      if(!isTaken && check)
+      {
+// std::cout << "Spot 2" << std::endl;
+         int tileIndex = player1->getHand()->findSpecificTile(checkTile);
+         std::cout << "tile Index: " << tileIndex << std::endl;
+         player1->getHand()->removeAt(tileIndex);
+         theBoard->placeTile(checkTile, row, col);
+         theBoard->toString();
+         Tile* tmpTile = theBoard->getBag()->getFront();
+         theBoard->getBag()->removeFront();
+         player1->getHand()->addBack(tmpTile);
+         
+         // theBoard->placeTile();
+      }
+      std::cout << "----------------" <<std::endl;
+      player1->getHand()->printLinkedList();
 
    }
 

@@ -11,9 +11,9 @@ public:
    Board();
    ~Board();
    void toString();
-   void placeTile(Tile* theTile, int row, int column);
+   void placeTile(Tile* theTile, int Row, int Column);
    LinkedList* getBag();
-   bool isSpotTaken(int row, int col);
+   bool isSpotTaken(int Row, int Column);
    
 private:
    std::vector <std::vector<Tile*> > theBoard;

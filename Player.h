@@ -10,13 +10,18 @@ class Player{
 public:
    Player(std::string name);
    ~Player();
-   void setName(std::string newName);
+
    std::string getName();
-   void addScore(int scoreToAdd);
+   
    int getScore();
+
+   void setName(std::string newName);
    void printHand();
-   Tile* getTile();
    void addTile(Tile* newTile);
+   void addScore(int scoreToAdd);
+
+   Tile* getTile();
+
    LinkedList* getHand();
 
 private:

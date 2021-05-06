@@ -13,17 +13,20 @@ public:
    ~LinkedList();
 
    int size();
-   void clear();
+   int findSpecificTile(Tile* tile);
+
+   Tile* getFront();
    Tile* get(int index);
 
+   void clear();
    void addFront(Tile* tile);
    void addBack(Tile* tile);
    void removeFront();
    void removeBack();
-
-   Tile* getFront();
-
+   void removeAt(int index);
    void printLinkedList();
+
+
    bool isInLinkedList(Tile* tile);
 
 private:

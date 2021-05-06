@@ -20,11 +20,11 @@ LinkedList* Board::getBag()
    return bag;
 }
 
-bool Board::isSpotTaken(int row, int col)
+bool Board::isSpotTaken(int Row, int Column)
 {
    // std::cout << "row: "<<row<<" col: " << col <<std::endl; 
    bool check = false;
-   if(theBoard[row][col] != nullptr)
+   if(theBoard[Column][Row] != nullptr)
    {
       check = true;
    }
@@ -88,5 +88,5 @@ void Board::toString()
 
 void Board::placeTile(Tile* newTile, int Row, int Column)
 {
-   theBoard[Row][Column] = newTile;
+   theBoard[Column][Row] = newTile;
 }

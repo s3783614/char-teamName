@@ -24,7 +24,7 @@ int LinkedList::size()
    int counter = 0;
    Node *current = head;
 
-   while (current != head)
+   while (current != nullptr)
    {
       current = current->next;
       counter++;
@@ -96,7 +96,7 @@ void LinkedList::addBack(Tile *tile)
    {
       //for head is not null
       Node *temp = head;
-      while (temp->next != NULL)
+      while (temp->next != nullptr)
       {
          //traverses to the end of the list
          temp = temp->next;
@@ -134,6 +134,56 @@ void LinkedList::removeBack()
    }
 }
 
+void LinkedList::removeAt(int index)
+{
+   std::cout << "size: " <<size()<<std::endl;
+   if (index >= 0 && index < size())
+   {
+
+      if (head != nullptr)
+      {
+         int counter = 0;
+         Node *current = head;
+         Node *previous = nullptr;
+
+         while (counter != index)
+         {
+            ++counter;
+            previous = current;
+            current = current->next;
+         }
+
+         if (previous == nullptr)
+         {
+            head = current->next;
+         }
+         else
+         {
+            previous->next = current->next;
+         }
+         delete current->tile;
+         delete current;
+      }
+   }
+
+   //  if (head != nullptr) {
+   //      int counter = 0;
+   //      std::shared_ptr<Node> current = head;
+
+   //      if (index >=0 && index < size()) {
+   //          while (counter < index) {
+   //              current = current->next;
+   //              counter++;
+   //          }
+
+   //          current->prev->next = current->next;
+   //          current->next->prev = current->prev;
+   //      } else {
+   //          throw std::out_of_range("Linked List Delete At - index out of range");
+   //      }
+   //  }
+}
+
 void LinkedList::printLinkedList()
 {
 
@@ -163,8 +213,8 @@ Tile *LinkedList::getFront()
 bool LinkedList::isInLinkedList(Tile *tile)
 {
    bool isIn = false;
-   Node* current = head;
-   
+   Node *current = head;
+
    while (current != nullptr)
    {
       if (current->tile->compareTile(tile))
@@ -172,8 +222,28 @@ bool LinkedList::isInLinkedList(Tile *tile)
          isIn = true;
       }
       current = current->next;
+   }
 
-   } 
-   
    return isIn;
+}
+
+int LinkedList::findSpecificTile(Tile *tile)
+{
+   int index = -1;
+
+   Node *current = head;
+
+   int counter = 0;
+   while (current != nullptr)
+   {
+      if (current->tile->compareTile(tile))
+      {
+
+         index = counter;
+      }
+      ++counter;
+      current = current->next;
+   }
+
+   return index;
 }
