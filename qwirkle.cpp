@@ -21,13 +21,13 @@ void menu();
 void Quit();
 void credits();
 
-std::vector<Tile* > initialiseTileBag();
-void handingTilesToPlayers(Player* player1, Player* player2, Board* theBoard);
-void playingTheGame(Player* player1, Player* player2, Board* theBoard);
+std::vector<Tile *> initialiseTileBag();
+void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
+void playingTheGame(Player *player1, Player *player2, Board *theBoard);
+void playerMove(Board *theBoard, Player *player);
 
 int convertToRow(char row);
 int convertToCol(char col);
-
 
 int main(void)
 {
@@ -115,26 +115,24 @@ void NewGame()
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
    std::cout << ">";
    name1 = getName();
-   Player* player1 = new Player(name1);
+   Player *player1 = new Player(name1);
    std::cout << player1->getName() << std::endl;
 
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
    std::cout << ">";
    name2 = getName();
-   Player* player2 = new Player(name2);
+   Player *player2 = new Player(name2);
    std::cout << player2->getName() << std::endl;
    Board *board = new Board();
-   
 
-   std::vector<Tile*> tPtrs = initialiseTileBag();
-   for (Tile* tile : tPtrs)
+   std::vector<Tile *> tPtrs = initialiseTileBag();
+   for (Tile *tile : tPtrs)
    {
       board->getBag()->addFront(tile);
    }
 
    // bag->printBag();
 
-   
    handingTilesToPlayers(player1, player2, board);
    //player1->printHand();
    //player2->printHand();
@@ -143,22 +141,43 @@ void NewGame()
    // Tile* theTile = new Tile(RED, CIRCLE);
    // board->placeTile(theTile, 12, 13);
    // board->toString();
-   
 }
 
-void playingTheGame(Player* player1, Player* player2, Board* theBoard)
+void playingTheGame(Player *player1, Player *player2, Board *theBoard)
+{
+   int i = 0;
+   std::cin.ignore();
+   while (i != 6)
+   {
+      theBoard->toString();
+      std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
+      std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
+      playerMove(theBoard, player1);
+
+      theBoard->toString();
+
+      std::cout << std::endl;
+      std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
+      std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
+      playerMove(theBoard, player2);
+
+      ++i;
+   }
+}
+
+void playerMove(Board *theBoard, Player *player)
 {
    std::string theMove = "";
-   theBoard->toString();
-   std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
-   std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-
-   std::cout << player1->getName() << " it is your turn" << std::endl;
-   std::cout << player1->getName() << ". Your hand is: " << std::endl;
-   player1->printHand();
+   std::cout << player->getName() << " it is your turn" << std::endl;
+   std::cout << player->getName() << ". Your hand is: " << std::endl;
+   player->printHand();
    std::cout << "What would you like to play and where?" << std::endl;
-   std::cin.ignore();
+   // std::cin.ignore();
+   std::cin.ignore(-1);
+
    std::getline(std::cin, theMove);
+   
+   std::cout << "theMove : " << theMove <<std::endl;
 
    std::vector<std::string> wordsIn;
    std::stringstream check1(theMove);
@@ -171,50 +190,61 @@ void playingTheGame(Player* player1, Player* player2, Board* theBoard)
    // {
    //    std::cout << wordsIn[i] << std::endl;
    // }
-      // std::cout << "Spot 1" << std::endl;
+   // std::cout << "Spot 1" << std::endl;
 
-   if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at" &&  wordsIn[1].size() == 2 && wordsIn[3].size() == 2)
+   if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at" &&  wordsIn[1].size() == 2 && (wordsIn[3].size() == 3 || wordsIn[3].size() == 2))
    {
       // std::cout << "Spot 2" << std::endl;
 
-      
-//CHANGE LATER --ASCII MAGIC
-// check letter is shape and number is Colour
+      //CHANGE LATER --ASCII MAGIC
+      // check letter is shape and number is Colour
 
-      Tile* checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1]-48);
+      Tile *checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1] - 48);
 
-      
-      bool check = player1->getHand()->isInLinkedList(checkTile);
+      bool check = player->getHand()->isInLinkedList(checkTile);
 
-//CHANGE LATER --ASCII MAGIC
+      //CHANGE LATER --ASCII MAGIC
       int row = (int)wordsIn[3][0] - 65;
-      int col = (int)wordsIn[3][1] - 48-1;
-      //TODO -- check if row col are less than board size
-      bool isTaken = theBoard->isSpotTaken(row,col);
-      // std::cout << "check: " << check << "isTaken: " << isTaken << std::endl;
-      std::cout << "Spot 1" << std::endl;
-      if(!isTaken && check)
+      int col = -1;
+      if(wordsIn[3].size() == 3)
       {
-// std::cout << "Spot 2" << std::endl;
-         int tileIndex = player1->getHand()->findSpecificTile(checkTile);
-         std::cout << "tile Index: " << tileIndex << std::endl;
-         player1->getHand()->removeAt(tileIndex);
+         int tens = (int)wordsIn[3][1] - 48;
+         int ones = (int)wordsIn[3][2] - 48 - 1;
+         col = (10*tens)+(ones);
+      }
+      else
+      {
+         col = (int)wordsIn[3][1] - 48 - 1;
+      }
+      //TODO -- check if row col are less than board size
+      bool isTaken = theBoard->isSpotTaken(row, col);
+      // std::cout << "check: " << check << "isTaken: " << isTaken << std::endl;
+      // std::cout << "Spot 1" << std::endl;
+      if (!isTaken && check)
+      {
+         // std::cout << "Spot 2" << std::endl;
+
+         int tileIndex = player->getHand()->findSpecificTile(checkTile);
+         // std::cout << "tile Index: " << tileIndex << std::endl;
+         player->getHand()->removeAt(tileIndex);
          theBoard->placeTile(checkTile, row, col);
-         theBoard->toString();
-         Tile* tmpTile = theBoard->getBag()->getFront();
+         // theBoard->toString();
+         Tile *tmpTile = theBoard->getBag()->getFront();
          theBoard->getBag()->removeFront();
-         player1->getHand()->addBack(tmpTile);
-         
+         player->getHand()->addBack(tmpTile);
+
          // theBoard->placeTile();
       }
-      std::cout << "----------------" <<std::endl;
-      player1->getHand()->printLinkedList();
-
+      std::cout << "----------------" << std::endl;
+      player->getHand()->printLinkedList();
    }
-
+//TODO 
+/*Caluculate score method
+* Validate user input - loop if move not completed
+* Valid move method?
+* IMPLEMENT REPLACE METHOD
+*/
 }
-
-
 
 std::string getName()
 {
@@ -233,13 +263,12 @@ std::string getName()
          {
             checker = false;
          }
-         
       }
-      if(checker == false)
+      if (checker == false)
       {
          std::cout << "Invalid Input!" << std::endl;
          std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
-         std::cout << ">" ;
+         std::cout << ">";
       }
    }
    return name;
@@ -251,8 +280,7 @@ void credits()
    std::cout << "-------" << std::endl;
 }
 
-
-std::vector<Tile* > initialiseTileBag()
+std::vector<Tile *> initialiseTileBag()
 {
 
    Colour tileColours[] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE};
@@ -276,12 +304,11 @@ std::vector<Tile* > initialiseTileBag()
 
    return orderedTiles;
    // shuffleTiles(orderedTiles);
-   
 }
 
-void handingTilesToPlayers(Player* player1, Player* player2, Board* theBoard)
+void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 {
-   Tile* theTile;
+   Tile *theTile;
    for (int i = 0; i <= 6; i++)
    {
       theTile = theBoard->getBag()->getFront();
@@ -292,4 +319,3 @@ void handingTilesToPlayers(Player* player1, Player* player2, Board* theBoard)
       theBoard->getBag()->removeFront();
    }
 }
-
