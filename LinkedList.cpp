@@ -137,15 +137,16 @@ void LinkedList::printLinkedList()
 {
    
    Node* current = head;
-
-   while(current->next != nullptr)
+   if (current != nullptr)
    {
-      current->printNode();
-      current = current->next;
-      
+      do 
+      {
+         current->printNode();
+         current = current->next;
+         
+      }
+      while(current->next != nullptr);
    }
-
-   
 }
 
 Tile* LinkedList::getFront()
@@ -159,6 +160,20 @@ Tile* LinkedList::getFront()
    return returnTile;
 }
 
+bool LinkedList::isInLinkedList(Tile* tile)
+{
+   bool isIn = false;
+   Node* current = head;
 
+   while(current != head)
+   {
+      current = current->next;
+      if (current->tile->getColour() == tile->getColour() &&
+         current->tile->getShape() == tile->getShape())
+         {
+            
+         }
+   }
+}
 
 

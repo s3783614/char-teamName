@@ -53,3 +53,8 @@ void Player::addTile(Tile* newTile)
 {
    hand->addToBag(newTile);
 }
+
+Bag* Player::getHand()
+{
+   return hand;
+}

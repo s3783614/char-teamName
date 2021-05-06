@@ -15,6 +15,7 @@ public:
    void printHand();
    Tile* getTile();
    void addTile(Tile* newTile);
+   Bag* getHand();
 
 private:
    std::string name;

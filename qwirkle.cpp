@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <vector>
+#include <sstream>
 
 #include "TileCodes.h"
 #include "Player.h"
@@ -21,6 +23,7 @@ void credits();
 
 std::vector<Tile* > initialiseTileBag();
 void handingTilesToPlayers(Player* player1, Player* player2, Bag* theBag);
+void playingTheGame(Player* player1, Player* player2, Bag* theBag, Board* theBoard);
 
 
 int main(void)
@@ -131,26 +134,67 @@ bool NewGame()
    name2 = getName();
    Player* player2 = new Player(name2);
    std::cout << player2->getName() << std::endl;
+   Board *board = new Board();
    Bag* bag = new Bag();
    
 
    std::vector<Tile*> tPtrs = initialiseTileBag();
    for (Tile* tile : tPtrs)
    {
-      bag->addToBag(tile);
+      bag->addFront(tile);
    }
 
    // bag->printBag();
 
-   // Board *board = new Board();
+   
    handingTilesToPlayers(player1, player2, bag);
-   player1->printHand();
-   player2->printHand();
+   //player1->printHand();
+   //player2->printHand();
+
+   playingTheGame(player1, player2, bag, board);
    // Tile* theTile = new Tile(RED, CIRCLE);
    // board->placeTile(theTile, 12, 13);
    // board->toString();
    return true;
 }
+
+void playingTheGame(Player* player1, Player* player2, Bag* theBag, Board* theBoard)
+{
+   std::string theMove = "";
+   theBoard->toString();
+   std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
+   std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
+
+   std::cout << player1->getName() << " it is your turn" << std::endl;
+   std::cout << player1->getName() << ". Your hand is: " << std::endl;
+   player1->printHand();
+   std::cout << "What would you like to play and where?" << std::endl;
+   std::cin.ignore();
+   std::getline(std::cin, theMove);
+
+   std::vector<std::string> wordsIn;
+   std::stringstream check1(theMove);
+   std::string intermediate = "";
+   while (getline(check1, intermediate, ' ')) // seperate by spaces
+   {
+      wordsIn.push_back(intermediate);
+   }
+   for (int i =0; i < wordsIn.size(); i++) // Print out vector
+   {
+      std::cout << wordsIn[i] << std::endl;
+   }
+   if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
+   {
+      
+      Tile* checkTile = new Tile(wordsIn[1][0], wordsIn[1][1]);
+      player1->hand->isInBag(checkTile);
+   }
+   std::cout << player2->getName() << " it is your turn" << std::endl;
+   std::cout << player2->getName() << ". Your hand is: " << std::endl;
+   player2->printHand();
+}
+
+
 
 std::string getName()
 {
@@ -218,7 +262,7 @@ std::vector<Tile* > initialiseTileBag()
 void handingTilesToPlayers(Player* player1, Player* player2, Bag* theBag)
 {
    Tile* theTile;
-   for (int i =0; i < 5; i++)
+   for (int i = 0; i <= 6; i++)
    {
       theTile = theBag->getFront();
       player1->addTile(theTile);

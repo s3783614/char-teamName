@@ -3,6 +3,7 @@
 
 #define NO_OF_ROWS   26
 #define NO_OF_COLS   26
+
 Board::Board()
 {
    theBoard.resize(NO_OF_ROWS, std::vector<Tile*>(NO_OF_COLS, nullptr));

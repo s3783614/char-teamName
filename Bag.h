@@ -9,7 +9,7 @@
 #include "Tile.h"
 #include "LinkedList.h"
 
-class Bag
+class Bag : public LinkedList
 {
 public:
    Bag();
@@ -20,10 +20,10 @@ public:
    void printBag();
    Tile* getFront();
    void removeFront();
+   bool isInBag(Tile* tile);
 
 private:
    LinkedList* tiles;
-
 };
 
 #endif //ASSIGN2_BAG_H

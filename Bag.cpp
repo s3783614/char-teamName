@@ -45,3 +45,8 @@ void Bag::removeFront()
 {
    tiles->removeFront();
 }
+
+bool Bag::isInBag(Tile* tile)
+{
+   tiles->isInLinkedList(tile);
+}

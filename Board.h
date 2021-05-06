@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Tile.h"
+#include "LinkedList.h"
 
 class Board{
 public:
