@@ -7,11 +7,29 @@
 Board::Board()
 {
    theBoard.resize(NO_OF_ROWS, std::vector<Tile*>(NO_OF_COLS, nullptr));
+   bag = new LinkedList();
 }
 
 Board::~Board()
 {
 
+}
+
+LinkedList* Board::getBag()
+{
+   return bag;
+}
+
+bool Board::isSpotTaken(int row, int col)
+{
+   // std::cout << "row: "<<row<<" col: " << col <<std::endl; 
+   bool check = false;
+   if(theBoard[row][col] != nullptr)
+   {
+      check = true;
+   }
+
+   return check;
 }
 
 void Board::toString()

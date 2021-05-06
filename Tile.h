@@ -18,6 +18,8 @@ public:
 
    Colour getColour();
    Shape getShape();
+
+   bool compareTile(Tile* tile);
    
 private:
    Colour colour;

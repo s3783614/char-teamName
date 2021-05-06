@@ -4,16 +4,17 @@
 
 #include <iostream>
 
-LinkedList::LinkedList() {
+LinkedList::LinkedList()
+{
    // TODO
    head = nullptr;
 }
 
-LinkedList::LinkedList(LinkedList& other):
-   head(other.head)
-{ }
+LinkedList::LinkedList(LinkedList &other) : head(other.head)
+{
+}
 
-LinkedList::~LinkedList() 
+LinkedList::~LinkedList()
 {
    clear();
 }
@@ -21,9 +22,9 @@ LinkedList::~LinkedList()
 int LinkedList::size()
 {
    int counter = 0;
-   Node* current = head;
+   Node *current = head;
 
-   while(current != head)
+   while (current != head)
    {
       current = current->next;
       counter++;
@@ -34,25 +35,25 @@ int LinkedList::size()
 
 void LinkedList::clear()
 {
-   while(head != nullptr)
+   while (head != nullptr)
    {
       removeFront();
    }
 }
 
-Tile* LinkedList::get(int index)
+Tile *LinkedList::get(int index)
 {
    int counter = 0;
-   Node* current = head;
+   Node *current = head;
 
-   Tile* returnTile;
+   Tile *returnTile;
 
-   if(index < size())
+   if (index < size())
    {
 
-      while(counter < index)
+      while (counter < index)
       {
-         counter ++;
+         counter++;
          current = current->next;
       }
       returnTile = current->tile;
@@ -65,11 +66,11 @@ Tile* LinkedList::get(int index)
    return returnTile;
 }
 
-void LinkedList::addFront(Tile* tile)
+void LinkedList::addFront(Tile *tile)
 {
-   Node* addedTile = new Node(tile, nullptr);
+   Node *addedTile = new Node(tile, nullptr);
 
-   if(head == nullptr)
+   if (head == nullptr)
    {
       head = addedTile;
    }
@@ -81,21 +82,21 @@ void LinkedList::addFront(Tile* tile)
    }
 }
 
-void LinkedList::addBack(Tile* tile)
+void LinkedList::addBack(Tile *tile)
 {
-   Node* addedTile = new Node(tile, nullptr);
+   Node *addedTile = new Node(tile, nullptr);
    // addedTile->tile = tile;
    // addedTile->next = nullptr;
 
-   if(head == nullptr)
+   if (head == nullptr)
    {
       head = addedTile;
    }
    else
    {
       //for head is not null
-      Node* temp = head;
-      while(temp->next != NULL)
+      Node *temp = head;
+      while (temp->next != NULL)
       {
          //traverses to the end of the list
          temp = temp->next;
@@ -107,9 +108,9 @@ void LinkedList::addBack(Tile* tile)
 
 void LinkedList::removeFront()
 {
-   if(head != nullptr)
+   if (head != nullptr)
    {
-      Node* secondaryElement = head->next;
+      Node *secondaryElement = head->next;
       delete head;
       head = secondaryElement;
    }
@@ -117,12 +118,12 @@ void LinkedList::removeFront()
 
 void LinkedList::removeBack()
 {
-   if(head != nullptr)
+   if (head != nullptr)
    {
-      Node* current = head;
-      Node* previous = nullptr;
+      Node *current = head;
+      Node *previous = nullptr;
 
-      while(current->next != nullptr)
+      while (current->next != nullptr)
       {
          previous = current;
          current = current->next;
@@ -135,23 +136,22 @@ void LinkedList::removeBack()
 
 void LinkedList::printLinkedList()
 {
-   
-   Node* current = head;
+
+   Node *current = head;
    if (current != nullptr)
    {
-      do 
+      do
       {
          current->printNode();
          current = current->next;
-         
-      }
-      while(current->next != nullptr);
+
+      } while (current->next != nullptr);
    }
 }
 
-Tile* LinkedList::getFront()
+Tile *LinkedList::getFront()
 {
-   Tile* returnTile =  nullptr;
+   Tile *returnTile = nullptr;
    if (head != nullptr)
    {
       returnTile = head->tile;
@@ -160,20 +160,20 @@ Tile* LinkedList::getFront()
    return returnTile;
 }
 
-bool LinkedList::isInLinkedList(Tile* tile)
+bool LinkedList::isInLinkedList(Tile *tile)
 {
    bool isIn = false;
    Node* current = head;
-
-   while(current != head)
+   
+   while (current != nullptr)
    {
+      if (current->tile->compareTile(tile))
+      {
+         isIn = true;
+      }
       current = current->next;
-      if (current->tile->getColour() == tile->getColour() &&
-         current->tile->getShape() == tile->getShape())
-         {
-            
-         }
-   }
+
+   } 
+   
+   return isIn;
 }
-
-
