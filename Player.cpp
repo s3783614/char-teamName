@@ -5,7 +5,7 @@ Player::Player(std::string name)
 {
    this->name = name;
    this->score = 0;
-   hand = new Bag();
+   hand = new LinkedList();
 }
 
 Player::~Player()
@@ -40,7 +40,7 @@ int Player::getScore()
 // Print out the players hand
 void Player::printHand()
 {
-   hand->printBag();
+   hand->printLinkedList();
 }
 
 Tile* Player::getTile()
@@ -49,12 +49,12 @@ Tile* Player::getTile()
    return nullptr;
 }
 
-void Player::addTile(Tile* newTile)
-{
-   hand->addToBag(newTile);
-}
+// void Player::addTile(Tile* newTile)
+// {
+//    hand->addToBag(newTile);
+// }
 
-Bag* Player::getHand()
+LinkedList* Player::getHand()
 {
    return hand;
 }

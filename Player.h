@@ -1,8 +1,10 @@
 #ifndef ASSIGN2_PLAYER_H
 #define ASSIGN2_PLAYER_H
 
-#include "Bag.h"
 #include <string>
+
+#include "Bag.h"
+#include "LinkedList.h"
 
 class Player{
 public:
@@ -15,12 +17,12 @@ public:
    void printHand();
    Tile* getTile();
    void addTile(Tile* newTile);
-   Bag* getHand();
+   LinkedList* getHand();
 
 private:
    std::string name;
    int score;
-   Bag* hand;
+   LinkedList* hand;
 };
 
 # endif //PLAYER_H

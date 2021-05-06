@@ -24,7 +24,7 @@ public:
    Tile* getFront();
 
    void printLinkedList();
-
+   bool isInLinkedList(Tile* tile);
 
 private:
    Node* head;

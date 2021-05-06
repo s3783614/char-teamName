@@ -10,14 +10,12 @@ Tile::Tile(Colour colour, Shape shape)
 }
 
 // Empty destructor of Tile
-Tile::~Tile(){}
+Tile::~Tile() {}
 
-// Copy constructor of the tile. 
-Tile::Tile(Tile& otherTile):
-   colour(otherTile.colour),
-   shape(otherTile.shape)
+// Copy constructor of the tile.
+Tile::Tile(Tile &otherTile) : colour(otherTile.colour),
+                              shape(otherTile.shape)
 {
-    
 }
 
 void Tile::printTile()
@@ -35,4 +33,19 @@ Colour Tile::getColour()
 Shape Tile::getShape()
 {
     return shape;
+}
+
+bool Tile::compareTile(Tile *tile)
+{
+    bool checker = false;
+    //  std::cout <<"this->getColour(): " <<this->getColour() <<
+    //                         " tile->getColour(): " << tile->getColour() <<
+    //                         " this->getShape(): " << this->getShape() <<
+    //                         " tile->getShape(): " << tile->getShape() << std::endl;
+    if (this->getColour() == tile->getColour() && this->getShape() == tile->getShape())
+    {
+        checker = true;
+    }
+
+    return checker;
 }
