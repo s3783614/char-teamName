@@ -1,28 +1,27 @@
 #include "Board.h"
 #include "TileCodes.h"
 
-
 Board::Board()
 {
-   theBoard.resize(NO_OF_ROWS, std::vector<Tile*>(NO_OF_COLS, nullptr));
+   theBoard.resize(NO_OF_ROWS, std::vector<Tile *>(NO_OF_COLS, nullptr));
    bag = new LinkedList();
+   empty = true;
 }
 
 Board::~Board()
 {
-
 }
 
-LinkedList* Board::getBag()
+LinkedList *Board::getBag()
 {
    return bag;
 }
 
 bool Board::isSpotTaken(int Row, int Column)
 {
-   // std::cout << "row: "<<row<<" col: " << col <<std::endl; 
+   // std::cout << "row: "<<row<<" col: " << col <<std::endl;
    bool check = false;
-   if(theBoard[Column][Row] != nullptr)
+   if (theBoard[Column][Row] != nullptr)
    {
       check = true;
    }
@@ -34,10 +33,9 @@ void Board::toString()
 {
    std::string boardPrint = " ";
 
-
    // Should print 1 through 26
-   for (int j= 0; j < NO_OF_COLS; j++)
-   {  
+   for (int j = 0; j < NO_OF_COLS; j++)
+   {
       if (j < 10)
       {
          boardPrint.append("  ");
@@ -46,12 +44,12 @@ void Board::toString()
       {
          boardPrint.append(" ");
       }
-      
+
       boardPrint.append(std::to_string(j + 1));
    }
    boardPrint += "\n";
 
-   for (int i= 0; i < NO_OF_COLS*3; i++)
+   for (int i = 0; i < NO_OF_COLS * 3; i++)
    {
       boardPrint.append("-");
    }
@@ -61,7 +59,7 @@ void Board::toString()
       char letter = i + 65;
       boardPrint += letter;
       boardPrint.append(" ");
-      for (int j= 0; j < NO_OF_COLS; j++)
+      for (int j = 0; j < NO_OF_COLS; j++)
       {
          boardPrint.append("|");
 
@@ -84,7 +82,44 @@ void Board::toString()
    std::cout << boardPrint;
 }
 
-void Board::placeTile(Tile* newTile, int Row, int Column)
+void Board::placeTile(Tile *newTile, int Row, int Column)
 {
    theBoard[Column][Row] = newTile;
+}
+
+void Board::setEmpty()
+{
+   empty = false;
+}
+
+bool Board::getEmpty()
+{
+
+   return empty;
+}
+
+bool Board::emptyLocation(Location *location)
+{
+   bool isEmpty = false;
+
+   if(theBoard[location->col][location->row] == nullptr)
+   {
+      isEmpty = true;
+   }
+   
+   return isEmpty;
+}
+
+char Board::checkColour(Location *location)
+{
+   //TODO
+   //WRITE CONTRACT
+   return theBoard[location->col][location->row]->getColour();
+}
+
+char Board::checkShape(Location *location)
+{
+   //TODO
+   //WRITE CONTRACT
+   return theBoard[location->col][location->row]->getShape();
 }

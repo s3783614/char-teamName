@@ -2,6 +2,8 @@
 #define ASSIGN2_BOARD_H
 #include <iostream>
 #include <vector>
+
+#include "TileCodes.h"
 #include "Tile.h"
 #include "LinkedList.h"
 
@@ -18,9 +20,20 @@ public:
    LinkedList* getBag();
    bool isSpotTaken(int Row, int Column);
    
+   void setEmpty();
+   bool getEmpty();
+
+   bool emptyLocation(Location* location);
+
+   char checkColour(Location* location);
+   char checkShape(Location* location);
+
+
+
 private:
    std::vector <std::vector<Tile*> > theBoard;
    LinkedList* bag;
+   bool empty;
 };
 
 #endif // BOARD_H

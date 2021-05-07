@@ -28,6 +28,7 @@ void playingTheGame(Player *player1, Player *player2, Board *theBoard);
 void playerMove(Board *theBoard, Player *player);
 bool tileInputtedIsOkay(std::string tileString, Player* player);
 bool isOnBoard(int row, int col, Board* board);
+bool placeAbleLoaction(Tile* tile, Board* theBoard, Location* loaction);
 
 int convertToRow(char row);
 int convertToCol(char col);
@@ -174,6 +175,7 @@ void playerMove(Board *theBoard, Player *player)
    bool moveMade = false;
    bool locExists = false;
    
+
 
    std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
@@ -358,9 +360,9 @@ std::string getName()
 bool isOnBoard(int row, int col, Board* board)
 {
    bool onBoard = false;
-   if (row <= NO_OF_ROWS && row >= 0)
+   if (row < NO_OF_ROWS && row >= 0)
    {
-      if (col <= NO_OF_COLS && col >= 0)
+      if (col < NO_OF_COLS && col >= 0)
       {
          onBoard = true;
       }
@@ -447,3 +449,57 @@ std::vector<std::string> takeLineInput()
    }
    return wordsIn;
 }
+
+bool placeAbleLoaction(Tile* tile, Board* theBoard, Location* location)
+{
+   Location* upLoc = new Location();
+   upLoc->row = location->row;
+   upLoc->col = location->col;
+
+   Location* downLoc = new Location();
+   downLoc->row = location->row;
+   downLoc->col = location->col;
+
+   Location* leftLoc = new Location();
+   leftLoc->row = location->row;
+   leftLoc->col = location->col;
+
+   Location* rightLoc = new Location();
+   rightLoc->row = location->row;
+   rightLoc->col = location->col;
+   //TODO
+   //
+   bool check = true;
+   if(!theBoard->getEmpty())
+   {
+      if(!theBoard->emptyLocation(upLoc))
+      {
+         if(!tile->getColour() == theBoard->checkColour(upLoc) || !tile->getColour() == theBoard->checkColour(upLoc) )
+         {
+            check = false;
+         }
+         
+      }
+
+      if(!theBoard->emptyLocation(downLoc))
+      {
+         
+      }
+
+      if(!theBoard->emptyLocation(leftLoc))
+      {
+         
+      }
+
+      if(!theBoard->emptyLocation(rightLoc))
+      {
+         
+      }
+
+   }
+
+
+
+}
+//TODO
+//SCORING
