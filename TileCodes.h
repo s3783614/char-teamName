@@ -18,4 +18,11 @@
 #define STAR_6    5
 #define CLOVER    6
 
+struct Location
+{
+   int row;
+   int col;
+};
+
+
 #endif // ASSIGN1_TILECODES_H

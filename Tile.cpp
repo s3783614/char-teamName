@@ -20,7 +20,7 @@ Tile::Tile(Tile &otherTile) : colour(otherTile.colour),
 
 void Tile::printTile()
 {
-    std::cout << colour << shape << std::endl;
+    std::cout << colour << shape;
 }
 
 // Returns the colour of the tile

@@ -1,8 +1,6 @@
 #include "Board.h"
 #include "TileCodes.h"
 
-#define NO_OF_ROWS   26
-#define NO_OF_COLS   26
 
 Board::Board()
 {
@@ -38,7 +36,7 @@ void Board::toString()
 
 
    // Should print 1 through 26
-   for (int j= 0; j < 26; j++)
+   for (int j= 0; j < NO_OF_COLS; j++)
    {  
       if (j < 10)
       {
@@ -53,17 +51,17 @@ void Board::toString()
    }
    boardPrint += "\n";
 
-   for (int i= 0; i < 26*4; i++)
+   for (int i= 0; i < NO_OF_COLS*3; i++)
    {
       boardPrint.append("-");
    }
    boardPrint.append("\n");
-   for (int i = 0; i != 26; i++)
+   for (int i = 0; i != NO_OF_ROWS; i++)
    {
       char letter = i + 65;
       boardPrint += letter;
       boardPrint.append(" ");
-      for (int j= 0; j < 26; j++)
+      for (int j= 0; j < NO_OF_COLS; j++)
       {
          boardPrint.append("|");
 

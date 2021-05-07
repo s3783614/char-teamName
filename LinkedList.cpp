@@ -193,6 +193,7 @@ void LinkedList::printLinkedList()
       do
       {
          current->printNode();
+         std::cout << ", ";
          current = current->next;
 
       } while (current->next != nullptr);

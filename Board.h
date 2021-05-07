@@ -5,6 +5,9 @@
 #include "Tile.h"
 #include "LinkedList.h"
 
+#define NO_OF_ROWS   26
+#define NO_OF_COLS   26
+
 class Board
 {
 public:
