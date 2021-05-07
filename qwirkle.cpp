@@ -18,11 +18,12 @@ void NewGame();
 std::string getName();
 
 void menu();
-void Quit();
+void quit();
 void credits();
 
+std::vector<std::string> takeLineInput();
 std::vector<Tile *> initialiseTileBag();
-void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
+bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
 void playingTheGame(Player *player1, Player *player2, Board *theBoard);
 void playerMove(Board *theBoard, Player *player);
 
@@ -34,35 +35,24 @@ int main(void)
    std::cout << "Welcome to Qwirkle!" << std::endl;
    std::cout << "-------------------" << std::endl;
 
+   std::vector<std::string> userString;
    std::string userInput = "";
-   bool exit = false;
-   while (exit == false)
+
+   while (true)
    {
       menu();
-      std::cout << ">";
-      // char opt[10];
-      // if (!std::cin.get(opt, 10))
-      // {
-      //    Quit();
-      //    return false;
-      // }
-      // getchar();
-      std::cin >> userInput;
-      // if (strlen(opt) != 1)
-      // {
-      //    std::cout << "Invalid Input" << std::endl;
-      //    continue;
-      // }
-      // if (!(userInput[0] >= '1' && opt[0] <= '4'))
-      // {
-      //    std::cout << "Invalid Input" << std::endl;
-      //    continue;
-      // }
 
-      // int code = opt[0] - '0';
+      userString = takeLineInput();
+
+      // Check only one word was inputted, 
+      if (userString.size() == 1)
+      {
+         // set the one word to the menu choice
+         userInput = userString[0];
+      }
+
       if (userInput == "1")
       {
-         // if (!NewGame())
          NewGame();
       }
       else if (userInput == "2")
@@ -74,15 +64,13 @@ int main(void)
       }
       else if (userInput == "4")
       {
-         Quit();
-         exit = true;
+         quit();
       }
       else
       {
          std::cout << "Invalid Input!" << std::endl;
       }
    }
-
    return EXIT_SUCCESS;
 }
 
@@ -98,10 +86,18 @@ void menu()
    std::cout << std::endl;
 }
 
-void Quit()
+void credits()
 {
-   // std::cout << std::endl;
+   std::cout << "CREDITS" << std::endl;
+   std::cout << "-------" << std::endl;
+}
+
+// Quits the program
+// NEED TO CHECK IF THIS IS OKAY OR WHETHER WE NEED TO GO BACK TO MAIN SOME HOW
+void quit()
+{
    std::cout << "Goodbye" << std::endl;
+   exit(EXIT_SUCCESS);
 }
 
 void NewGame()
@@ -113,7 +109,6 @@ void NewGame()
    std::cout << "Starting a New Game" << std::endl
              << std::endl;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   std::cout << ">";
    name1 = getName();
    Player *player1 = new Player(name1);
    std::cout << player1->getName() << std::endl;
@@ -146,7 +141,6 @@ void NewGame()
 void playingTheGame(Player *player1, Player *player2, Board *theBoard)
 {
    int i = 0;
-   std::cin.ignore();
    while (i != 6)
    {
       theBoard->toString();
@@ -168,76 +162,78 @@ void playingTheGame(Player *player1, Player *player2, Board *theBoard)
 void playerMove(Board *theBoard, Player *player)
 {
    std::string theMove = "";
+   bool isSpotTaken;
+   Tile* checkTile;
+   bool moveMade = false;
+
    std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
    player->printHand();
    std::cout << "What would you like to play and where?" << std::endl;
-   // std::cin.ignore();
-   std::cin.ignore(-1);
-
-   std::getline(std::cin, theMove);
-   
-   std::cout << "theMove : " << theMove <<std::endl;
-
-   std::vector<std::string> wordsIn;
-   std::stringstream check1(theMove);
-   std::string tmpString = "";
-   while (getline(check1, tmpString, ' ')) // seperate by spaces
+   while(!moveMade)
    {
-      wordsIn.push_back(tmpString);
-   }
-   // for (unsigned int i =0; i < wordsIn.size(); i++) // Print out vector
-   // {
-   //    std::cout << wordsIn[i] << std::endl;
-   // }
-   // std::cout << "Spot 1" << std::endl;
+      std::vector<std::string> wordsIn = takeLineInput();
 
-   if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at" &&  wordsIn[1].size() == 2 && (wordsIn[3].size() == 3 || wordsIn[3].size() == 2))
-   {
-      // std::cout << "Spot 2" << std::endl;
+      if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at" &&  
+      wordsIn[1].size() == 2 && (wordsIn[3].size() == 3 || wordsIn[3].size() == 2))
+      {
 
       //CHANGE LATER --ASCII MAGIC
       // check letter is shape and number is Colour
-
-      Tile *checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1] - 48);
-
-      bool check = player->getHand()->isInLinkedList(checkTile);
-
       //CHANGE LATER --ASCII MAGIC
-      int row = (int)wordsIn[3][0] - 65;
-      int col = -1;
-      if(wordsIn[3].size() == 3)
-      {
-         int tens = (int)wordsIn[3][1] - 48;
-         int ones = (int)wordsIn[3][2] - 48 - 1;
-         col = (10*tens)+(ones);
+         if (wordsIn[1].size() == 2 && (wordsIn[1][1] >=0 && wordsIn[1][1] <= 6))
+         {
+            if (wordsIn[1][0] == ORANGE || RED || YELLOW || GREEN || BLUE || PURPLE)
+            {
+               checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1] - 48);
+               bool check = player->getHand()->isInLinkedList(checkTile);
+               int row = (int)wordsIn[3][0] - 65;
+               int col = -1;
+               if(wordsIn[3].size() == 3)
+               {
+                  int tens = (int)wordsIn[3][1] - 48;
+                  int ones = (int)wordsIn[3][2] - 48 - 1;
+                  col = (10*tens)+(ones);
+               }
+               else
+               {
+                  col = (int)wordsIn[3][1] - 48 - 1;
+               }
+
+               isSpotTaken = theBoard->isSpotTaken(row, col);
+
+               // Player inputted a tile in their hand to an empty space
+               if (!isSpotTaken && check)
+               {
+                  
+                  int tileIndex = player->getHand()->findSpecificTile(checkTile);
+                  player->getHand()->removeAt(tileIndex);
+
+                  theBoard->placeTile(checkTile, row, col);
+
+                  // Hand new tile to the player SHOULD BE A METHOD
+                  Tile *tmpTile = theBoard->getBag()->getFront();
+                  theBoard->getBag()->removeFront();
+                  player->getHand()->addBack(tmpTile);
+               }
+               std::cout << "----------------" << std::endl;
+               player->getHand()->printLinkedList();
+            }
+         }
+      
       }
-      else
+      if (moveMade == false)
       {
-         col = (int)wordsIn[3][1] - 48 - 1;
+         std::cout << std::endl;
+         std::cout << "That is not a legal move" << std::endl;
+         std::cout << "Please input a different move in the form:" << std::endl;
+         std::cout << ">Place 'Tile' at 'location'" << std::endl;
       }
       //TODO -- check if row col are less than board size
-      bool isTaken = theBoard->isSpotTaken(row, col);
+      
       // std::cout << "check: " << check << "isTaken: " << isTaken << std::endl;
       // std::cout << "Spot 1" << std::endl;
-      if (!isTaken && check)
-      {
-         // std::cout << "Spot 2" << std::endl;
-
-         int tileIndex = player->getHand()->findSpecificTile(checkTile);
-         // std::cout << "tile Index: " << tileIndex << std::endl;
-         player->getHand()->removeAt(tileIndex);
-         theBoard->placeTile(checkTile, row, col);
-         // theBoard->toString();
-         Tile *tmpTile = theBoard->getBag()->getFront();
-         theBoard->getBag()->removeFront();
-         player->getHand()->addBack(tmpTile);
-
-         // theBoard->placeTile();
-      }
-      std::cout << "----------------" << std::endl;
-      player->getHand()->printLinkedList();
-   }
+   }  
 //TODO 
 /*Caluculate score method
 * Validate user input - loop if move not completed
@@ -248,37 +244,49 @@ void playerMove(Board *theBoard, Player *player)
 
 std::string getName()
 {
+   std::vector<std::string> wordsIn;
    std::string name;
 
    bool checker = false;
+
    while (checker == false)
    {
-      // std::cout << "Enter your name (CAPITALS AND NO SPACES)" << std::endl;
-      std::cin >> name;
       checker = true;
-      for (unsigned int i = 0; i < name.length(); i++)
-      {
+      std::cout << "Enter your name (CAPITALS AND NO SPACES)" << std::endl;
+      wordsIn = takeLineInput();
 
-         if (name[i] < 65 || name[i] > 90)
+      // Check only one word inputted
+      if (wordsIn.size() == 1)
+      {
+         name = wordsIn[0];
+      
+         for (unsigned int i = 0; i < name.length(); i++)
          {
-            checker = false;
+
+            if (name[i] < 65 || name[i] > 90)
+            {
+               checker = false;
+            }
+         }
+         if (checker == false)
+         {
+            std::cout << "Invalid Input!" << std::endl;
+            std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
+            std::cout << std::endl;
          }
       }
-      if (checker == false)
+      else
       {
+         checker = false;
          std::cout << "Invalid Input!" << std::endl;
-         std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
-         std::cout << ">";
+         std::cout << "Please enter only one name!" << std::endl;
+         std::cout << std::endl;
       }
    }
    return name;
 }
 
-void credits()
-{
-   std::cout << "CREDITS" << std::endl;
-   std::cout << "-------" << std::endl;
-}
+
 
 std::vector<Tile *> initialiseTileBag()
 {
@@ -306,16 +314,56 @@ std::vector<Tile *> initialiseTileBag()
    // shuffleTiles(orderedTiles);
 }
 
-void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
+// Takes in players and the board
+// Takes tiles and alternatively hands to each player
+// Each player is handed 6 tiles which are removed from the bag
+// Returns void, as passed by reference
+bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 {
+   bool success = false;
    Tile *theTile;
-   for (int i = 0; i <= 6; i++)
+   if (theBoard->getBag()->size() >= 12)
    {
+      for (int i = 0; i <= 6; i++)
+      {
       theTile = theBoard->getBag()->getFront();
       player1->getHand()->addFront(theTile);
       theBoard->getBag()->removeFront();
       theTile = theBoard->getBag()->getFront();
       player2->getHand()->addFront(theTile);
       theBoard->getBag()->removeFront();
+      }
+      success = true;
    }
+   return success;
+}
+
+// Asks the User for an Input and takes an entire line with spaces
+// Splits the input to individual words by spaces
+// Puts each word in order into a vector
+// Returns the vector
+std::vector<std::string> takeLineInput()
+{
+   std::vector<std::string> wordsIn;
+   std::string theMove = "";
+
+   std::cout << ">";
+   std::getline(std::cin, theMove);
+
+   // Check that eof character not inputted
+   if (!std::cin.eof())
+   {
+      // Take the line inputted and split by spaces to individual words
+      std::stringstream check1(theMove);
+      std::string tmpString = "";
+      while (getline(check1, tmpString, ' '))
+      {
+         wordsIn.push_back(tmpString);
+      }
+   }
+   else
+   {
+      quit();
+   }
+   return wordsIn;
 }
