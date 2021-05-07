@@ -32,6 +32,8 @@ bool isOnBoard(int row, int col, Board* board);
 int convertToRow(char row);
 int convertToCol(char col);
 
+Tile* turnInputToTile(std::string tiledata);
+
 Location* convertInputLoc(std::string inputLocation);
 
 int main(void)
@@ -182,8 +184,9 @@ void playerMove(Board *theBoard, Player *player)
    {
       std::vector<std::string> wordsIn = takeLineInput();
 
-      if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at" &&  
-      (wordsIn[3].size() == 3 || wordsIn[3].size() == 2))
+      std::cout<< wordsIn.size() << wordsIn[0] << std::endl;
+
+      if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
       {
          // Check if inputted tile is real and in players hand
          acceptableTile = tileInputtedIsOkay(wordsIn[1], player);
@@ -213,6 +216,28 @@ void playerMove(Board *theBoard, Player *player)
             moveMade = true;
             delete toPlace;
          }     
+      }
+      else if (wordsIn.size() == 2 && wordsIn[0] == "Replace")
+      {
+         std::cout << "in Loop" << std::endl;
+         bool tileInputInHand = tileInputtedIsOkay(wordsIn[1], player);
+
+         if(tileInputInHand)
+         {
+            std::cout << "in Loop" << std::endl;
+            Tile* checkTile = turnInputToTile(wordsIn[1]);
+            int tileIndex = player->getHand()->findSpecificTile(checkTile);
+            Tile* playersTile = player->getHand()->get(tileIndex);
+            player->getHand()->removeAt(tileIndex);
+
+
+            theBoard->getBag()->addBack(playersTile);
+            Tile *tmpTile = theBoard->getBag()->getFront();
+            theBoard->getBag()->removeFront();
+            player->getHand()->addBack(tmpTile);
+            moveMade = true;
+         }
+         
       }
       if (moveMade == false)
       {
@@ -257,6 +282,13 @@ bool tileInputtedIsOkay(std::string tileString, Player* player)
    return isOkay;
 }
 
+Tile* turnInputToTile(std::string tiledata)
+{
+   char colour = tiledata[0];
+   int shape = (int)(tiledata[1] - 48);
+   Tile* tile = new Tile(colour, shape);
+   return tile;
+}
 
       //CHANGE LATER --ASCII MAGIC
       // check letter is shape and number is Colour
