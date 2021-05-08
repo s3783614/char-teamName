@@ -22,6 +22,15 @@ struct Location
 {
    int row;
    int col;
+   Location()
+   {
+
+   }
+   Location(int row, int col)
+   {
+      this->row = row;
+      this->col = col;
+   }
 };
 
 

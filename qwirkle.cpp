@@ -13,6 +13,8 @@
 
 #define EXIT_SUCCESS 0
 
+//Possibly move to a header file
+
 bool check(char *s);
 void NewGame();
 std::string getName();
@@ -36,6 +38,8 @@ int convertToCol(char col);
 Tile* turnInputToTile(std::string tiledata);
 
 Location* convertInputLoc(std::string inputLocation);
+
+
 
 int main(void)
 {
@@ -452,54 +456,60 @@ std::vector<std::string> takeLineInput()
 
 bool placeAbleLoaction(Tile* tile, Board* theBoard, Location* location)
 {
-   Location* upLoc = new Location();
-   upLoc->row = location->row;
-   upLoc->col = location->col;
+   Location* upLoc = new Location(location->row, location->col);
+   // upLoc->row = location->row;
+   // upLoc->col = location->col;
 
-   Location* downLoc = new Location();
-   downLoc->row = location->row;
-   downLoc->col = location->col;
+   Location* downLoc = new Location(location->row, location->col);
+   // downLoc->row = location->row;
+   // downLoc->col = location->col;
 
-   Location* leftLoc = new Location();
-   leftLoc->row = location->row;
-   leftLoc->col = location->col;
+   Location* leftLoc = new Location(location->row, location->col);
+   // leftLoc->row = location->row;
+   // leftLoc->col = location->col;
 
-   Location* rightLoc = new Location();
-   rightLoc->row = location->row;
-   rightLoc->col = location->col;
+   Location* rightLoc = new Location(location->row, location->col);
+   // rightLoc->row = location->row;
+   // rightLoc->col = location->col;
+   
    //TODO
-   //
+
    bool check = true;
    if(!theBoard->getEmpty())
    {
       if(!theBoard->emptyLocation(upLoc))
       {
-         if(!tile->getColour() == theBoard->checkColour(upLoc) || !tile->getColour() == theBoard->checkColour(upLoc) )
+         if(!(tile->getColour() == theBoard->checkColour(upLoc)) || !(tile->getColour() == theBoard->checkColour(upLoc)) )
          {
             check = false;
+            std::cout << check << std::endl;
          }
          
       }
 
-      if(!theBoard->emptyLocation(downLoc))
+      if(!(tile->getColour() == theBoard->checkColour(downLoc)) || !(tile->getColour() == theBoard->checkColour(downLoc)) )
       {
+         check = false;
+         std::cout << check << std::endl;
+      }
+
+      if(!(tile->getColour() == theBoard->checkColour(leftLoc)) || !(tile->getColour() == theBoard->checkColour(leftLoc)))
+      {
+         check = false;
+         std::cout << check << std::endl;
          
       }
 
-      if(!theBoard->emptyLocation(leftLoc))
+      if(!!(tile->getColour() == theBoard->checkColour(rightLoc)) || !(tile->getColour() == theBoard->checkColour(rightLoc)) )
       {
-         
-      }
-
-      if(!theBoard->emptyLocation(rightLoc))
-      {
-         
+         check = false;
+         std::cout << check << std::endl;
       }
 
    }
 
 
-
+   return check;
 }
 //TODO
 //SCORING
