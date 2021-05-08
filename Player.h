@@ -3,7 +3,6 @@
 
 #include <string>
 
-#include "Bag.h"
 #include "LinkedList.h"
 
 class Player{

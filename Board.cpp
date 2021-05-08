@@ -1,5 +1,5 @@
 #include "Board.h"
-#include "TileCodes.h"
+
 
 Board::Board()
 {
@@ -87,15 +87,32 @@ void Board::placeTile(Tile *newTile, int Row, int Column)
    theBoard[Column][Row] = newTile;
 }
 
-void Board::setEmpty()
-{
-   empty = false;
-}
+// void Board::setEmpty()
+// {
+//    empty = false;
+// }
 
-bool Board::getEmpty()
-{
+// bool Board::getEmpty()
+// {
 
-   return empty;
+//    return empty;
+// }
+
+bool Board::checkEmpty()
+{
+   bool isEmpty = true;
+   for(int row = 0; row < NO_OF_ROWS; row++)
+   {
+      for(int col = 0; col < NO_OF_COLS; col++)
+      {
+         if(theBoard[col][row] != nullptr)
+         {
+            isEmpty = false;
+         }
+      }
+   }
+
+   return isEmpty;
 }
 
 bool Board::emptyLocation(Location *location)
