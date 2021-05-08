@@ -418,16 +418,9 @@ bool tileFit(Tile* tile, Board* theBoard, Location* location)
          {
             if (!(theBoard->emptyLocation(checkLocation)))
             {
-               // std::cout << "theBoard->lineCheck(location, direction) " << theBoard->lineCheck(location, direction) <<std::endl;
-                  std::cout << " Spot 1 " <<std::endl;
-                  std::cout << direction <<std::endl;
-                  std::cout << "(tile->getColour() == theBoard->checkColour(checkLocation) " << (tile->getColour() == theBoard->checkColour(checkLocation)) <<  " (tile->getShape() == theBoard->checkShape(checkLocation)) :" << (tile->getShape() == theBoard->checkShape(checkLocation));
-
                if (!(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation)))
                {
                   check = false; 
-                  std::cout << "Be here if tile doesnt match" <<std::endl;
-
                }
                // Get to here is colour or shape matches
                else if (!theBoard->lineCheck(location, direction, tile))
@@ -476,7 +469,7 @@ bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player
       int tileIndex = player->getHand()->findSpecificTile(checkTile);
       player->getHand()->removeAt(tileIndex);
       theBoard->placeTile(checkTile, toPlace->row, toPlace->col);
-      // theBoard->toString();
+
       // Hand new tile to the player SHOULD BE A METHOD
       Tile *tmpTile = theBoard->getBag()->getFront();
       theBoard->getBag()->removeFront();
