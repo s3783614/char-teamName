@@ -28,18 +28,19 @@ std::vector<Tile *> initialiseTileBag();
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
 void playingTheGame(Player *player1, Player *player2, Board *theBoard);
 void playerMove(Board *theBoard, Player *player);
-bool tileInputtedIsOkay(std::string tileString, Player* player);
-bool isOnBoard(int row, int col, Board* board);
-bool placeAbleLoaction(Tile* tile, Board* theBoard, Location* loaction);
+bool tileInputtedIsOkay(std::string tileString, Player *player);
+bool isOnBoard(int row, int col, Board *board);
+bool placeAbleLoaction(Tile *tile, Board *theBoard, Location *loaction);
+
+bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
+bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
 
 int convertToRow(char row);
 int convertToCol(char col);
 
-Tile* turnInputToTile(std::string tiledata);
+Tile *turnInputToTile(std::string tiledata);
 
-Location* convertInputLoc(std::string inputLocation);
-
-
+Location *convertInputLoc(std::string inputLocation);
 
 int main(void)
 {
@@ -55,7 +56,7 @@ int main(void)
 
       userString = takeLineInput();
 
-      // Check only one word was inputted, 
+      // Check only one word was inputted,
       if (userString.size() == 1)
       {
          // set the one word to the menu choice
@@ -123,7 +124,6 @@ void NewGame()
    name1 = getName();
    Player *player1 = new Player(name1);
 
-
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
    std::cout << ">";
    name2 = getName();
@@ -173,79 +173,54 @@ void playingTheGame(Player *player1, Player *player2, Board *theBoard)
 void playerMove(Board *theBoard, Player *player)
 {
    std::string theMove = "";
-   bool isSpotTaken;
-   bool acceptableTile =false;
-   Tile* checkTile = nullptr;
-   bool moveMade = false;
-   bool locExists = false;
-   
+   // bool isSpotTaken;
+   // bool acceptableTile =false;
+   // Tile* checkTile = nullptr;
+   // bool locExists = false;
 
+   bool tilePlaced = false;
+   bool tileReplaced = false;
 
    std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
    player->printHand();
    std::cout << std::endl;
    std::cout << "What would you like to play and where?" << std::endl;
-   while(!moveMade)
+   while (!tileReplaced && !tilePlaced)
    {
       std::vector<std::string> wordsIn = takeLineInput();
 
-      std::cout<< wordsIn.size() << wordsIn[0] << std::endl;
+      std::cout << wordsIn.size() << wordsIn[0] << std::endl;
 
       if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
       {
-         // Check if inputted tile is real and in players hand
-         acceptableTile = tileInputtedIsOkay(wordsIn[1], player);
-         checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1] - 48);
 
-         // Converts inputted location from char to ints of board location
-         Location* toPlace = convertInputLoc(wordsIn[3]);
-         locExists = isOnBoard(toPlace->row, toPlace->col, theBoard);
-         // takes correct location and looks for empty position on the Board
-         if (locExists)
-         {
-            isSpotTaken = theBoard->isSpotTaken(toPlace->row, toPlace->col);
-         }
-
-         // if player input were correct place the tile, put new tile in players hand
-         if (!isSpotTaken && acceptableTile && locExists)
-         {
-
-            int tileIndex = player->getHand()->findSpecificTile(checkTile);
-            player->getHand()->removeAt(tileIndex);
-            theBoard->placeTile(checkTile, toPlace->row, toPlace->col);
-
-            // Hand new tile to the player SHOULD BE A METHOD
-            Tile *tmpTile = theBoard->getBag()->getFront();
-            theBoard->getBag()->removeFront();
-            player->getHand()->addBack(tmpTile);
-            moveMade = true;
-            delete toPlace;
-         }     
+         tilePlaced = placeTile(wordsIn, theBoard, player);
       }
       else if (wordsIn.size() == 2 && wordsIn[0] == "Replace")
       {
-         std::cout << "in Loop" << std::endl;
-         bool tileInputInHand = tileInputtedIsOkay(wordsIn[1], player);
 
-         if(tileInputInHand)
-         {
-            std::cout << "in Loop" << std::endl;
-            Tile* checkTile = turnInputToTile(wordsIn[1]);
-            int tileIndex = player->getHand()->findSpecificTile(checkTile);
-            Tile* playersTile = player->getHand()->get(tileIndex);
-            player->getHand()->removeAt(tileIndex);
+         tileReplaced = replaceTile(wordsIn, theBoard, player);
+         // std::cout << "in Loop" << std::endl;
+         // bool tileInputInHand = tileInputtedIsOkay(wordsIn[1], player);
 
+         // if(tileInputInHand)
+         // {
+         //    std::cout << "in Loop" << std::endl;
+         //    Tile* checkTile = turnInputToTile(wordsIn[1]);
+         //    int tileIndex = player->getHand()->findSpecificTile(checkTile);
+         //    Tile* playersTile = player->getHand()->get(tileIndex);
+         //    player->getHand()->removeAt(tileIndex);
 
-            theBoard->getBag()->addBack(playersTile);
-            Tile *tmpTile = theBoard->getBag()->getFront();
-            theBoard->getBag()->removeFront();
-            player->getHand()->addBack(tmpTile);
-            moveMade = true;
-         }
-         
+         //    theBoard->getBag()->addBack(playersTile);
+         //    Tile *tmpTile = theBoard->getBag()->getFront();
+         //    theBoard->getBag()->removeFront();
+         //    player->getHand()->addBack(tmpTile);
+         //    moveMade = true;
+         // }
       }
-      if (moveMade == false)
+      // std::cout << tilePlaced << std::endl;
+      if (tilePlaced == false && tileReplaced == false)
       {
          std::cout << std::endl;
          std::cout << "That is not a legal move" << std::endl;
@@ -253,12 +228,12 @@ void playerMove(Board *theBoard, Player *player)
          std::cout << ">Place 'Tile' at 'location'" << std::endl;
       }
       //TODO -- check if row col are less than board size
-      
+
       // std::cout << "check: " << check << "isTaken: " << isTaken << std::endl;
       // std::cout << "Spot 1" << std::endl;
-   }  
-//TODO 
-/*Caluculate score method
+   }
+   //TODO
+   /*Caluculate score method
 * Validate user input - loop if move not completed
 * Valid move method?
 * IMPLEMENT REPLACE METHOD
@@ -266,7 +241,7 @@ void playerMove(Board *theBoard, Player *player)
 }
 // Takes the tile inputted and determines if it is a real tile
 // And if the tile is in the players hand
-bool tileInputtedIsOkay(std::string tileString, Player* player)
+bool tileInputtedIsOkay(std::string tileString, Player *player)
 {
    bool isOkay = false;
    char colour = tileString[0];
@@ -274,10 +249,10 @@ bool tileInputtedIsOkay(std::string tileString, Player* player)
 
    if (tileString.size() == 2 && shape >= CIRCLE && shape <= CLOVER)
    {
-      if (colour == ORANGE || RED || YELLOW || GREEN ||BLUE || PURPLE)
+      if (colour == ORANGE || RED || YELLOW || GREEN || BLUE || PURPLE)
       {
 
-         Tile* tile = new Tile(colour, shape);
+         Tile *tile = new Tile(colour, shape);
          if (player->getHand()->isInLinkedList(tile))
          {
             isOkay = true;
@@ -288,23 +263,23 @@ bool tileInputtedIsOkay(std::string tileString, Player* player)
    return isOkay;
 }
 
-Tile* turnInputToTile(std::string tiledata)
+Tile *turnInputToTile(std::string tiledata)
 {
    char colour = tiledata[0];
    int shape = (int)(tiledata[1] - 48);
-   Tile* tile = new Tile(colour, shape);
+   Tile *tile = new Tile(colour, shape);
    return tile;
 }
 
-      //CHANGE LATER --ASCII MAGIC
-      // check letter is shape and number is Colour
-      //CHANGE LATER --ASCII MAGIC
-Location* convertInputLoc(std::string inputLocation)
+//CHANGE LATER --ASCII MAGIC
+// check letter is shape and number is Colour
+//CHANGE LATER --ASCII MAGIC
+Location *convertInputLoc(std::string inputLocation)
 {
-   Location* location = new Location();
+   Location *location = new Location();
    location->row = (int)inputLocation[0] - 65;
 
-   if(inputLocation.size() == 3)
+   if (inputLocation.size() == 3)
    {
       int tens = (int)inputLocation[1] - 48;
       int ones = (int)inputLocation[2] - 48 - 1;
@@ -334,7 +309,7 @@ std::string getName()
       if (wordsIn.size() == 1)
       {
          name = wordsIn[0];
-      
+
          for (unsigned int i = 0; i < name.length(); i++)
          {
 
@@ -361,7 +336,7 @@ std::string getName()
    return name;
 }
 
-bool isOnBoard(int row, int col, Board* board)
+bool isOnBoard(int row, int col, Board *board)
 {
    bool onBoard = false;
    if (row < NO_OF_ROWS && row >= 0)
@@ -412,12 +387,12 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
    {
       for (int i = 0; i <= 6; i++)
       {
-      theTile = theBoard->getBag()->getFront();
-      player1->getHand()->addFront(theTile);
-      theBoard->getBag()->removeFront();
-      theTile = theBoard->getBag()->getFront();
-      player2->getHand()->addFront(theTile);
-      theBoard->getBag()->removeFront();
+         theTile = theBoard->getBag()->getFront();
+         player1->getHand()->addFront(theTile);
+         theBoard->getBag()->removeFront();
+         theTile = theBoard->getBag()->getFront();
+         player2->getHand()->addFront(theTile);
+         theBoard->getBag()->removeFront();
       }
       success = true;
    }
@@ -454,62 +429,98 @@ std::vector<std::string> takeLineInput()
    return wordsIn;
 }
 
-bool placeAbleLoaction(Tile* tile, Board* theBoard, Location* location)
+bool placeAbleLoaction(Tile *tile, Board *theBoard, Location *location)
 {
-   Location* upLoc = new Location(location->row, location->col);
-   // upLoc->row = location->row;
-   // upLoc->col = location->col;
-
-   Location* downLoc = new Location(location->row, location->col);
-   // downLoc->row = location->row;
-   // downLoc->col = location->col;
-
-   Location* leftLoc = new Location(location->row, location->col);
-   // leftLoc->row = location->row;
-   // leftLoc->col = location->col;
-
-   Location* rightLoc = new Location(location->row, location->col);
-   // rightLoc->row = location->row;
-   // rightLoc->col = location->col;
-   
-   //TODO
-
    bool check = true;
-   if(!theBoard->getEmpty())
+
+   Location *checkLocation = new Location(location->row, location->col);
+
+   if (!theBoard->getEmpty())
    {
-      if(!theBoard->emptyLocation(upLoc))
+      for (int direction = UP; direction != LEFT; direction++)
       {
-         if(!(tile->getColour() == theBoard->checkColour(upLoc)) || !(tile->getColour() == theBoard->checkColour(upLoc)) )
+         checkLocation->row = getRow(location->row, direction);
+         checkLocation->col = getCol(location->col, direction);
+
+         if (!theBoard->emptyLocation(checkLocation))
          {
-            check = false;
-            std::cout << check << std::endl;
+            if (!(tile->getColour() == theBoard->checkColour(checkLocation)) ||
+                !(tile->getShape() == theBoard->checkShape(checkLocation)))
+            {
+               check = false;
+               std::cout << check << std::endl;
+            }
          }
-         
       }
-
-      if(!(tile->getColour() == theBoard->checkColour(downLoc)) || !(tile->getColour() == theBoard->checkColour(downLoc)) )
-      {
-         check = false;
-         std::cout << check << std::endl;
-      }
-
-      if(!(tile->getColour() == theBoard->checkColour(leftLoc)) || !(tile->getColour() == theBoard->checkColour(leftLoc)))
-      {
-         check = false;
-         std::cout << check << std::endl;
-         
-      }
-
-      if(!!(tile->getColour() == theBoard->checkColour(rightLoc)) || !(tile->getColour() == theBoard->checkColour(rightLoc)) )
-      {
-         check = false;
-         std::cout << check << std::endl;
-      }
-
    }
 
-
    return check;
+}
+
+//TODO CHECKLOC
+bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
+{
+   bool isSpotTaken;
+   bool acceptableTile = false;
+   Tile *checkTile = nullptr;
+   bool moveMade = false;
+   bool locExists = false;
+
+   // Check if inputted tile is real and in players hand
+   acceptableTile = tileInputtedIsOkay(wordsIn[1], player);
+   checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1] - 48);
+
+   // Converts inputted location from char to ints of board location
+   Location *toPlace = convertInputLoc(wordsIn[3]);
+   locExists = isOnBoard(toPlace->row, toPlace->col, theBoard);
+   // takes correct location and looks for empty position on the Board
+   if (locExists)
+   {
+      isSpotTaken = theBoard->isSpotTaken(toPlace->row, toPlace->col);
+   }
+   std::cout << isSpotTaken << " " << locExists << " " << acceptableTile << std::endl;
+   // if player input were correct place the tile, put new tile in players hand
+   if (!isSpotTaken && acceptableTile && locExists)
+   {
+
+      int tileIndex = player->getHand()->findSpecificTile(checkTile);
+      player->getHand()->removeAt(tileIndex);
+      theBoard->placeTile(checkTile, toPlace->row, toPlace->col);
+      // theBoard->toString();
+      // Hand new tile to the player SHOULD BE A METHOD
+      Tile *tmpTile = theBoard->getBag()->getFront();
+      theBoard->getBag()->removeFront();
+      player->getHand()->addBack(tmpTile);
+      moveMade = true;
+      delete toPlace;
+      std::cout << moveMade << std::endl;
+   }
+
+   return moveMade;
+}
+
+bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
+{
+   bool rtnReplaced = false;
+   std::cout << "in Loop" << std::endl;
+   bool tileInputInHand = tileInputtedIsOkay(wordsIn[1], player);
+
+   if (tileInputInHand)
+   {
+      std::cout << "in Loop" << std::endl;
+      Tile *checkTile = turnInputToTile(wordsIn[1]);
+      int tileIndex = player->getHand()->findSpecificTile(checkTile);
+      Tile *playersTile = player->getHand()->get(tileIndex);
+      player->getHand()->removeAt(tileIndex);
+
+      theBoard->getBag()->addBack(playersTile);
+      Tile *tmpTile = theBoard->getBag()->getFront();
+      theBoard->getBag()->removeFront();
+      player->getHand()->addBack(tmpTile);
+      rtnReplaced = true;
+   }
+
+   return rtnReplaced;
 }
 //TODO
 //SCORING
