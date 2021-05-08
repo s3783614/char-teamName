@@ -110,11 +110,8 @@ bool Board::emptyLocation(Location *location)
 
    if(theBoard[location->col][location->row] == nullptr)
    {
-      
       isEmpty = true;
    }
-
-
    return isEmpty;
 }
 
@@ -130,50 +127,35 @@ Shape Board::checkShape(Location *location)
    std::cout << "inside " << std::endl;
    //TODO
    //WRITE CONTRACT
-   // std::cout << theBoard[location->col][location->row] << std::endl; 
+
    return theBoard[location->col][location->row]->getShape();
 }
 
-bool Board::lineCheck(Location* location, int direction)
+bool Board::lineCheck(Location* location, int direction, Tile* tile)
 {
-         // std::cout << " Line Spot 1 " <<std::endl;
-         // std::cout << location->row << "  " << location->col <<std::endl;
-         // std::cout << "checkShape(location) " << checkShape(location) <<std::endl;
-   Shape shape = checkShape(location);
-std::cout << " Line Spot 2  " <<std::endl;
-   Colour colour = checkColour(location);
-std::cout << " Line Spot 3 " <<std::endl;
-   Location* nextLocation = new Location();
-
    Shape nextShape;
    Colour nextColour;
    bool check = true;
-std::cout << " Line Spot 2  " <<std::endl;
-   while(theBoard[nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)] != nullptr)
+
+   Shape shape = tile->getShape();
+   Colour colour = tile->getColour();
+
+   Location* nextLocation = new Location(location->row, location->col);
+
+   
+
+   while(theBoard[nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)] != nullptr && check)
    {
-      std::cout << "Spot 2 " <<std::endl;
-
-
       nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
-      nextLocation->col = nextLocation->getNextRow(nextLocation->col,direction);
+      nextLocation->col = nextLocation->getNextCol(nextLocation->col,direction);
       nextShape = checkShape(nextLocation);
       nextColour = checkColour(nextLocation);
       
-      if(!(shape == nextShape && colour != nextColour) || !(shape != nextShape && colour == nextColour) )
+      if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
       {
-                  std::cout << " Spot insinde kursdj " <<std::endl;
-         // nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
          check = false;
       }
-      // else if(shape != nextShape && colour == nextColour)
-      // {
-      // //    nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
-         
-      // }
-      // else
-      // {
-      //    check = false;
-      // }
+ 
       
    }
    std::cout << " Line Spot 3  " <<std::endl;

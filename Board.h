@@ -31,7 +31,7 @@ public:
    Colour checkColour(Location* location);
    Shape checkShape(Location* location);
 
-   bool lineCheck(Location* location, int direction);
+   bool lineCheck(Location* location, int direction, Tile* tile);
 
 
 private:

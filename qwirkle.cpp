@@ -399,10 +399,9 @@ std::vector<std::string> takeLineInput()
    return wordsIn;
 }
 
-bool tileFit(Tile *tile, Board *theBoard, Location *location)
+bool tileFit(Tile* tile, Board* theBoard, Location* location)
 {
    bool check = true;
-   bool match = false;
    Location *checkLocation = new Location(location->row, location->col);
 
    if (!theBoard->checkEmpty())
@@ -410,34 +409,33 @@ bool tileFit(Tile *tile, Board *theBoard, Location *location)
     
       for (int direction = UP; direction <= LEFT; direction++)
       {
-     
+         
          checkLocation->row = location->getNextRow(location->row, direction);
    
          checkLocation->col = location->getNextCol(location->col, direction);
-
-         if (!(theBoard->emptyLocation(checkLocation)))
+         if (checkLocation->row >=0 && checkLocation-> row < NO_OF_ROWS &&
+         checkLocation->col >=0 && checkLocation->col < NO_OF_COLS)
          {
-            // std::cout << "theBoard->lineCheck(location, direction) " << theBoard->lineCheck(location, direction) <<std::endl;
-               std::cout << " Spot 1 " <<std::endl;
-               std::cout << direction <<std::endl;
-               std::cout << "(tile->getColour() == theBoard->checkColour(checkLocation) " << (tile->getColour() == theBoard->checkColour(checkLocation)) <<  " (tile->getShape() == theBoard->checkShape(checkLocation)) :" << (tile->getShape() == theBoard->checkShape(checkLocation));
-
-            if (!(tile->getColour() == theBoard->checkColour(checkLocation) || (tile->getShape() == theBoard->checkShape(checkLocation)) ) || !(theBoard->lineCheck(location, direction)))
+            if (!(theBoard->emptyLocation(checkLocation)))
             {
+               // std::cout << "theBoard->lineCheck(location, direction) " << theBoard->lineCheck(location, direction) <<std::endl;
+                  std::cout << " Spot 1 " <<std::endl;
+                  std::cout << direction <<std::endl;
+                  std::cout << "(tile->getColour() == theBoard->checkColour(checkLocation) " << (tile->getColour() == theBoard->checkColour(checkLocation)) <<  " (tile->getShape() == theBoard->checkShape(checkLocation)) :" << (tile->getShape() == theBoard->checkShape(checkLocation));
 
-                        std::cout << " Spot hello  " <<std::endl;
-               check = false;
-            }
-            else
-            {
-               match = true;
+               if (!(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation)))
+               {
+                  check = false; 
+                  std::cout << "Be here if tile doesnt match" <<std::endl;
+
+               }
+               // Get to here is colour or shape matches
+               else if (!theBoard->lineCheck(location, direction, tile))
+               {
+                  check = false;
+               }
             }
          }
-      }
-
-      if(!match)
-      {
-         check = false;
       }
 
    }
@@ -450,7 +448,7 @@ bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player
 {
    Tile *checkTile = nullptr;
 
-   bool isSpotTaken;
+   bool isSpotTaken = true;
    bool acceptableTile = false;
    bool moveMade = false;
    bool locExists = false;
@@ -469,6 +467,7 @@ bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player
       isSpotTaken = theBoard->isSpotTaken(toPlace->row, toPlace->col);
       acceptableLoc = tileFit(checkTile, theBoard, toPlace);
    }
+
 
    // if player input were correct place the tile, put new tile in players hand
    if (!isSpotTaken && acceptableTile && locExists && acceptableLoc)
