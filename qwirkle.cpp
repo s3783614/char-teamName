@@ -404,18 +404,28 @@ bool tileFit(Tile *tile, Board *theBoard, Location *location)
    bool check = true;
    bool match = false;
    Location *checkLocation = new Location(location->row, location->col);
-   std::cout << "theBoard->checkEmpty() : " << theBoard->checkEmpty() << std::endl;
+
    if (!theBoard->checkEmpty())
    {
+    
       for (int direction = UP; direction <= LEFT; direction++)
       {
-         checkLocation->row = getRow(location->row, direction);
-         checkLocation->col = getCol(location->col, direction);
+     
+         checkLocation->row = location->getNextRow(location->row, direction);
+   
+         checkLocation->col = location->getNextCol(location->col, direction);
 
-         if (!theBoard->emptyLocation(checkLocation))
+         if (!(theBoard->emptyLocation(checkLocation)))
          {
-            if (!((tile->getColour() == theBoard->checkColour(checkLocation)) || (tile->getShape() == theBoard->checkShape(checkLocation))) )
+            // std::cout << "theBoard->lineCheck(location, direction) " << theBoard->lineCheck(location, direction) <<std::endl;
+               std::cout << " Spot 1 " <<std::endl;
+               std::cout << direction <<std::endl;
+               std::cout << "(tile->getColour() == theBoard->checkColour(checkLocation) " << (tile->getColour() == theBoard->checkColour(checkLocation)) <<  " (tile->getShape() == theBoard->checkShape(checkLocation)) :" << (tile->getShape() == theBoard->checkShape(checkLocation));
+
+            if (!(tile->getColour() == theBoard->checkColour(checkLocation) || (tile->getShape() == theBoard->checkShape(checkLocation)) ) || !(theBoard->lineCheck(location, direction)))
             {
+
+                        std::cout << " Spot hello  " <<std::endl;
                check = false;
             }
             else
@@ -505,38 +515,5 @@ bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *play
 }
 
 
-
-
-
-int getRow(int currentRow, int direction)
-{
-   int rtnRow = currentRow;
-   if(direction == UP)
-   {
-      rtnRow = currentRow - 1;
-   }
-   else if(direction == DOWN) 
-   {
-      rtnRow = currentRow + 1;
-   }
-   
-   return rtnRow;
-}
-
-
-int getCol(int currentCol, int direction)
-{
-   int rtnCol = currentCol;
-   if(direction == LEFT)
-   {
-      rtnCol = currentCol - 1;
-   }
-   else if(direction == RIGHT) 
-   {
-      rtnCol = currentCol + 1;
-   }
-   
-   return rtnCol;
-}
 //TODO
 //SCORING

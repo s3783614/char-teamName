@@ -22,16 +22,16 @@ public:
    LinkedList* getBag();
    bool isSpotTaken(int Row, int Column);
    
-   // void setEmpty();
-   // bool getEmpty();
+   // void setEmpty();S
 
    bool checkEmpty();
 
    bool emptyLocation(Location* location);
 
-   char checkColour(Location* location);
-   char checkShape(Location* location);
+   Colour checkColour(Location* location);
+   Shape checkShape(Location* location);
 
+   bool lineCheck(Location* location, int direction);
 
 
 private:
