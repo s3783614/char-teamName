@@ -18,6 +18,8 @@ void Menu::printCredits()
    std::cout << "-------" << std::endl;
 }
 
+// Quits the program
+// NEED TO CHECK IF THIS IS OKAY OR WHETHER WE NEED TO GO BACK TO MAIN SOME HOW
 void Menu::quit()
 {
    std::cout << "Goodbye" << std::endl;
