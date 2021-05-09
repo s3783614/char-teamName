@@ -1,4 +1,4 @@
-#include "gamePlay.h"
+#include "GamePlay.h"
 
 #define EXIT_SUCCESS 0
 

@@ -11,6 +11,8 @@
 #include "Board.h"
 #include "Player.h"
 
+
+
 bool check(char *s);
 void NewGame();
 std::string getName();

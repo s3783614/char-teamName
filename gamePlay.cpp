@@ -1,7 +1,7 @@
 #include <fstream>
 // #include <ofstream>
 
-#include "gamePlay.h"
+#include "GamePlay.h"
 
 // Quits the program
 // NEED TO CHECK IF THIS IS OKAY OR WHETHER WE NEED TO GO BACK TO MAIN SOME HOW
@@ -436,7 +436,10 @@ bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
    
    std::ofstream MyFile(fileName);
    
-   MyFile << "this works now?";
+   MyFile << player->getName();
+
+
+
    MyFile.close();
 
    return true;
