@@ -10,39 +10,57 @@
 
 #include "Board.h"
 #include "Player.h"
+#include "Menu.h"
+
+
+class GamePlay
+{
+    public:
+
+    GamePlay();
+    ~GamePlay();
+
+
+    bool check(char *s);
+    void NewGame();
 
 
 
 
-bool check(char *s);
-void NewGame();
-std::string getName();
+    std::vector<Tile *> initialiseTileBag();
+    
+    void playerMove(Board *theBoard, Player *player, Player* player2, Menu* menu);
+    bool tileInputtedIsOkay(std::string tileString, Player *player);
+    bool isOnBoard(int row, int col, Board *board);
+    bool tileFit(Tile *tile, Board *theBoard, Location *loaction);
 
-void quit();
+    bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
+    bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
+    bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2);
 
-std::vector<std::string> takeLineInput();
-std::vector<Tile *> initialiseTileBag();
-bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
-void playingTheGame(Player *player1, Player *player2, Board *theBoard);
-void playerMove(Board *theBoard, Player *player, Player* player2);
-bool tileInputtedIsOkay(std::string tileString, Player *player);
-bool isOnBoard(int row, int col, Board *board);
-bool tileFit(Tile *tile, Board *theBoard, Location *loaction);
+    int convertToRow(char row);
+    int convertToCol(char col);
 
-bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
-bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
-bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2);
+    //MOVE LATER
+    int getRow(int currentRow, int direction);
+    int getCol(int currentCol, int direction);
 
-int convertToRow(char row);
-int convertToCol(char col);
+    Tile *turnInputToTile(std::string tiledata);
 
-//MOVE LATER
-int getRow(int currentRow, int direction);
-int getCol(int currentCol, int direction);
+    Location *convertInputLoc(std::string inputLocation);
 
-Tile *turnInputToTile(std::string tiledata);
+    
 
-Location *convertInputLoc(std::string inputLocation);
+    // Board* theBoard;
+    // Player* player1;
+    // Player* player2;
+    private:
+    Menu* menu ;
+
+
+};
+
+
 
 
 #endif //GAMEPLAY

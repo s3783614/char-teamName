@@ -1,3 +1,4 @@
+
 #include <fstream>
 // #include <ofstream>
 
@@ -5,65 +6,80 @@
 
 // Quits the program
 // NEED TO CHECK IF THIS IS OKAY OR WHETHER WE NEED TO GO BACK TO MAIN SOME HOW
-void quit()
+// void quit()
+// {
+//    std::cout << "Goodbye" << std::endl;
+//    exit(EXIT_SUCCESS);
+// }
+
+// GamePlay::GamePlay(Board* board, Player* firstPlayer, Player* secondPlayer, Menu* theMenu)
+// {
+//    theBoard = board;
+//    player1 = firstPlayer;
+//    player2 = secondPlayer;
+//    menu = theMenu;
+
+// }
+
+GamePlay::GamePlay()
 {
-   std::cout << "Goodbye" << std::endl;
-   exit(EXIT_SUCCESS);
+   
 }
 
-void NewGame()
-{
-   std::string name1 = "";
-   std::string name2 = "";
 
-   std::cout << std::endl;
-   std::cout << "Starting a New Game" << std::endl
-             << std::endl;
-   std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   name1 = getName();
-   Player *player1 = new Player(name1);
+// void NewGame()
+// {
+//    std::string name1 = "";
+//    std::string name2 = "";
 
-   std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-   std::cout << ">";
-   name2 = getName();
-   Player *player2 = new Player(name2);
+//    std::cout << std::endl;
+//    std::cout << "Starting a New Game" << std::endl
+//              << std::endl;
+//    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
+//    name1 = getName();
+//    Player *player1 = new Player(name1);
 
-   Board *board = new Board();
+//    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
+//    std::cout << ">";
+//    name2 = getName();
+//    Player *player2 = new Player(name2);
 
-   std::vector<Tile *> tPtrs = initialiseTileBag();
-   for (Tile *tile : tPtrs)
-   {
-      board->getBag()->addFront(tile);
-   }
+//    Board *board = new Board();
 
-   handingTilesToPlayers(player1, player2, board);
+//    std::vector<Tile *> tPtrs = initialiseTileBag();
+//    for (Tile *tile : tPtrs)
+//    {
+//       board->getBag()->addFront(tile);
+//    }
 
-   playingTheGame(player1, player2, board);
+//    handingTilesToPlayers(player1, player2, board);
 
-}
+//    playingTheGame(player1, player2, board);
 
-void playingTheGame(Player *player1, Player *player2, Board *theBoard)
-{
-   int i = 0;
-   while (i != 6)
-   {
-      theBoard->toString();
-      std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
-      std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-      playerMove(theBoard, player1, player2);
+// }
 
-      theBoard->toString();
+// void playingTheGame(Player *player1, Player *player2, Board *theBoard)
+// {
+//    int i = 0;
+//    while (i != 6)
+//    {
+//       theBoard->toString();
+//       std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
+//       std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
+//       playerMove(theBoard, player1, player2);
 
-      std::cout << std::endl;
-      std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
-      std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-      playerMove(theBoard, player2, player1);
+//       theBoard->toString();
 
-      ++i;
-   }
-}
+//       std::cout << std::endl;
+//       std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
+//       std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
+//       playerMove(theBoard, player2, player1);
 
-void playerMove(Board *theBoard, Player *player, Player* player2)
+//       ++i;
+//    }
+// }
+
+void GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu* menu)
 {
    bool tilePlaced = false;
    bool tileReplaced = false;
@@ -77,7 +93,7 @@ void playerMove(Board *theBoard, Player *player, Player* player2)
 
    while (!tileReplaced && !tilePlaced)
    {
-      std::vector<std::string> wordsIn = takeLineInput();
+      std::vector<std::string> wordsIn = menu->takeLineInput();
 
       // std::cout << wordsIn.size() << wordsIn[0] << std::endl;
 
@@ -114,7 +130,7 @@ void playerMove(Board *theBoard, Player *player, Player* player2)
 
 // Takes the tile inputted and determines if it is a real tile
 // And if the tile is in the players hand
-bool tileInputtedIsOkay(std::string tileString, Player *player)
+bool GamePlay::tileInputtedIsOkay(std::string tileString, Player *player)
 {
    bool isOkay = false;
    char colour = tileString[0];
@@ -136,7 +152,7 @@ bool tileInputtedIsOkay(std::string tileString, Player *player)
    return isOkay;
 }
 
-Tile *turnInputToTile(std::string tiledata)
+Tile* GamePlay::turnInputToTile(std::string tiledata)
 {
    char colour = tiledata[0];
    int shape = (int)(tiledata[1] - 48);
@@ -147,7 +163,7 @@ Tile *turnInputToTile(std::string tiledata)
 //CHANGE LATER --ASCII MAGIC
 // check letter is shape and number is Colour
 //CHANGE LATER --ASCII MAGIC
-Location *convertInputLoc(std::string inputLocation)
+Location* GamePlay::convertInputLoc(std::string inputLocation)
 {
    Location *location = new Location();
    location->row = (int)inputLocation[0] - 65;
@@ -165,51 +181,51 @@ Location *convertInputLoc(std::string inputLocation)
    return location;
 }
 
-std::string getName()
-{
-   std::vector<std::string> wordsIn;
-   std::string name;
+// std::string getName()
+// {
+//    std::vector<std::string> wordsIn;
+//    std::string name;
 
-   bool checker = false;
+//    bool checker = false;
 
-   while (checker == false)
-   {
-      checker = true;
-      std::cout << "Enter your name (ONLY CAPITALS AND NO SPACES)" << std::endl;
-      wordsIn = takeLineInput();
+//    while (checker == false)
+//    {
+//       checker = true;
+//       std::cout << "Enter your name (ONLY CAPITALS AND NO SPACES)" << std::endl;
+//       wordsIn = takeLineInput();
 
-      // Check only one word inputted
-      if (wordsIn.size() == 1)
-      {
-         name = wordsIn[0];
+//       // Check only one word inputted
+//       if (wordsIn.size() == 1)
+//       {
+//          name = wordsIn[0];
 
-         for (unsigned int i = 0; i < name.length(); i++)
-         {
+//          for (unsigned int i = 0; i < name.length(); i++)
+//          {
 
-            if (name[i] < 65 || name[i] > 90)
-            {
-               checker = false;
-            }
-         }
-         if (checker == false)
-         {
-            std::cout << "Invalid Input!" << std::endl;
-            std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
-            std::cout << std::endl;
-         }
-      }
-      else
-      {
-         checker = false;
-         std::cout << "Invalid Input!" << std::endl;
-         std::cout << "Please enter only one name!" << std::endl;
-         std::cout << std::endl;
-      }
-   }
-   return name;
-}
+//             if (name[i] < 65 || name[i] > 90)
+//             {
+//                checker = false;
+//             }
+//          }
+//          if (checker == false)
+//          {
+//             std::cout << "Invalid Input!" << std::endl;
+//             std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
+//             std::cout << std::endl;
+//          }
+//       }
+//       else
+//       {
+//          checker = false;
+//          std::cout << "Invalid Input!" << std::endl;
+//          std::cout << "Please enter only one name!" << std::endl;
+//          std::cout << std::endl;
+//       }
+//    }
+//    return name;
+// }
 
-bool isOnBoard(int row, int col, Board *board)
+bool GamePlay::isOnBoard(int row, int col, Board *board)
 {
    bool onBoard = false;
    if (row < NO_OF_ROWS && row >= 0)
@@ -222,87 +238,87 @@ bool isOnBoard(int row, int col, Board *board)
    return onBoard;
 }
 
-std::vector<Tile *> initialiseTileBag()
-{
+// std::vector<Tile *> initialiseTileBag()
+// {
 
-   Colour tileColours[] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE};
-   Shape tileShapes[] = {CIRCLE, STAR_4, DIAMOND, SQUARE, STAR_6, CLOVER};
+//    Colour tileColours[] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE};
+//    Shape tileShapes[] = {CIRCLE, STAR_4, DIAMOND, SQUARE, STAR_6, CLOVER};
 
-   std::vector<Tile *> orderedTiles;
+//    std::vector<Tile *> orderedTiles;
 
-   for (int i = 0; i < 2; i++)
-   {
-      for (Colour colour : tileColours)
-      {
-         for (Shape shape : tileShapes)
-         {
-            Tile *tile = new Tile(colour, shape);
-            orderedTiles.push_back(tile);
-         }
-      }
-   }
+//    for (int i = 0; i < 2; i++)
+//    {
+//       for (Colour colour : tileColours)
+//       {
+//          for (Shape shape : tileShapes)
+//          {
+//             Tile *tile = new Tile(colour, shape);
+//             orderedTiles.push_back(tile);
+//          }
+//       }
+//    }
 
-   std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
+//    std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
 
-   return orderedTiles;
-   // shuffleTiles(orderedTiles);
-}
+//    return orderedTiles;
+//    // shuffleTiles(orderedTiles);
+// }
 
 // Takes in players and the board
 // Takes tiles and alternatively hands to each player
 // Each player is handed 6 tiles which are removed from the bag
 // Returns void, as passed by reference
-bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
-{
-   bool success = false;
-   Tile *theTile;
-   if (theBoard->getBag()->size() >= 12)
-   {
-      for (int i = 0; i <= 6; i++)
-      {
-         theTile = theBoard->getBag()->getFront();
-         player1->getHand()->addFront(theTile);
-         theBoard->getBag()->removeFront();
-         theTile = theBoard->getBag()->getFront();
-         player2->getHand()->addFront(theTile);
-         theBoard->getBag()->removeFront();
-      }
-      success = true;
-   }
-   return success;
-}
+// bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
+// {
+//    bool success = false;
+//    Tile *theTile;
+//    if (theBoard->getBag()->size() >= 12)
+//    {
+//       for (int i = 0; i <= 6; i++)
+//       {
+//          theTile = theBoard->getBag()->getFront();
+//          player1->getHand()->addFront(theTile);
+//          theBoard->getBag()->removeFront();
+//          theTile = theBoard->getBag()->getFront();
+//          player2->getHand()->addFront(theTile);
+//          theBoard->getBag()->removeFront();
+//       }
+//       success = true;
+//    }
+//    return success;
+// }
 
-// Asks the User for an Input and takes an entire line with spaces
-// Splits the input to individual words by spaces
-// Puts each word in order into a vector
-// Returns the vector
-std::vector<std::string> takeLineInput()
-{
-   std::vector<std::string> wordsIn;
-   std::string theMove = "";
+// // Asks the User for an Input and takes an entire line with spaces
+// // Splits the input to individual words by spaces
+// // Puts each word in order into a vector
+// // Returns the vector
+// std::vector<std::string> takeLineInput()
+// {
+//    std::vector<std::string> wordsIn;
+//    std::string theMove = "";
 
-   std::cout << ">";
-   std::getline(std::cin, theMove);
+//    std::cout << ">";
+//    std::getline(std::cin, theMove);
 
-   // Check that eof character not inputted
-   if (!std::cin.eof())
-   {
-      // Take the line inputted and split by spaces to individual words
-      std::stringstream check1(theMove);
-      std::string tmpString = "";
-      while (getline(check1, tmpString, ' '))
-      {
-         wordsIn.push_back(tmpString);
-      }
-   }
-   else
-   {
-      quit();
-   }
-   return wordsIn;
-}
+//    // Check that eof character not inputted
+//    if (!std::cin.eof())
+//    {
+//       // Take the line inputted and split by spaces to individual words
+//       std::stringstream check1(theMove);
+//       std::string tmpString = "";
+//       while (getline(check1, tmpString, ' '))
+//       {
+//          wordsIn.push_back(tmpString);
+//       }
+//    }
+//    else
+//    {
+//       quit();
+//    }
+//    return wordsIn;
+// }
 
-bool tileFit(Tile* tile, Board* theBoard, Location* location)
+bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location* location)
 {
    bool check = true;
    Location *checkLocation = new Location(location->row, location->col);
@@ -340,7 +356,7 @@ bool tileFit(Tile* tile, Board* theBoard, Location* location)
 }
 
 //TODO CHECKLOC
-bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
+bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
 {
    Tile *checkTile = nullptr;
 
@@ -385,7 +401,7 @@ bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player
    return moveMade;
 }
 
-bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
+bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
 {
    bool rtnReplaced = false;
    // std::cout << "in Loop" << std::endl;
@@ -409,7 +425,7 @@ bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *play
    return rtnReplaced;
 }
 
-bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2)
+bool GamePlay::saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2)
 {
    std::string fileExtension = ".txt";
    std::string fileName = wordsIn[1];
