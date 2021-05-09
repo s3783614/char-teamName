@@ -29,7 +29,7 @@ class GamePlay
 
     std::vector<Tile *> initialiseTileBag();
     
-    void playerMove(Board *theBoard, Player *player, Player* player2, Menu* menu);
+    bool playerMove(Board *theBoard, Player *player, Player* player2, Menu* menu);
     bool tileInputtedIsOkay(std::string tileString, Player *player);
     bool isOnBoard(int row, int col, Board *board);
     bool tileFit(Tile *tile, Board *theBoard, Location *loaction);
@@ -48,6 +48,8 @@ class GamePlay
     Tile *turnInputToTile(std::string tiledata);
 
     Location *convertInputLoc(std::string inputLocation);
+
+    int score(Location* location, Board* theBoard);
 
     
 

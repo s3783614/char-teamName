@@ -10,12 +10,14 @@ GamePlay::GamePlay()
 }
 
 
-void GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu* menu)
+bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu* menu)
 {
    bool tilePlaced = false;
    bool tileReplaced = false;
    bool gameSaved = false;
    bool triedToSaveGame = false;
+
+   bool gameQuit = false;
 
    std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
@@ -23,8 +25,9 @@ void GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
    std::cout << std::endl;
    std::cout << "What would you like to play and where?" << std::endl;
 
-   while (!tileReplaced && !tilePlaced)
+   while (!tileReplaced && !tilePlaced && !gameQuit )
    {
+      
       std::vector<std::string> wordsIn = menu->takeLineInput();
       triedToSaveGame = false;
       // std::cout << wordsIn.size() << wordsIn[0] << std::endl;
@@ -44,12 +47,16 @@ void GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
          std::cout << "Game successfully saved" <<std::endl;
          triedToSaveGame = true;
       }
+      else if(wordsIn[0] == "Quit" )
+      {
+         gameQuit = true;
+      }
       
-      if(triedToSaveGame && !gameSaved)
+      if(triedToSaveGame && !gameSaved && !gameQuit )
       {
          std::cout << "Failed to save!" << std::endl;
       }
-      else if(tilePlaced == false && tileReplaced == false && !triedToSaveGame)
+      else if(tilePlaced == false && tileReplaced == false && !triedToSaveGame && !gameQuit)
       {
          std::cout << std::endl;
          std::cout << "That is not a legal move" << std::endl;
@@ -61,6 +68,8 @@ void GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
    //TODO
    /*Caluculate score method
    */
+
+  return gameQuit;
 }
 
 
@@ -134,6 +143,8 @@ bool GamePlay::isOnBoard(int row, int col, Board *board)
 bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location* location)
 {
    bool check = true;
+   bool doesFit = false;
+
    Location *checkLocation = new Location(location->row, location->col);
 
    if (!theBoard->checkEmpty())
@@ -159,8 +170,18 @@ bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location* location)
                {
                   check = false;
                }
+               else if(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation))
+               {
+                  doesFit = true;
+               }
+
             }
          }
+      }
+
+      if(doesFit == false)
+      {
+         check = false;
       }
 
    }
@@ -206,6 +227,7 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
       Tile *tmpTile = theBoard->getBag()->getFront();
       theBoard->getBag()->removeFront();
       player->getHand()->addBack(tmpTile);
+      player->addScore(score(toPlace, theBoard));
       moveMade = true;
       delete toPlace;
    
@@ -272,4 +294,46 @@ bool saveCheck = false;
 
    
    return saveCheck;
+}
+
+int GamePlay::score(Location* location, Board* theBoard)
+{
+   int score  = 0;
+   Location* nextLocation = new Location();   
+   bool notEmpty = false;
+   std::cout << "spot 1" <<std::endl;
+   for (int direction = UP; direction < LEFT; direction++)
+   {
+      int counter = 0;
+   std::cout << "spot 2" <<std::endl;
+
+      while(!notEmpty) 
+         // theBoard->emptyLocation([nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)]) != nullptr )
+      {
+   std::cout << "spot 3" <<std::endl;
+
+         counter++;
+         score++;
+   std::cout << "spot 4" <<std::endl;
+
+         nextLocation->getNextCol(nextLocation->col, direction);
+   std::cout << "spot 5" <<std::endl;
+
+         nextLocation->getNextRow(nextLocation->row, direction);
+   std::cout << "spot 6" <<std::endl;
+
+         notEmpty = theBoard->emptyLocation(nextLocation);
+   std::cout << "spot 7" <<std::endl;
+
+         
+      }
+      if(counter == 6)
+      {
+         std::cout << std::endl;
+         std::cout << "QWIRKLE!!!" <<std::endl;
+      }
+      
+
+   }
+   return score;
 }

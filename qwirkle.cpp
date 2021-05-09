@@ -157,6 +157,7 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 
 void playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay* gameTime, Menu* theMenu)
 {
+   // bool quit = false;
    int i = 0;
    while (i != 6)
    {
@@ -173,5 +174,6 @@ void playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay*
       gameTime->playerMove(theBoard, player2, player1, theMenu);
 
       ++i;
+
    }
 }
