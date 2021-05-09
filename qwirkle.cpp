@@ -203,3 +203,29 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
 
    return quit;
 }
+
+void MainMenu::LoadGame(){
+    std::string fileName, line;
+
+    std::cout << "Enter the filename from which to load a game" << std::endl;
+    std::cout << ">";
+    std::cin >> fileName; //input name of previously saved file
+    std::ifstream saveFile (fileName + ".save");
+    if (saveFile.is_open()){
+        //Read data for player one and two
+        std::string playerName,playerScore,playerHand;
+        
+        //Read data for player one
+        getline(saveFile,playerName);
+        getline(saveFile,playerScore);
+        getline(saveFile,playerHand);
+
+        playerOne = new Player(playerName,std::stoi(playerScore),new LinkedList(playerHand));
+        
+        //Read data for player two
+        getline(saveFile,playerName);
+        getline(saveFile,playerScore);
+        getline(saveFile,playerHand);
+        
+        playerTwo = new Player(playerName,std::stoi(playerScore),new LinkedList(playerHand));
+    
