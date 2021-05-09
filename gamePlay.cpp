@@ -2,7 +2,7 @@
 #include <fstream>
 // #include <ofstream>
 
-#include "GamePlay.h"
+#include "gamePlay.h"
 
 GamePlay::GamePlay()
 {
@@ -46,7 +46,7 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
          std::cout << "Game successfully saved" <<std::endl;
          triedToSaveGame = true;
       }
-      else if(wordsIn.size() == 1 && wordsIn[0] == "Quit" )
+      else if(wordsIn.size() == 1 && wordsIn[0] == std::to_string(EOF) )
       {
          gameQuit = true;
       }

@@ -51,7 +51,7 @@ std::vector<std::string> Menu::takeLineInput()
    }
    else
    {
-      wordsIn.push_back("Quit");
+      wordsIn.push_back(std::to_string(EOF));
    }
    return wordsIn;
 }
@@ -68,34 +68,42 @@ std::string Menu::getName()
       checker = true;
       std::cout << "Enter your name (ONLY CAPITALS AND NO SPACES)" << std::endl;
       wordsIn = takeLineInput();
-
-      // Check only one word inputted
-      if (wordsIn.size() == 1)
+      if(wordsIn.size() ==1 && wordsIn[0] != std::to_string(EOF))
       {
-         name = wordsIn[0];
-
-         for (unsigned int i = 0; i < name.length(); i++)
+         // Check only one word inputted
+         if (wordsIn.size() == 1)
          {
+            name = wordsIn[0];
 
-            if (name[i] < 65 || name[i] > 90)
+            for (unsigned int i = 0; i < name.length(); i++)
             {
-               checker = false;
+
+               if (name[i] < 65 || name[i] > 90)
+               {
+                  checker = false;
+               }
+            }
+            if (checker == false)
+            {
+               std::cout << "Invalid Input!" << std::endl;
+               std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
+               std::cout << std::endl;
             }
          }
-         if (checker == false)
+         else
          {
+            checker = false;
             std::cout << "Invalid Input!" << std::endl;
-            std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
+            std::cout << "Please enter only one name!" << std::endl;
             std::cout << std::endl;
          }
       }
       else
       {
-         checker = false;
-         std::cout << "Invalid Input!" << std::endl;
-         std::cout << "Please enter only one name!" << std::endl;
-         std::cout << std::endl;
+         name = std::to_string(EOF);
+         checker = true;
       }
+      
    }
    return name;
 }

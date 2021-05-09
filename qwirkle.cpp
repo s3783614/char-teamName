@@ -1,4 +1,4 @@
-#include "GamePlay.h"
+#include "gamePlay.h"
 #include "Menu.h"
 
 #define EXIT_SUCCESS 0
@@ -30,56 +30,43 @@ int main(void)
       theMenu->printMenu();
 
       userString = theMenu->takeLineInput();
+      if (userString.size() == 1 && userString[0] != "Quit")
+      {
+         if (userString.size() == 1)
+         {
+            // set the one word to the menu choice
+            userInput = userString[0];
+         }
 
-      // Check only one word was inputted,
-      if (userString.size() == 1)
-      {
-         // set the one word to the menu choice
-         userInput = userString[0];
-      }
-
-      if (userInput == "1")
-      {
-         quit = NewGame(theMenu, gameTime);
-      }
-      else if (userInput == "2")
-      {
-      }
-      else if (userInput == "3")
-      {
-         theMenu->printCredits();
-      }
-      else if (userInput == "4")
-      {
-         quit = true;
+         if (userInput == "1")
+         {
+            quit = NewGame(theMenu, gameTime);
+         }
+         else if (userInput == "2")
+         {
+         }
+         else if (userInput == "3")
+         {
+            theMenu->printCredits();
+         }
+         else if (userInput == "4")
+         {
+            quit = true;
+         }
+         else
+         {
+            std::cout << "Invalid Input!" << std::endl;
+         }
       }
       else
       {
-         std::cout << "Invalid Input!" << std::endl;
+         quit = true;
       }
    }
 
    std::cout << "GoodBye!" << std::endl;
    return EXIT_SUCCESS;
 }
-
-// void menu()
-// {
-//    std::cout << std::endl;
-//    std::cout << "Menu" << std::endl;
-//    std::cout << "----" << std::endl;
-//    std::cout << "1. New Game" << std::endl;
-//    std::cout << "2. Load Game" << std::endl;
-//    std::cout << "3. Credits (Show student information)" << std::endl;
-//    std::cout << "4. Quit" << std::endl;
-//    std::cout << std::endl;
-// }
-
-// void credits()
-// {
-//    std::cout << "CREDITS" << std::endl;
-//    std::cout << "-------" << std::endl;
-// }
 
 bool NewGame(Menu* menu, GamePlay* gameTime)
 {
@@ -92,24 +79,38 @@ bool NewGame(Menu* menu, GamePlay* gameTime)
              << std::endl;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
    name1 = menu->getName();
-   Player *player1 = new Player(name1);
-
-   std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-   std::cout << ">";
-   name2 = menu->getName();
-   Player *player2 = new Player(name2);
-
-   Board *board = new Board();
-
-   std::vector<Tile *> tPtrs = initialiseTileBag();
-   for (Tile *tile : tPtrs)
+   if(name1 != std::to_string(EOF))
    {
-      board->getBag()->addFront(tile);
+      Player *player1 = new Player(name1);
+      std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
+      std::cout << ">";
+      name2 = menu->getName();
+      if(name2 != std::to_string(EOF))
+      {
+         Player *player2 = new Player(name2);
+
+         Board *board = new Board();
+
+         std::vector<Tile *> tPtrs = initialiseTileBag();
+         for (Tile *tile : tPtrs)
+         {
+            board->getBag()->addFront(tile);
+         }
+
+         handingTilesToPlayers(player1, player2, board);
+
+         gameQuit = playingTheGame(player1, player2, board, gameTime, menu);
+      }
+      else
+      {
+         gameQuit = true;
+      }
+   }
+   else
+   {
+      gameQuit = true;
    }
 
-   handingTilesToPlayers(player1, player2, board);
-
-   gameQuit = playingTheGame(player1, player2, board, gameTime, menu);
    return gameQuit;
 }
 
