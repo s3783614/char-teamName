@@ -34,7 +34,6 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
 
       if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
       {
-
          tilePlaced = placeTile(wordsIn, theBoard, player);
       }
       else if (wordsIn.size() == 2 && wordsIn[0] == "Replace")
@@ -47,12 +46,12 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
          std::cout << "Game successfully saved" <<std::endl;
          triedToSaveGame = true;
       }
-      else if(wordsIn[0] == "Quit" )
+      else if(wordsIn.size() == 1 && wordsIn[0] == "Quit" )
       {
          gameQuit = true;
       }
       
-      if(triedToSaveGame && !gameSaved && !gameQuit )
+      if(triedToSaveGame && !gameSaved && !gameQuit)
       {
          std::cout << "Failed to save!" << std::endl;
       }
@@ -65,9 +64,6 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
       }
 
    }
-   //TODO
-   /*Caluculate score method
-   */
 
   return gameQuit;
 }
@@ -218,21 +214,17 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
    // if player input were correct place the tile, put new tile in players hand
    if (!isSpotTaken && acceptableTile && locExists && acceptableLoc)
    {
-
       int tileIndex = player->getHand()->findSpecificTile(checkTile);
       player->getHand()->removeAt(tileIndex);
       theBoard->placeTile(checkTile, toPlace->row, toPlace->col);
 
       // Hand new tile to the player SHOULD BE A METHOD
-      Tile *tmpTile = theBoard->getBag()->getFront();
-      theBoard->getBag()->removeFront();
-      player->getHand()->addBack(tmpTile);
+      HandPlayerTile(player, theBoard);
       player->addScore(score(toPlace, theBoard));
       moveMade = true;
       delete toPlace;
-   
+      
    }
-
    return moveMade;
 }
 
@@ -249,15 +241,24 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Pl
       int tileIndex = player->getHand()->findSpecificTile(checkTile);
       Tile *playersTile = player->getHand()->get(tileIndex);
       player->getHand()->removeAt(tileIndex);
-
       theBoard->getBag()->addBack(playersTile);
-      Tile *tmpTile = theBoard->getBag()->getFront();
-      theBoard->getBag()->removeFront();
-      player->getHand()->addBack(tmpTile);
+
+      HandPlayerTile(player, theBoard);
+
       rtnReplaced = true;
    }
 
    return rtnReplaced;
+}
+
+void GamePlay::HandPlayerTile(Player* player, Board* theBoard)
+{
+   if (theBoard->getBag()->size() != 0)
+   {
+      Tile *tmpTile = theBoard->getBag()->getFront();
+      theBoard->getBag()->removeFront();
+      player->getHand()->addBack(tmpTile);
+   }
 }
 
 bool GamePlay::saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2)
@@ -298,33 +299,29 @@ bool saveCheck = false;
 
 int GamePlay::score(Location* location, Board* theBoard)
 {
-   int score  = 0;
-   Location* nextLocation = new Location();   
-   bool notEmpty = false;
+   int score  = 1;
+   Location* nextLocation = new Location();
+   bool Empty = false;
    std::cout << "spot 1" <<std::endl;
-   for (int direction = UP; direction < LEFT; direction++)
+   for (int direction = UP; direction <= LEFT; direction++)
    {
+      nextLocation->row = location->row;
+      nextLocation->col = location->col;
       int counter = 0;
-   std::cout << "spot 2" <<std::endl;
-
-      while(!notEmpty) 
+      std::cout << "spot 2" <<std::endl;
+      Empty = false;
+      while(!Empty) 
          // theBoard->emptyLocation([nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)]) != nullptr )
       {
-   std::cout << "spot 3" <<std::endl;
 
-         counter++;
-         score++;
-   std::cout << "spot 4" <<std::endl;
-
-         nextLocation->getNextCol(nextLocation->col, direction);
-   std::cout << "spot 5" <<std::endl;
-
-         nextLocation->getNextRow(nextLocation->row, direction);
-   std::cout << "spot 6" <<std::endl;
-
-         notEmpty = theBoard->emptyLocation(nextLocation);
-   std::cout << "spot 7" <<std::endl;
-
+         nextLocation->col = nextLocation->getNextCol(nextLocation->col, direction);
+         nextLocation->row = nextLocation->getNextRow(nextLocation->row, direction);
+         Empty = theBoard->emptyLocation(nextLocation);
+         if (!Empty)
+         {
+            counter++;
+            score++;
+         }
          
       }
       if(counter == 6)

@@ -18,13 +18,13 @@ void Menu::printCredits()
    std::cout << "-------" << std::endl;
 }
 
-// Quits the program
-// NEED TO CHECK IF THIS IS OKAY OR WHETHER WE NEED TO GO BACK TO MAIN SOME HOW
-void Menu::quit()
-{
-   std::cout << "Goodbye" << std::endl;
-   exit(EXIT_SUCCESS);
-}
+// // Quits the program
+// // NEED TO CHECK IF THIS IS OKAY OR WHETHER WE NEED TO GO BACK TO MAIN SOME HOW
+// void Menu::quit()
+// {
+//    std::cout << "Goodbye" << std::endl;
+//    exit(EXIT_SUCCESS);
+// }
 
 // Asks the User for an Input and takes an entire line with spaces
 // Splits the input to individual words by spaces
@@ -51,7 +51,7 @@ std::vector<std::string> Menu::takeLineInput()
    }
    else
    {
-      quit();
+      wordsIn.push_back("Quit");
    }
    return wordsIn;
 }

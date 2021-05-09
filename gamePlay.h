@@ -51,7 +51,7 @@ class GamePlay
 
     int score(Location* location, Board* theBoard);
 
-    
+    void HandPlayerTile(Player* player, Board* theBoard);
 
     // Board* theBoard;
     // Player* player1;

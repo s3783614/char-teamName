@@ -6,15 +6,16 @@
 void menu();
 
 void credits();
-void NewGame(Menu* menu, GamePlay* gameTime);
+bool NewGame(Menu* menu, GamePlay* gameTime);
 std::vector<Tile *> initialiseTileBag();
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
-void playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay* gameTime, Menu* theMenu);
+bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay* gameTime, Menu* theMenu);
 
 
 
 int main(void)
 {
+   bool quit = false;
    Menu* theMenu = new Menu();
    GamePlay* gameTime = new GamePlay();
 
@@ -24,7 +25,7 @@ int main(void)
    std::vector<std::string> userString;
    std::string userInput = "";
 
-   while (true)
+   while (!quit)
    {
       theMenu->printMenu();
 
@@ -39,7 +40,7 @@ int main(void)
 
       if (userInput == "1")
       {
-         NewGame(theMenu, gameTime);
+         quit = NewGame(theMenu, gameTime);
       }
       else if (userInput == "2")
       {
@@ -50,13 +51,15 @@ int main(void)
       }
       else if (userInput == "4")
       {
-         theMenu->quit();
+         quit = true;
       }
       else
       {
          std::cout << "Invalid Input!" << std::endl;
       }
    }
+
+   std::cout << "GoodBye!" << std::endl;
    return EXIT_SUCCESS;
 }
 
@@ -78,8 +81,9 @@ int main(void)
 //    std::cout << "-------" << std::endl;
 // }
 
-void NewGame(Menu* menu, GamePlay* gameTime)
+bool NewGame(Menu* menu, GamePlay* gameTime)
 {
+   bool gameQuit = false;
    std::string name1 = "";
    std::string name2 = "";
 
@@ -105,8 +109,8 @@ void NewGame(Menu* menu, GamePlay* gameTime)
 
    handingTilesToPlayers(player1, player2, board);
 
-   playingTheGame(player1, player2, board, gameTime, menu);
-
+   gameQuit = playingTheGame(player1, player2, board, gameTime, menu);
+   return gameQuit;
 }
 
 std::vector<Tile *> initialiseTileBag()
@@ -155,25 +159,27 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
    return success;
 }
 
-void playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay* gameTime, Menu* theMenu)
+bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay* gameTime, Menu* theMenu)
 {
-   // bool quit = false;
+   bool quit = false;
    int i = 0;
-   while (i != 6)
-   {
+   while (player1->getHand()->size() != 0 && player2->getHand()->size() != 0 && !quit)
+   {  
       theBoard->toString();
       std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
       std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-      gameTime->playerMove(theBoard, player1, player2, theMenu);
+      quit = gameTime->playerMove(theBoard, player1, player2, theMenu);
+      if (quit != true)
+      {
+         theBoard->toString();
 
-      theBoard->toString();
-
-      std::cout << std::endl;
-      std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
-      std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-      gameTime->playerMove(theBoard, player2, player1, theMenu);
-
+         std::cout << std::endl;
+         std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
+         std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
+         quit = gameTime->playerMove(theBoard, player2, player1, theMenu);
+      }
       ++i;
 
    }
+   return quit;
 }
