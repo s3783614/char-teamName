@@ -1,0 +1,13 @@
+player1 name
+player 1 score
+player 1 hand
+
+player 2 name
+player 2 score
+player 2 hand
+
+current board shape - 26x26
+board state b4 @ b2
+tilebag contents
+current player name - 
+
