@@ -6,18 +6,16 @@
 void menu();
 
 void credits();
-bool NewGame(Menu* menu, GamePlay* gameTime);
+bool NewGame(Menu *menu, GamePlay *gameTime);
 std::vector<Tile *> initialiseTileBag();
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
-bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay* gameTime, Menu* theMenu);
-
-
+bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay *gameTime, Menu *theMenu);
 
 int main(void)
 {
    bool quit = false;
-   Menu* theMenu = new Menu();
-   GamePlay* gameTime = new GamePlay();
+   Menu *theMenu = new Menu();
+   GamePlay *gameTime = new GamePlay();
 
    std::cout << "Welcome to Qwirkle!" << std::endl;
    std::cout << "-------------------" << std::endl;
@@ -68,7 +66,7 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
-bool NewGame(Menu* menu, GamePlay* gameTime)
+bool NewGame(Menu *menu, GamePlay *gameTime)
 {
    bool gameQuit = false;
    std::string name1 = "";
@@ -79,13 +77,13 @@ bool NewGame(Menu* menu, GamePlay* gameTime)
              << std::endl;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
    name1 = menu->getName();
-   if(name1 != std::to_string(EOF))
+   if (name1 != std::to_string(EOF))
    {
       Player *player1 = new Player(name1);
       std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
       std::cout << ">";
       name2 = menu->getName();
-      if(name2 != std::to_string(EOF))
+      if (name2 != std::to_string(EOF))
       {
          Player *player2 = new Player(name2);
 
@@ -160,12 +158,12 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
    return success;
 }
 
-bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay* gameTime, Menu* theMenu)
+bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay *gameTime, Menu *theMenu)
 {
    bool quit = false;
    int i = 0;
    while (player1->getHand()->size() != 0 && player2->getHand()->size() != 0 && !quit)
-   {  
+   {
       theBoard->toString();
       std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
       std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
@@ -180,7 +178,28 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay*
          quit = gameTime->playerMove(theBoard, player2, player1, theMenu);
       }
       ++i;
-
    }
+   if (!quit)
+   {
+      std::string winnerName;
+      int winnerScore;
+      if (player1->getScore() > player2->getScore())
+      {
+         winnerName = player1->getName();
+         winnerScore = player1->getScore();
+      }
+      else if (player2->getScore() > player1->getScore())
+      {
+         winnerName = player2->getName();
+         winnerScore = player2->getScore();
+      }
+      else
+      {
+         winnerName = "... It's tie! You both scorede:";
+         winnerScore = player1->getScore();
+      }
+      std::cout << "Congratulations " << winnerName << " won with a score of: " << winnerScore << std::endl;
+   }
+
    return quit;
 }
