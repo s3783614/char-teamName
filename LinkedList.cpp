@@ -248,3 +248,22 @@ int LinkedList::findSpecificTile(Tile *tile)
 
    return index;
 }
+
+
+std::string LinkedList::llToString()
+{
+
+   std::string llTiles = "";
+   for(int i = 0; i < size(); i++)
+   {
+
+      llTiles += get(i)->getColour();
+      llTiles += std::to_string(get(i)->getShape());
+      if(i != size()-1)
+      {
+         llTiles += ",";
+      }
+
+   }
+   return llTiles;
+}

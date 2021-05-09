@@ -50,20 +50,20 @@ void playingTheGame(Player *player1, Player *player2, Board *theBoard)
       theBoard->toString();
       std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
       std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-      playerMove(theBoard, player1);
+      playerMove(theBoard, player1, player2);
 
       theBoard->toString();
 
       std::cout << std::endl;
       std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
       std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-      playerMove(theBoard, player2);
+      playerMove(theBoard, player2, player1);
 
       ++i;
    }
 }
 
-void playerMove(Board *theBoard, Player *player)
+void playerMove(Board *theBoard, Player *player, Player* player2)
 {
    bool tilePlaced = false;
    bool tileReplaced = false;
@@ -92,29 +92,12 @@ void playerMove(Board *theBoard, Player *player)
       }
       else if(wordsIn.size() == 2 && wordsIn[0] == "Save")
       {
-         gameSaved = saveGame(wordsIn, theBoard, player);
-
-         if(gameSaved)
-         {  
-            std::cout << "Game successfully saved" <<std::endl;
-            wordsIn = takeLineInput();
-
-            //Rerun cause after saving the game they should be able to run another command -- possible recusive method
-            //could move the if into its own method but 2 seperate ones cause 2 booleans
-            if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
-            {
-               tilePlaced = placeTile(wordsIn, theBoard, player);
-            }
-            else if (wordsIn.size() == 2 && wordsIn[0] == "Replace")
-            {
-               tileReplaced = replaceTile(wordsIn, theBoard, player);
-            }
-         }
-
+         gameSaved = saveGame(wordsIn, theBoard, player, player2);
+         std::cout << "Game successfully saved" <<std::endl;
 
       }
 
-      if (tilePlaced == false && tileReplaced == false)
+      if (tilePlaced == false && tileReplaced == false && !gameSaved)
       {
          std::cout << std::endl;
          std::cout << "That is not a legal move" << std::endl;
@@ -426,7 +409,7 @@ bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *play
    return rtnReplaced;
 }
 
-bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
+bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2)
 {
    std::string fileExtension = ".txt";
    std::string fileName = wordsIn[1];
@@ -436,10 +419,20 @@ bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
    
    std::ofstream MyFile(fileName);
    
-   MyFile << player->getName();
+   MyFile << player->getName() << std::endl;
+   MyFile << player->getScore() << std::endl;
+   MyFile << player->getHand()->llToString() << std::endl;
+   MyFile << player2->getName() << std::endl;
+   MyFile << player2->getScore() << std::endl;
+   MyFile << player2->getHand()->llToString() << std::endl;
 
+   MyFile << NO_OF_ROWS << ",";
+   MyFile << NO_OF_COLS <<std::endl;
+   MyFile << theBoard->saveBoard() <<std::endl;
 
+   MyFile << theBoard->getBag()->llToString() <<std::endl;
 
+   MyFile << player->getName() << std::endl;
    MyFile.close();
 
    return true;

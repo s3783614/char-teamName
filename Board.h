@@ -33,6 +33,8 @@ public:
 
    bool lineCheck(Location* location, int direction, Tile* tile);
 
+   std::string saveBoard();
+
 
 private:
    std::vector <std::vector<Tile*> > theBoard;

@@ -13,6 +13,7 @@
 
 
 
+
 bool check(char *s);
 void NewGame();
 std::string getName();
@@ -23,14 +24,14 @@ std::vector<std::string> takeLineInput();
 std::vector<Tile *> initialiseTileBag();
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
 void playingTheGame(Player *player1, Player *player2, Board *theBoard);
-void playerMove(Board *theBoard, Player *player);
+void playerMove(Board *theBoard, Player *player, Player* player2);
 bool tileInputtedIsOkay(std::string tileString, Player *player);
 bool isOnBoard(int row, int col, Board *board);
 bool tileFit(Tile *tile, Board *theBoard, Location *loaction);
 
 bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
 bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
-bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
+bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2);
 
 int convertToRow(char row);
 int convertToCol(char col);

@@ -23,6 +23,8 @@ public:
 
    LinkedList* getHand();
 
+   std::string handToString();
+
 private:
    std::string name;
    int score;

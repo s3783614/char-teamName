@@ -59,3 +59,21 @@ LinkedList* Player::getHand()
 {
    return hand;
 }
+
+std::string Player::handToString()
+{
+
+   std::string handTiles = "";
+   for(int i = 0; i < hand->size(); i++)
+   {
+
+      handTiles += hand->get(i)->getColour();
+      handTiles += std::to_string(hand->get(i)->getShape());
+      if(i != hand->size()-1)
+      {
+         handTiles += ",";
+      }
+
+   }
+   return handTiles;
+}

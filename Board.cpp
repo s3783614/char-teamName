@@ -124,7 +124,6 @@ Colour Board::checkColour(Location *location)
 
 Shape Board::checkShape(Location *location)
 {
-   std::cout << "inside " << std::endl;
    //TODO
    //WRITE CONTRACT
 
@@ -162,4 +161,41 @@ bool Board::lineCheck(Location* location, int direction, Tile* tile)
 
 
    return check;
+}
+
+std::string Board::saveBoard()
+{
+   std::string boardLocation = "";
+   Location* location = new Location();
+   bool firstTile = true;
+   for (int row = 0; row < NO_OF_ROWS; row++)
+   {
+      for (int col = 0; col < NO_OF_COLS; col++)
+      {
+         location->row = row;
+         location->col = col;
+         
+         if(!emptyLocation(location))
+         {
+            if(!firstTile)
+            {
+               boardLocation += ", ";
+               
+            }
+            firstTile = false;
+            boardLocation += checkColour(location);
+            boardLocation += std::to_string(checkShape(location));
+            boardLocation += '@';
+            boardLocation += row + 65;
+            boardLocation += std::to_string(col + 1);
+            
+         }
+
+
+      }
+      
+   }
+   
+   return boardLocation;
+
 }

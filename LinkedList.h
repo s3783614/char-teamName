@@ -2,6 +2,8 @@
 #ifndef ASSIGN2_LINKEDLIST_H
 #define ASSIGN2_LINKEDLIST_H
 
+#include <string>
+
 #include "Node.h"
 
 
@@ -28,6 +30,8 @@ public:
 
 
    bool isInLinkedList(Tile* tile);
+
+   std::string llToString();
 
 private:
    Node* head;
