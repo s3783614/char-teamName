@@ -39,10 +39,7 @@ Shape Tile::getShape()
 bool Tile::compareTile(Tile *tile)
 {
     bool checker = false;
-    //  std::cout <<"this->getColour(): " <<this->getColour() <<
-    //                         " tile->getColour(): " << tile->getColour() <<
-    //                         " this->getShape(): " << this->getShape() <<
-    //                         " tile->getShape(): " << tile->getShape() << std::endl;
+
     if (this->getColour() == tile->getColour() && this->getShape() == tile->getShape())
     {
         checker = true;

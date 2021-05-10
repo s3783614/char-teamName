@@ -10,7 +10,7 @@ GamePlay::GamePlay()
 }
 
 
-bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu* menu)
+bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2, Menu* menu)
 {
    bool tilePlaced = false;
    bool tileReplaced = false;
@@ -28,7 +28,7 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2,Menu*
    while (!tileReplaced && !tilePlaced && !gameQuit )
    {
       
-      std::vector<std::string> wordsIn = menu->takeLineInput();
+      std::vector<std::string> wordsIn = menu->takeLineInput(' ');
       triedToSaveGame = false;
       // std::cout << wordsIn.size() << wordsIn[0] << std::endl;
 

@@ -30,7 +30,7 @@ void Menu::printCredits()
 // Splits the input to individual words by spaces
 // Puts each word in order into a vector
 // Returns the vector
-std::vector<std::string> Menu::takeLineInput()
+std::vector<std::string> Menu::takeLineInput(char charToSplit)
 {
    std::vector<std::string> wordsIn;
    std::string theMove = "";
@@ -44,7 +44,7 @@ std::vector<std::string> Menu::takeLineInput()
       // Take the line inputted and split by spaces to individual words
       std::stringstream check1(theMove);
       std::string tmpString = "";
-      while (getline(check1, tmpString, ' '))
+      while (getline(check1, tmpString, charToSplit))
       {
          wordsIn.push_back(tmpString);
       }
@@ -67,7 +67,7 @@ std::string Menu::getName()
    {
       checker = true;
       std::cout << "Enter your name (ONLY CAPITALS AND NO SPACES)" << std::endl;
-      wordsIn = takeLineInput();
+      wordsIn = takeLineInput(' ');
       if(wordsIn.size() ==1 && wordsIn[0] != std::to_string(EOF))
       {
          // Check only one word inputted

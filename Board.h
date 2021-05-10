@@ -16,7 +16,9 @@ class Board
 {
 public:
    Board();
+   Board(int row, int col);
    ~Board();
+   void setBag(LinkedList* linkedList);
    void toString();
    void placeTile(Tile* theTile, int Row, int Column);
    LinkedList* getBag();
@@ -34,12 +36,15 @@ public:
    bool lineCheck(Location* location, int direction, Tile* tile);
 
    std::string saveBoard();
-
+   void setRow(int row);
+   void setCol(int row);
 
 private:
    std::vector <std::vector<Tile*> > theBoard;
    LinkedList* bag;
    bool empty;
+   int row;
+   int col;
 };
 
 #endif // BOARD_H

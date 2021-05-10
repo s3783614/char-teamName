@@ -8,6 +8,7 @@
 class Player{
 public:
    Player(std::string name);
+   Player(std::string name, int score, LinkedList* hand);
    ~Player();
 
    std::string getName();

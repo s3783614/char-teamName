@@ -13,7 +13,7 @@ class Menu{
 
     void quit();
 
-    std::vector<std::string> takeLineInput();
+    std::vector<std::string> takeLineInput(char charToSplit);
 
     std::string getName();
 

@@ -8,6 +8,13 @@ Player::Player(std::string name)
    hand = new LinkedList();
 }
 
+Player::Player(std::string name, int score, LinkedList* hand)
+{
+   this->name = name;
+   this->score = score;
+   this->hand = hand;
+}
+
 Player::~Player()
 {
    delete hand;

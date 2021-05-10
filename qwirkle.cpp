@@ -1,5 +1,9 @@
+#include <iostream>
+#include <fstream>
+
 #include "gamePlay.h"
 #include "Menu.h"
+#include "LinkedList.h"
 
 #define EXIT_SUCCESS 0
 
@@ -7,9 +11,13 @@ void menu();
 
 void credits();
 bool NewGame(Menu *menu, GamePlay *gameTime);
+bool LoadGame(Menu* menu);
 std::vector<Tile *> initialiseTileBag();
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
 bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay *gameTime, Menu *theMenu);
+Player* loadInPlayer(std::ifstream& saveFile, Menu* menu);
+Board* loadInBoard(std::ifstream& saveFile, Menu* menu);
+std::vector<std::string> splitString(std::string string, std::string delim);
 
 int main(void)
 {
@@ -27,7 +35,7 @@ int main(void)
    {
       theMenu->printMenu();
 
-      userString = theMenu->takeLineInput();
+      userString = theMenu->takeLineInput(' ');
       if (userString.size() == 1 && userString[0] != "Quit")
       {
          if (userString.size() == 1)
@@ -42,6 +50,7 @@ int main(void)
          }
          else if (userInput == "2")
          {
+            quit = LoadGame(theMenu);
          }
          else if (userInput == "3")
          {
@@ -144,7 +153,7 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
    Tile *theTile;
    if (theBoard->getBag()->size() >= 12)
    {
-      for (int i = 0; i <= 6; i++)
+      for (int i = 0; i < 6; i++)
       {
          theTile = theBoard->getBag()->getFront();
          player1->getHand()->addFront(theTile);
@@ -204,28 +213,174 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
    return quit;
 }
 
-void MainMenu::LoadGame(){
-    std::string fileName, line;
+bool LoadGame(Menu* menu)
+{
+   bool quit = false;
+   std::vector<std::string> filename;
+   std::string file;
+   Player* player2;
+   Player* player1;
+   Board* theBoard;
 
     std::cout << "Enter the filename from which to load a game" << std::endl;
-    std::cout << ">";
-    std::cin >> fileName; //input name of previously saved file
-    std::ifstream saveFile (fileName + ".save");
-    if (saveFile.is_open()){
-        //Read data for player one and two
-        std::string playerName,playerScore,playerHand;
-        
-        //Read data for player one
-        getline(saveFile,playerName);
-        getline(saveFile,playerScore);
-        getline(saveFile,playerHand);
+    filename = menu->takeLineInput(' ');
+    if(filename.size() == 1 && filename[0] != std::to_string(EOF))
+    {
+      file = filename[0];
+      file += ".txt";
+      std::ifstream saveFile(file);
+      player1 = loadInPlayer(saveFile, menu);
+      player2 = loadInPlayer(saveFile, menu);
+      theBoard = loadInBoard(saveFile, menu);
+      player1->printHand();
+      player2->printHand();
+      theBoard->toString();
+      theBoard->getBag()->printLinkedList();
+   }
+   else
+   {
+      quit = true;
+   }
 
-        playerOne = new Player(playerName,std::stoi(playerScore),new LinkedList(playerHand));
-        
-        //Read data for player two
-        getline(saveFile,playerName);
-        getline(saveFile,playerScore);
-        getline(saveFile,playerHand);
-        
-        playerTwo = new Player(playerName,std::stoi(playerScore),new LinkedList(playerHand));
+   return quit;
+}
+
+Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)
+{
+//Read data for player one and two
+   std::string playerName = "";
+   std::string playerScore= "";
+   std::string playerHand= "";
+   std::vector<std::string> playerHandVector;
+   int player1score= 0;
+   int hundreds= 0;
+   int tens = 0;
+   int ones = 0;
+
+   //Read data for player one
+   if (saveFile.is_open())
+   {
+      std::getline(saveFile, playerName);
+      std::getline(saveFile, playerScore);
+      std::getline(saveFile, playerHand);
+   }
+
+   if (playerScore.size() == 3)
+   {
+      hundreds = (int)playerScore[0] - 48;
+      tens = (int)playerScore[1] - 48;
+      ones = (int)playerScore[2] - 48;
+      player1score = (100*hundreds)+(10 * tens) + (ones);
+   }
+   else if(playerScore.size() == 2)
+   {
+      tens = (int)playerScore[0] - 48;
+      ones = (int)playerScore[1] - 48;
+      player1score = (10 * tens) + (ones);
+   }
+   else
+   {
+      player1score = ones;
+   }
+   
+   playerHandVector = splitString(playerHand, ",");
+
+   LinkedList* player1Hand = new LinkedList();
+   for (int i =0; i < playerHandVector.size(); i++)
+   {
+
+      Colour colour = playerHandVector[i][0];
+      Shape shape = (int)playerHandVector[i][1] - 48;
+      Tile* newTile = new Tile(colour, shape);
+      player1Hand->addBack(newTile);
+   }
+
+   Player* playerOne = new Player(playerName, player1score, player1Hand);
+   return playerOne;
+}
+
+Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
+{
+   std::vector<std::string> boardDimentions;
+   std::vector<std::string> locationsW;
+   std::vector<std::string> bagTiles;
+
+   std::string locations = "";
+   std::string theBagString = "";
+   Board* theBoard = new Board();
+
+   LinkedList* theBag = new LinkedList();
+   int row = 0;
+   int col = 0;
+   std::string dimentions = "";
+   //Read data for player one
+   if (saveFile.is_open())
+   {
+      std::getline(saveFile, dimentions);
+      std::getline(saveFile, locations);
+      std::getline(saveFile, theBagString);
+   }
+   boardDimentions = splitString(dimentions, ",");
+   locationsW = splitString(locations, ", ");
+   
+   if (boardDimentions.size() ==2)
+   {
+      row = (int)boardDimentions[0][0] - 48;
+      col = (int)boardDimentions[1][0] - 48;
+      
+   }
+   for (int i =0; i < locationsW.size(); i++)
+   {
+      Colour colour = locationsW[i][0];
+      
+      Shape shape= (int)locationsW[i][1] -48;
+      Tile* tile = new Tile(colour, shape);
+      int col;
+      int row = (int)locationsW[i][3] - 65;
+      if (locationsW[i].size() == 6)
+      {
+         int tens = (int)locationsW[i][4] - 48;
+         int ones = (int)locationsW[i][5] - 48;
+         col = 10* tens + ones;
+      }
+      else
+      {
+         col = (int)locationsW[i][4] - 48;
+      }
+      
+      theBoard->placeTile(tile, row, col);
+   }
+   bagTiles = splitString(theBagString, ",");
+
+   for (int i =0; i < bagTiles.size(); i++)
+   {
+      Colour colour = bagTiles[i][0];
+      Shape shape= (int)bagTiles[i][1] -48;
+      Tile* newTile = new Tile(colour, shape);
+      theBag->addBack(newTile);
+   }
+   theBoard->setBag(theBag);
+
+
+   return theBoard;
+}  
     
+std::vector<std::string> splitString(std::string string, std::string delim)
+{
+   std::vector<std::string> playerHandVector;
+   int start = 0;
+   int end = string.find(delim);
+   int length = string.size();
+   std::string word;
+   while(end != -1)
+   {
+      word = string.substr(start, end - start);
+      playerHandVector.push_back(word);
+      start = end + delim.size();
+      end= string.find(delim, start);
+   }
+   word = string.substr(start, length);
+   playerHandVector.push_back(word);
+
+   return playerHandVector;
+}

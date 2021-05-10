@@ -6,10 +6,36 @@ Board::Board()
    theBoard.resize(NO_OF_ROWS, std::vector<Tile *>(NO_OF_COLS, nullptr));
    bag = new LinkedList();
    empty = true;
+   this->row = NO_OF_ROWS;
+   this->col = NO_OF_COLS;
+}
+
+Board::Board(int row, int col)
+{
+   theBoard.resize(NO_OF_ROWS, std::vector<Tile *>(NO_OF_COLS, nullptr));
+   bag = new LinkedList();
+   empty = true;
+   this->row = row;
+   this->col = col;
 }
 
 Board::~Board()
 {
+}
+
+void Board::setRow(int row)
+{
+   this->row = row;
+}
+
+void Board::setCol(int col)
+{
+   this->col = col;
+}
+
+void Board::setBag(LinkedList* linkedList)
+{
+   bag = linkedList;
 }
 
 LinkedList *Board::getBag()
@@ -199,3 +225,5 @@ std::string Board::saveBoard()
    return boardLocation;
 
 }
+
+
