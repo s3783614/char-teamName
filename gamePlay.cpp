@@ -302,13 +302,15 @@ int GamePlay::score(Location* location, Board* theBoard)
    int score  = 1;
    Location* nextLocation = new Location();
    bool Empty = false;
-   std::cout << "spot 1" <<std::endl;
+   
    for (int direction = UP; direction <= LEFT; direction++)
    {
+      
       nextLocation->row = location->row;
       nextLocation->col = location->col;
+      
       int counter = 0;
-      std::cout << "spot 2" <<std::endl;
+
       Empty = false;
       while(!Empty) 
          // theBoard->emptyLocation([nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)]) != nullptr )
@@ -316,13 +318,15 @@ int GamePlay::score(Location* location, Board* theBoard)
 
          nextLocation->col = nextLocation->getNextCol(nextLocation->col, direction);
          nextLocation->row = nextLocation->getNextRow(nextLocation->row, direction);
-         Empty = theBoard->emptyLocation(nextLocation);
-         if (!Empty)
+         if(nextLocation->col < 0 || nextLocation->row < 0 || nextLocation->col > theBoard->getCols() || nextLocation->row > theBoard->getRows())
          {
-            counter++;
-            score++;
+            Empty = theBoard->emptyLocation(nextLocation);
+            if (!Empty)
+            {
+               counter++;
+               score++;
+            }
          }
-         
       }
       if(counter == 6)
       {

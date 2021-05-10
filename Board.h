@@ -39,6 +39,9 @@ public:
    void setRow(int row);
    void setCol(int row);
 
+   int getRows();
+   int getCols();
+
 private:
    std::vector <std::vector<Tile*> > theBoard;
    LinkedList* bag;

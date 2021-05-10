@@ -171,20 +171,20 @@ bool Board::lineCheck(Location* location, int direction, Tile* tile)
 
    while(theBoard[nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)] != nullptr && check)
    {
-      nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
-      nextLocation->col = nextLocation->getNextCol(nextLocation->col,direction);
-      nextShape = checkShape(nextLocation);
-      nextColour = checkColour(nextLocation);
-      
-      if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
+      if(nextLocation->col < 0 || nextLocation->row < 0 || nextLocation->col > getCols() || nextLocation->row > getRows())
       {
-         check = false;
+         nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
+         nextLocation->col = nextLocation->getNextCol(nextLocation->col,direction);
+         nextShape = checkShape(nextLocation);
+         nextColour = checkColour(nextLocation);
+         
+         if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
+         {
+            check = false;
+         }
       }
- 
       
    }
-   std::cout << " Line Spot 3  " <<std::endl;
-
 
    return check;
 }
@@ -226,4 +226,13 @@ std::string Board::saveBoard()
 
 }
 
+int Board::getRows()
+{
 
+   return row;
+}
+
+int Board::getCols()
+{
+   return col;
+}

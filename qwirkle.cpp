@@ -286,7 +286,7 @@ Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)
    playerHandVector = splitString(playerHand, ",");
 
    LinkedList* player1Hand = new LinkedList();
-   for (int i =0; i < playerHandVector.size(); i++)
+   for (unsigned int i =0; i < playerHandVector.size(); i++)
    {
 
       Colour colour = playerHandVector[i][0];
@@ -329,14 +329,14 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       col = (int)boardDimentions[1][0] - 48;
       
    }
-   for (int i =0; i < locationsW.size(); i++)
+   for (unsigned int i =0; i < locationsW.size(); i++)
    {
       Colour colour = locationsW[i][0];
       
       Shape shape= (int)locationsW[i][1] -48;
       Tile* tile = new Tile(colour, shape);
-      int col;
-      int row = (int)locationsW[i][3] - 65;
+      
+      row = (int)locationsW[i][3] - 65;
       if (locationsW[i].size() == 6)
       {
          int tens = (int)locationsW[i][4] - 48;
@@ -352,7 +352,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    }
    bagTiles = splitString(theBagString, ",");
 
-   for (int i =0; i < bagTiles.size(); i++)
+   for (unsigned int i =0; i < bagTiles.size(); i++)
    {
       Colour colour = bagTiles[i][0];
       Shape shape= (int)bagTiles[i][1] -48;
