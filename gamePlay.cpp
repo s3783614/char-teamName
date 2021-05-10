@@ -312,13 +312,14 @@ int GamePlay::score(Location* location, Board* theBoard)
       int counter = 0;
 
       Empty = false;
+
       while(!Empty) 
          // theBoard->emptyLocation([nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)]) != nullptr )
       {
 
          nextLocation->col = nextLocation->getNextCol(nextLocation->col, direction);
          nextLocation->row = nextLocation->getNextRow(nextLocation->row, direction);
-         if(nextLocation->col < 0 || nextLocation->row < 0 || nextLocation->col > theBoard->getCols() || nextLocation->row > theBoard->getRows())
+         if(nextLocation->col > 0 && nextLocation->row > 0 && nextLocation->col < theBoard->getCols() && nextLocation->row < theBoard->getRows())
          {
             Empty = theBoard->emptyLocation(nextLocation);
             if (!Empty)
@@ -326,6 +327,10 @@ int GamePlay::score(Location* location, Board* theBoard)
                counter++;
                score++;
             }
+         }
+         else
+         {
+            Empty = true;
          }
       }
       if(counter == 6)
