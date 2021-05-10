@@ -26,10 +26,15 @@ public:
 
    std::string handToString();
 
+   int getNumber();
+   void setNumber(int playerNumber);
+
 private:
    std::string name;
    int score;
    LinkedList* hand;
+
+   int playerNumber;
 };
 
 # endif //PLAYER_H

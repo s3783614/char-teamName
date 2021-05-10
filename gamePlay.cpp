@@ -274,12 +274,25 @@ bool saveCheck = false;
    std::ofstream MyFile(fileName);
    if(!MyFile.fail())
    {
-      MyFile << player->getName() << std::endl;
-      MyFile << player->getScore() << std::endl;
-      MyFile << player->getHand()->llToString() << std::endl;
-      MyFile << player2->getName() << std::endl;
-      MyFile << player2->getScore() << std::endl;
-      MyFile << player2->getHand()->llToString() << std::endl;
+      if(player->getNumber() == 1)
+      {
+         MyFile << player->getName() << std::endl;
+         MyFile << player->getScore() << std::endl;
+         MyFile << player->getHand()->llToString() << std::endl;
+         MyFile << player2->getName() << std::endl;
+         MyFile << player2->getScore() << std::endl;
+         MyFile << player2->getHand()->llToString() << std::endl;
+      }
+      else
+      {
+         MyFile << player2->getName() << std::endl;
+         MyFile << player2->getScore() << std::endl;
+         MyFile << player2->getHand()->llToString() << std::endl;
+         MyFile << player->getName() << std::endl;
+         MyFile << player->getScore() << std::endl;
+         MyFile << player->getHand()->llToString() << std::endl;
+
+      }
 
       MyFile << NO_OF_ROWS << ",";
       MyFile << NO_OF_COLS <<std::endl;
@@ -290,6 +303,7 @@ bool saveCheck = false;
       MyFile << player->getName() << std::endl;
 
       saveCheck = true;
+      
    }
    MyFile.close();
 
@@ -319,7 +333,7 @@ int GamePlay::score(Location* location, Board* theBoard)
 
          nextLocation->col = nextLocation->getNextCol(nextLocation->col, direction);
          nextLocation->row = nextLocation->getNextRow(nextLocation->row, direction);
-         if(nextLocation->col > 0 && nextLocation->row > 0 && nextLocation->col < theBoard->getCols() && nextLocation->row < theBoard->getRows())
+         if((nextLocation->col > 0) && (nextLocation->row > 0) && (nextLocation->col < theBoard->getCols()) && (nextLocation->row < theBoard->getRows()))
          {
             Empty = theBoard->emptyLocation(nextLocation);
             if (!Empty)

@@ -57,11 +57,6 @@ Tile* Player::getTile()
    return nullptr;
 }
 
-// void Player::addTile(Tile* newTile)
-// {
-//    hand->addToBag(newTile);
-// }
-
 LinkedList* Player::getHand()
 {
    return hand;
@@ -84,3 +79,14 @@ std::string Player::handToString()
    }
    return handTiles;
 }
+
+void Player::setNumber(int playerNumber)
+{
+   this->playerNumber = playerNumber;
+}
+
+int Player::getNumber()
+{
+   return playerNumber;
+}
+

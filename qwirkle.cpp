@@ -18,6 +18,7 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
 Player* loadInPlayer(std::ifstream& saveFile, Menu* menu);
 Board* loadInBoard(std::ifstream& saveFile, Menu* menu);
 std::vector<std::string> splitString(std::string string, std::string delim);
+bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime, Menu* theMenu);
 
 int main(void)
 {
@@ -36,7 +37,7 @@ int main(void)
       theMenu->printMenu();
 
       userString = theMenu->takeLineInput(' ');
-      if (userString.size() == 1 && userString[0] != "Quit")
+      if (userString.size() == 1 && userString[0] != std::to_string(EOF))
       {
          if (userString.size() == 1)
          {
@@ -89,12 +90,14 @@ bool NewGame(Menu *menu, GamePlay *gameTime)
    if (name1 != std::to_string(EOF))
    {
       Player *player1 = new Player(name1);
+      player1->setNumber(1);
       std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
       std::cout << ">";
       name2 = menu->getName();
       if (name2 != std::to_string(EOF))
       {
          Player *player2 = new Player(name2);
+         player2->setNumber(2);
 
          Board *board = new Board();
 
@@ -171,20 +174,14 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
 {
    bool quit = false;
    int i = 0;
+
    while (player1->getHand()->size() != 0 && player2->getHand()->size() != 0 && !quit)
    {
-      theBoard->toString();
-      std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
-      std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-      quit = gameTime->playerMove(theBoard, player1, player2, theMenu);
+      
+      quit = onePlayerTurn(theBoard, player1, player2,gameTime, theMenu);
       if (quit != true)
       {
-         theBoard->toString();
-
-         std::cout << std::endl;
-         std::cout << player1->getName() << "'s score: " << player1->getScore() << std::endl;
-         std::cout << player2->getName() << "'s score: " << player2->getScore() << std::endl;
-         quit = gameTime->playerMove(theBoard, player2, player1, theMenu);
+         quit = onePlayerTurn(theBoard, player2, player1,gameTime, theMenu);
       }
       ++i;
    }
@@ -213,8 +210,28 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
    return quit;
 }
 
+bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime, Menu* theMenu)
+{
+   bool quit = false;
+   theBoard->toString();
+   if(currentPlayer->getNumber() == 1)
+   {
+      std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
+      std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
+   }
+   else{
+      std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
+      std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
+   }
+
+     
+  quit = gameTime->playerMove(theBoard, currentPlayer, otherPlayer, theMenu);
+   return quit;
+}
+
 bool LoadGame(Menu* menu)
 {
+   GamePlay* play = new GamePlay();
    bool quit = false;
    std::vector<std::string> filename;
    std::string file;
@@ -229,9 +246,29 @@ bool LoadGame(Menu* menu)
       file = filename[0];
       file += ".txt";
       std::ifstream saveFile(file);
+
       player1 = loadInPlayer(saveFile, menu);
+      player1->setNumber(1);
       player2 = loadInPlayer(saveFile, menu);
+      player2->setNumber(2);
       theBoard = loadInBoard(saveFile, menu);
+      std::string playerTurn = "";
+
+      if(saveFile.is_open())
+      {
+         std::getline(saveFile, playerTurn);
+      }
+
+      // std::getline(saveFile, 
+      if(player1->getName() == playerTurn)
+      {
+         quit = playingTheGame(player1, player2, theBoard, play, menu);
+      }
+      else
+      {
+         quit = playingTheGame(player2, player1, theBoard, play, menu);
+      }
+
       player1->printHand();
       player2->printHand();
       theBoard->toString();
@@ -239,6 +276,7 @@ bool LoadGame(Menu* menu)
    }
    else
    {
+
       quit = true;
    }
 
