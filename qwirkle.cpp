@@ -269,10 +269,10 @@ bool LoadGame(Menu* menu)
          quit = playingTheGame(player2, player1, theBoard, play, menu);
       }
 
-      player1->printHand();
-      player2->printHand();
-      theBoard->toString();
-      theBoard->getBag()->printLinkedList();
+      // player1->printHand();
+      // player2->printHand();
+      // theBoard->toString();
+      // theBoard->getBag()->printLinkedList();
    }
    else
    {
