@@ -365,7 +365,6 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    return theBoard;
 }  
     
-<<<<<<< HEAD
 std::vector<std::string> splitString(std::string string, std::string delim)
 {
    std::vector<std::string> playerHandVector;
@@ -385,52 +384,3 @@ std::vector<std::string> splitString(std::string string, std::string delim)
 
    return playerHandVector;
 }
-=======
-  //TODO implement read in for board
-        std::string boardLine;
-        board = new Board(); 
-        
-
-        getline(saveFile,boardLine);
-        getline(saveFile,boardLine);
-        int offset = 0;
-        for(int i = 0; i < MAX_SIZE;i++){
-            //read one line of board
-            getline(saveFile,boardLine);
-            std::istringstream delimitedData (boardLine);
-            std::string tileData;
-            std::getline(delimitedData,tileData,'|');
-
-            //iterate over places in one line of board
-            for(int j = offset; j < MAX_SIZE; j+=2){
-                std::getline(delimitedData,tileData,'|');
-                if(tileData.compare("    ")){
-                    //Added tile to board
-                    std::string boardLocation = std::string(1,i+65) + std::to_string(j);
-                    board->placeTile(new Tile(tileData.substr(1,2)),boardLocation);
-                }
-            }
-
-            //toggling board offset (each row starting at column 0 or 1)
-            if(offset==0)
-                offset = 1;
-            else
-                offset = 0;
-        }
-        getline(saveFile,boardLine);
-        getline(saveFile,boardLine);
-
-        
-        //read data for bag
-        std::string bagData;
-        getline(saveFile,bagData);
-        bag = new Bag(new LinkedList(bagData));
-
-        std::string playersTurn;
-        int playersTurnNum;
-        getline(saveFile,playersTurn);
-        if(playersTurn.compare(playerOne->getName())==0)
-            playersTurnNum = PLAYER_ONE;
-        else 
-            playersTurnNum = PLAYER_TWO;
->>>>>>> 6c30e5a3f44751222038dee3a9323a47f5635022
