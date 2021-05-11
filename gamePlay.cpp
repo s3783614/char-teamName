@@ -25,7 +25,7 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2, Menu
    std::cout << std::endl;
    std::cout << "What would you like to play and where?" << std::endl;
 
-   while (!tileReplaced && !tilePlaced && !gameQuit )
+   while (!tileReplaced && !tilePlaced && !gameQuit)
    {
       
       std::vector<std::string> wordsIn = menu->takeLineInput(' ');
@@ -296,10 +296,9 @@ bool saveCheck = false;
 
       MyFile << NO_OF_ROWS << ",";
       MyFile << NO_OF_COLS <<std::endl;
+
       MyFile << theBoard->saveBoard() <<std::endl;
-
       MyFile << theBoard->getBag()->llToString() <<std::endl;
-
       MyFile << player->getName() << std::endl;
 
       saveCheck = true;
@@ -347,10 +346,12 @@ int GamePlay::score(Location* location, Board* theBoard)
             Empty = true;
          }
       }
-      if(counter == 6)
+      if(score == 6)
       {
          std::cout << std::endl;
          std::cout << "QWIRKLE!!!" <<std::endl;
+         //TODO
+         score = 12;
       }
       
 
