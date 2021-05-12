@@ -224,8 +224,8 @@ bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, 
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
    }
 
-     
-  quit = gameTime->playerMove(theBoard, currentPlayer, otherPlayer, theMenu);
+
+   quit = gameTime->playerMove(theBoard, currentPlayer, otherPlayer, theMenu);
    return quit;
 }
 
@@ -244,7 +244,7 @@ bool LoadGame(Menu* menu)
     if(filename.size() == 1 && filename[0] != std::to_string(EOF))
     {
       file = filename[0];
-      file += ".txt";
+      file += ".save";
       std::ifstream saveFile(file);
 
       player1 = loadInPlayer(saveFile, menu);

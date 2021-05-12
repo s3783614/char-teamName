@@ -265,7 +265,7 @@ bool GamePlay::saveGame(std::vector<std::string> wordsIn, Board *theBoard, Playe
 {
 
 bool saveCheck = false;
-   std::string fileExtension = ".txt";
+   std::string fileExtension = ".save";
    std::string fileName = wordsIn[1];
    // std::ofstream outfile;
    fileName = fileName.append(fileExtension);
