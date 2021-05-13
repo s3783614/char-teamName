@@ -9,9 +9,14 @@ GamePlay::GamePlay()
    
 }
 
-
-bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2, Menu* menu)
+GamePlay::~GamePlay()
 {
+
+}
+
+bool GamePlay::playerMove(Menu* menu, int playerTurn)
+{
+   // std::cout << "hello"
    bool tilePlaced = false;
    bool tileReplaced = false;
    bool gameSaved = false;
@@ -19,6 +24,19 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2, Menu
 
    bool gameQuit = false;
 
+   Player* player;
+   Player* playerTwo;
+
+   if(player1->getNumber() == playerTurn)
+   {
+      player = player1;
+      playerTwo = player2;
+   }
+   else
+   {
+      player = player2;
+      playerTwo = player1;
+   }
    std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
    player->printHand();
@@ -42,7 +60,7 @@ bool GamePlay::playerMove(Board *theBoard, Player *player, Player* player2, Menu
       }
       else if(wordsIn.size() == 2 && wordsIn[0] == "Save")
       {
-         gameSaved = saveGame(wordsIn, theBoard, player, player2);
+         gameSaved = saveGame(wordsIn, theBoard, player, playerTwo);
          std::cout << "Game successfully saved" <<std::endl;
          triedToSaveGame = true;
       }
@@ -234,7 +252,7 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Pl
    // std::cout << "in Loop" << std::endl;
    bool tileInputInHand = tileInputtedIsOkay(wordsIn[1], player);
 
-   if (tileInputInHand)
+   if (tileInputInHand && theBoard->getBag()->size() != 0)
    {
       // std::cout << "in Loop" << std::endl;
       Tile *checkTile = turnInputToTile(wordsIn[1]);
@@ -246,6 +264,10 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Pl
       HandPlayerTile(player, theBoard);
 
       rtnReplaced = true;
+   }
+   else
+   {
+      std::cout << "The bag is empty!" <<std::endl;
    }
 
    return rtnReplaced;
@@ -357,4 +379,21 @@ int GamePlay::score(Location* location, Board* theBoard)
 
    }
    return score;
+}
+
+void GamePlay::setPlayer(Player* player)
+{
+   if(player->getNumber() == 1)
+   {
+      this->player1 = player;
+   }
+   else
+   {
+      this->player2 = player;
+   }
+}
+
+void GamePlay::setBoard(Board* board)
+{
+   theBoard = board;
 }

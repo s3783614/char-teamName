@@ -71,7 +71,8 @@ int main(void)
          quit = true;
       }
    }
-
+   delete gameTime;
+   delete theMenu;
    std::cout << "GoodBye!" << std::endl;
    return EXIT_SUCCESS;
 }
@@ -106,9 +107,11 @@ bool NewGame(Menu *menu, GamePlay *gameTime)
          {
             board->getBag()->addFront(tile);
          }
-
+         
          handingTilesToPlayers(player1, player2, board);
-
+         gameTime->setPlayer(player1);
+         gameTime->setPlayer(player2);
+         gameTime->setBoard(board);
          gameQuit = playingTheGame(player1, player2, board, gameTime, menu);
       }
       else
@@ -223,9 +226,9 @@ bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, 
       std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
    }
+   std::cout << currentPlayer->getNumber() <<std::endl;
 
-
-   quit = gameTime->playerMove(theBoard, currentPlayer, otherPlayer, theMenu);
+   quit = gameTime->playerMove(theMenu,currentPlayer->getNumber() );
    return quit;
 }
 
@@ -247,18 +250,23 @@ bool LoadGame(Menu* menu)
       file += ".save";
       std::ifstream saveFile(file);
 
+
+
       player1 = loadInPlayer(saveFile, menu);
       player1->setNumber(1);
       player2 = loadInPlayer(saveFile, menu);
       player2->setNumber(2);
       theBoard = loadInBoard(saveFile, menu);
+
       std::string playerTurn = "";
 
       if(saveFile.is_open())
       {
          std::getline(saveFile, playerTurn);
       }
-
+      play->setPlayer(player1);
+      play->setPlayer(player2);
+      play->setBoard(theBoard);
       // std::getline(saveFile, 
       if(player1->getName() == playerTurn)
       {
@@ -367,6 +375,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       col = (int)boardDimentions[1][0] - 48;
       
    }
+   
    for (unsigned int i =0; i < locationsW.size(); i++)
    {
       Colour colour = locationsW[i][0];
@@ -410,15 +419,18 @@ std::vector<std::string> splitString(std::string string, std::string delim)
    int end = string.find(delim);
    int length = string.size();
    std::string word;
-   while(end != -1)
+   if(end != -1)
    {
-      word = string.substr(start, end - start);
+      while(end != -1)
+      {
+         word = string.substr(start, end - start);
+         playerHandVector.push_back(word);
+         start = end + delim.size();
+         end= string.find(delim, start);
+      }
+      
+      word = string.substr(start, length);
       playerHandVector.push_back(word);
-      start = end + delim.size();
-      end= string.find(delim, start);
    }
-   word = string.substr(start, length);
-   playerHandVector.push_back(word);
-
    return playerHandVector;
 }
