@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "gamePlay.h"
+#include "GamePlay.h"
 #include "Menu.h"
 #include "LinkedList.h"
 

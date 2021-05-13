@@ -2,7 +2,7 @@
 #include <fstream>
 // #include <ofstream>
 
-#include "gamePlay.h"
+#include "GamePlay.h"
 
 GamePlay::GamePlay()
 {
