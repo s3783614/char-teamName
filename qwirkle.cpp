@@ -386,7 +386,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       if (locationsW[i].size() == 6)
       {
          int tens = (int)locationsW[i][4] - 48;
-         int ones = (int)locationsW[i][5] - 48;
+         int ones = (int)locationsW[i][5] - 48 - 1;
          col = 10* tens + ones;
       }
       else
