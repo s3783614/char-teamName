@@ -250,41 +250,40 @@ bool LoadGame(Menu* menu)
       file += ".save";
       std::ifstream saveFile(file);
 
-
-
-      player1 = loadInPlayer(saveFile, menu);
-      player1->setNumber(1);
-      player2 = loadInPlayer(saveFile, menu);
-      player2->setNumber(2);
-      theBoard = loadInBoard(saveFile, menu);
-
-      std::string playerTurn = "";
-
       if(saveFile.is_open())
       {
+
+         player1 = loadInPlayer(saveFile, menu);
+         player1->setNumber(1);
+         player2 = loadInPlayer(saveFile, menu);
+         player2->setNumber(2);
+         theBoard = loadInBoard(saveFile, menu);
+
+         std::string playerTurn = "";
+
          std::getline(saveFile, playerTurn);
-      }
-      play->setPlayer(player1);
-      play->setPlayer(player2);
-      play->setBoard(theBoard);
-      // std::getline(saveFile, 
-      if(player1->getName() == playerTurn)
-      {
-         quit = playingTheGame(player1, player2, theBoard, play, menu);
+      
+         play->setPlayer(player1);
+         play->setPlayer(player2);
+         play->setBoard(theBoard);
+         // std::getline(saveFile, 
+         if(player1->getName() == playerTurn)
+         {
+            quit = playingTheGame(player1, player2, theBoard, play, menu);
+         }
+         else
+         {
+            quit = playingTheGame(player2, player1, theBoard, play, menu);
+         }
       }
       else
       {
-         quit = playingTheGame(player2, player1, theBoard, play, menu);
+         std::cout << std::endl;
+         std::cout << "File does not exist!" << std::endl;
       }
-
-      // player1->printHand();
-      // player2->printHand();
-      // theBoard->toString();
-      // theBoard->getBag()->printLinkedList();
    }
    else
    {
-
       quit = true;
    }
 

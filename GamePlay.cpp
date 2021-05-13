@@ -334,50 +334,76 @@ bool saveCheck = false;
 
 int GamePlay::score(Location* location, Board* theBoard)
 {
-   int score  = 1;
+   int score  = 0;
    Location* nextLocation = new Location();
-   bool Empty = false;
+
    
-   for (int direction = UP; direction <= LEFT; direction++)
+   for (int direction = UP; direction <= RIGHT; direction++)
    {
       
       nextLocation->row = location->row;
       nextLocation->col = location->col;
       
       int counter = 0;
-
-      Empty = false;
-
-      while(!Empty) 
-         // theBoard->emptyLocation([nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)]) != nullptr )
+      counter += scoreDirection(direction, nextLocation);
+      nextLocation->row = location->row;
+      nextLocation->col = location->col;
+      if (direction == UP)
       {
-
-         nextLocation->col = nextLocation->getNextCol(nextLocation->col, direction);
-         nextLocation->row = nextLocation->getNextRow(nextLocation->row, direction);
-         if((nextLocation->col > 0) && (nextLocation->row > 0) && (nextLocation->col < theBoard->getCols()) && (nextLocation->row < theBoard->getRows()))
-         {
-            Empty = theBoard->emptyLocation(nextLocation);
-            if (!Empty)
-            {
-               counter++;
-               score++;
-            }
-         }
-         else
-         {
-            Empty = true;
-         }
+         counter +=scoreDirection(DOWN, nextLocation);
       }
-      if(score == 6)
+      nextLocation->row = location->row;
+      nextLocation->col = location->col;
+      if (direction == RIGHT)
+      {
+         counter += scoreDirection(LEFT, nextLocation);
+      }
+      if (counter != 0)
+      {
+         counter ++;
+      }
+      if(counter == 6)
       {
          std::cout << std::endl;
          std::cout << "QWIRKLE!!!" <<std::endl;
-         //TODO
-         score = 12;
+
+         counter += 6;
       }
-      
+
+      score += counter;
 
    }
+
+   if (score == 0)
+   {
+      score ++;
+   }
+   
+   return score;
+}
+
+int GamePlay::scoreDirection(int direction, Location* location)
+{
+   bool Empty = false;
+   int score = 0;
+   while(!Empty)
+   {
+      location->col = location->getNextCol(location->col, direction);
+      location->row = location->getNextRow(location->row, direction);
+      if((location->col > 0) && (location->row > 0) && (location->col < theBoard->getCols()) && (location->row < theBoard->getRows()))
+      {
+         Empty = theBoard->emptyLocation(location);
+         if (!Empty)
+         {
+            score++;
+         }
+      }
+      else
+      {
+         Empty = true;
+      }
+   }
+
    return score;
 }
 

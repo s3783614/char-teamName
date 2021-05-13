@@ -55,6 +55,7 @@ class GamePlay
     void setPlayer(Player* player);
 
     void setBoard(Board* theBoard);
+    int scoreDirection(int direction, Location* location);
 
     // Board* theBoard;
     // Player* player1;
