@@ -432,5 +432,10 @@ std::vector<std::string> splitString(std::string string, std::string delim)
       word = string.substr(start, length);
       playerHandVector.push_back(word);
    }
+   else
+   {
+      playerHandVector.push_back(string);
+   }
+   
    return playerHandVector;
 }
