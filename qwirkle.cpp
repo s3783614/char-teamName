@@ -157,7 +157,7 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 {
    bool success = false;
    Tile *theTile;
-   if (theBoard->getBag()->size() >= 12)
+   if (theBoard->getBag()->getSize() >= 12)
    {
       for (int i = 0; i < 6; i++)
       {
@@ -178,11 +178,11 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
    bool quit = false;
    int i = 0;
 
-   while (player1->getHand()->size() != 0 && player2->getHand()->size() != 0 && !quit)
+   while (player1->getHand()->getSize() != 0 && player2->getHand()->getSize() != 0 && !quit)
    {
       
       quit = onePlayerTurn(theBoard, player1, player2,gameTime, theMenu);
-      if (quit != true && player1->getHand()->size() != 0)
+      if (quit != true && player1->getHand()->getSize() != 0)
       {
          quit = onePlayerTurn(theBoard, player2, player1,gameTime, theMenu);
       }
@@ -414,27 +414,31 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
 std::vector<std::string> splitString(std::string string, std::string delim)
 {
    std::vector<std::string> playerHandVector;
-   int start = 0;
-   int end = string.find(delim);
-   int length = string.size();
-   std::string word;
-   if(end != -1)
+   if(string != "")
    {
-      while(end != -1)
+      int start = 0;
+      int end = string.find(delim);
+      int length = string.size();
+      std::string word;
+      if(end != -1)
       {
-         word = string.substr(start, end - start);
+         while(end != -1)
+         {
+            word = string.substr(start, end - start);
+            playerHandVector.push_back(word);
+            start = end + delim.size();
+            end= string.find(delim, start);
+         }
+         
+         word = string.substr(start, length);
          playerHandVector.push_back(word);
-         start = end + delim.size();
-         end= string.find(delim, start);
       }
-      
-      word = string.substr(start, length);
-      playerHandVector.push_back(word);
+      else
+      {
+         playerHandVector.push_back(string);
+      }
    }
-   else
-   {
-      playerHandVector.push_back(string);
-   }
+   
    
    return playerHandVector;
 }

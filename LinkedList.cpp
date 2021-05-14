@@ -6,8 +6,9 @@
 
 LinkedList::LinkedList()
 {
-   // TODO
+
    head = nullptr;
+   size = 0;
 }
 
 LinkedList::LinkedList(LinkedList &other) : head(other.head)
@@ -19,18 +20,23 @@ LinkedList::~LinkedList()
    clear();
 }
 
-int LinkedList::size()
+// int LinkedList::size()
+// {
+//    int counter = 0;
+//    Node *current = head;
+
+//    while (current != nullptr)
+//    {
+//       current = current->next;
+//       counter++;
+//    }
+
+//    return counter;
+// }
+
+int LinkedList::getSize()
 {
-   int counter = 0;
-   Node *current = head;
-
-   while (current != nullptr)
-   {
-      current = current->next;
-      counter++;
-   }
-
-   return counter;
+   return size;
 }
 
 void LinkedList::clear()
@@ -39,6 +45,7 @@ void LinkedList::clear()
    {
       removeFront();
    }
+   size = 0;
 }
 
 Tile *LinkedList::get(int index)
@@ -48,7 +55,7 @@ Tile *LinkedList::get(int index)
 
    Tile *returnTile;
 
-   if (index < size())
+   if (index < size)
    {
 
       while (counter < index)
@@ -80,6 +87,7 @@ void LinkedList::addFront(Tile *tile)
       // reassign the head position to the added tile
       head = addedTile;
    }
+   size++;
 }
 
 void LinkedList::addBack(Tile *tile)
@@ -104,6 +112,7 @@ void LinkedList::addBack(Tile *tile)
       //add the addedTile to the end of the list
       temp->next = addedTile;
    }
+   size++;
 }
 
 void LinkedList::removeFront()
@@ -114,6 +123,7 @@ void LinkedList::removeFront()
       delete head;
       head = secondaryElement;
    }
+   size--;
 }
 
 void LinkedList::removeBack()
@@ -132,12 +142,13 @@ void LinkedList::removeBack()
       previous->next = nullptr;
       delete current;
    }
+   size--;
 }
 
 void LinkedList::removeAt(int index)
 {
-   std::cout << "size: " <<size()<<std::endl;
-   if (index >= 0 && index < size())
+   // std::cout << "size: " <<size()<<std::endl;
+   if (index >= 0 && index < size)
    {
 
       if (head != nullptr)
@@ -163,43 +174,11 @@ void LinkedList::removeAt(int index)
          }
          delete current->tile;
          delete current;
+         size--;
       }
+      
    }
 
-   //  if (head != nullptr) {
-   //      int counter = 0;
-   //      std::shared_ptr<Node> current = head;
-
-   //      if (index >=0 && index < size()) {
-   //          while (counter < index) {
-   //              current = current->next;
-   //              counter++;
-   //          }
-
-   //          current->prev->next = current->next;
-   //          current->next->prev = current->prev;
-   //      } else {
-   //          throw std::out_of_range("Linked List Delete At - index out of range");
-   //      }
-   //  }
-}
-
-void LinkedList::printLinkedList()
-{
-
-   Node *current = head;
-   if (current != nullptr)
-   {
-      do
-      {
-         current->printNode();
-         current = current->next;
-         if (current!= nullptr)
-         {
-            std::cout << ", ";
-         }
-      } while (current!= nullptr);
-   }
 }
 
 Tile *LinkedList::getFront()
@@ -256,12 +235,12 @@ std::string LinkedList::llToString()
 {
 
    std::string llTiles = "";
-   for(int i = 0; i < size(); i++)
+   for(int i = 0; i < size; i++)
    {
 
       llTiles += get(i)->getColour();
       llTiles += std::to_string(get(i)->getShape());
-      if(i != size()-1)
+      if(i != size - 1)
       {
          llTiles += ",";
       }

@@ -44,40 +44,9 @@ int Player::getScore()
    return this->score;
 }
 
-// Print out the players hand
-void Player::printHand()
-{
-   hand->printLinkedList();
-}
-
-Tile* Player::getTile()
-{
-   
-   // Need updates to bag to implement
-   return nullptr;
-}
-
 LinkedList* Player::getHand()
 {
    return hand;
-}
-
-std::string Player::handToString()
-{
-
-   std::string handTiles = "";
-   for(int i = 0; i < hand->size(); i++)
-   {
-
-      handTiles += hand->get(i)->getColour();
-      handTiles += std::to_string(hand->get(i)->getShape());
-      if(i != hand->size()-1)
-      {
-         handTiles += ",";
-      }
-
-   }
-   return handTiles;
 }
 
 void Player::setNumber(int playerNumber)

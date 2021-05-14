@@ -16,7 +16,6 @@ GamePlay::~GamePlay()
 
 bool GamePlay::playerMove(Menu* menu, int playerTurn)
 {
-   // std::cout << "hello"
    bool tilePlaced = false;
    bool tileReplaced = false;
    bool gameSaved = false;
@@ -39,7 +38,7 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
    }
    std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
-   player->printHand();
+   player->getHand()->llToString();
    std::cout << std::endl;
    std::cout << "What would you like to play and where?" << std::endl;
 
@@ -72,13 +71,6 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       {
          std::cout << "Failed to save!" << std::endl;
       }
-      // else if(tilePlaced == false && tileReplaced == false && !triedToSaveGame && !gameQuit)
-      // {
-      //    std::cout << std::endl;
-      //    std::cout << "That is not a legal move" << std::endl;
-      //    std::cout << "Please input a different move in the form:" << std::endl;
-      //    std::cout << "> Place 'Tile' at 'location'" << std::endl;
-      // }
 
    }
 
@@ -156,50 +148,10 @@ bool GamePlay::isOnBoard(int row, int col, Board *board)
 bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location* location)
 {
    bool check = true;
-   // bool doesFit = false;
-   // bool up = false;
-   // bool right = false;
-   // bool down = false;
-   // bool left = false;
-
-
-
-   // Location *checkLocation = new Location(location->row, location->col);
 
    if (!theBoard->checkEmpty())
    {
-    
-      // for (int direction = UP; direction <= LEFT; direction++)
-      // {
-         
-      //    checkLocation->row = location->getNextRow(location->row, direction);
-   
-      //    checkLocation->col = location->getNextCol(location->col, direction);
-      //    if (checkLocation->row >=0 && checkLocation-> row < NO_OF_ROWS &&
-      //    checkLocation->col >=0 && checkLocation->col < NO_OF_COLS)
-      //    {
-      //       if (!(theBoard->emptyLocation(checkLocation)))
-      //       {
 
-
-
-               // if (!(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation)))
-               // {
-               //    check = false; 
-               // }
-               // // Get to here is colour or shape matches
-               // else if (!theBoard->lineCheck(location, direction, tile))
-               // {
-               //    check = false;
-               // }
-               // else if(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation))
-               // {
-               //    doesFit = true;
-               // }
-
-      //       }
-      //    }
-      // }
       if(checkBothSides(UP, DOWN, location, tile))
       {
          check = false;
@@ -209,12 +161,6 @@ bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location* location)
       {
          check = false;
       }
-
-
-      // if(!doesFit)
-      // {
-      //    check = false;
-      // }
 
    }
 
@@ -272,12 +218,12 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
 bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
 {
    bool rtnReplaced = false;
-   // std::cout << "in Loop" << std::endl;
+
    bool tileInputInHand = tileInputtedIsOkay(wordsIn[1], player);
 
-   if (tileInputInHand && theBoard->getBag()->size() != 0)
+   if (tileInputInHand && theBoard->getBag()->getSize() != 0)
    {
-      // std::cout << "in Loop" << std::endl;
+
       Tile *checkTile = turnInputToTile(wordsIn[1]);
       int tileIndex = player->getHand()->findSpecificTile(checkTile);
       Tile *playersTile = player->getHand()->get(tileIndex);
@@ -307,9 +253,9 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location* location
    tileInLine->push_back(tile);
    checkDirection(direction1, location, tileInLine);
    checkDirection(direction2, location, tileInLine);
-   check =compareTiles(tileInLine);
+   check = compareTiles(tileInLine);
 
-   for (int i = 0; i< tileInLine->size(); i++)
+   for (long unsigned int i = 0; i< tileInLine->size(); i++)
    {
       tileInLine->pop_back();
    }
@@ -349,9 +295,9 @@ void GamePlay::checkDirection(int direction1, Location* location, std::vector<Ti
 bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
 {
    bool match = false;
-   for(int i = 0; i < tileInLine->size(); i++)
+   for(long unsigned int i = 0; i < tileInLine->size(); i++)
    {
-      for(int j = i + 1; j < tileInLine->size(); j++)
+      for(long unsigned int j = i + 1; j < tileInLine->size(); j++)
       {
          if(tileInLine->at(i)->compareTile(tileInLine->at(j)))
          {
@@ -367,7 +313,7 @@ bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
 
 void GamePlay::HandPlayerTile(Player* player, Board* theBoard)
 {
-   if (theBoard->getBag()->size() != 0)
+   if (theBoard->getBag()->getSize() != 0)
    {
       Tile *tmpTile = theBoard->getBag()->getFront();
       theBoard->getBag()->removeFront();
@@ -381,9 +327,9 @@ bool GamePlay::saveGame(std::vector<std::string> wordsIn, Board *theBoard, Playe
 bool saveCheck = false;
    std::string fileExtension = ".save";
    std::string fileName = wordsIn[1];
-   // std::ofstream outfile;
+
    fileName = fileName.append(fileExtension);
-   std::cout << fileName <<std::endl;
+   // std::cout << fileName <<std::endl;
    
    std::ofstream MyFile(fileName);
    if(!MyFile.fail())

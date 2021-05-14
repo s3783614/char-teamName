@@ -14,7 +14,7 @@ public:
    LinkedList(LinkedList& other);
    ~LinkedList();
 
-   int size();
+   int getSize();
    int findSpecificTile(Tile* tile);
 
    Tile* getFront();
@@ -26,14 +26,15 @@ public:
    void removeFront();
    void removeBack();
    void removeAt(int index);
-   void printLinkedList();
-
-
+   
    bool isInLinkedList(Tile* tile);
 
    std::string llToString();
 
+
+
 private:
+   int size;
    Node* head;
 };
 
