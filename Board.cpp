@@ -43,6 +43,11 @@ LinkedList *Board::getBag()
    return bag;
 }
 
+Tile* Board::getTile(int Row, int Column)
+{
+   return theBoard[Column][Row];
+}
+
 bool Board::isSpotTaken(int Row, int Column)
 {
    // std::cout << "row: "<<row<<" col: " << col <<std::endl;
@@ -156,37 +161,37 @@ Shape Board::checkShape(Location *location)
    return theBoard[location->col][location->row]->getShape();
 }
 
-bool Board::lineCheck(Location* location, int direction, Tile* tile)
-{
-   Shape nextShape;
-   Colour nextColour;
-   bool check = true;
+// bool Board::lineCheck(Location* location, int direction, Tile* tile)
+// {
+//    Shape nextShape;
+//    Colour nextColour;
+//    bool check = true;
 
-   Shape shape = tile->getShape();
-   Colour colour = tile->getColour();
+//    Shape shape = tile->getShape();
+//    Colour colour = tile->getColour();
 
-   Location* nextLocation = new Location(location->row, location->col);
+//    Location* nextLocation = new Location(location->row, location->col);
 
    
 
-   while(theBoard[nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)] != nullptr && check)
-   {
+//    while(theBoard[nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)] != nullptr && check)
+//    {
       
-         nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
-         nextLocation->col = nextLocation->getNextCol(nextLocation->col,direction);
-         nextShape = checkShape(nextLocation);
-         nextColour = checkColour(nextLocation);
+//          nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
+//          nextLocation->col = nextLocation->getNextCol(nextLocation->col,direction);
+//          nextShape = checkShape(nextLocation);
+//          nextColour = checkColour(nextLocation);
          
-         if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
-         {
-            check = false;
-         }
+//          if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
+//          {
+//             check = false;
+//          }
       
       
-   }
+//    }
 
-   return check;
-}
+//    return check;
+// }
 
 std::string Board::saveBoard()
 {

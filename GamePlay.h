@@ -33,6 +33,10 @@ class GamePlay
     bool tileInputtedIsOkay(std::string tileString, Player *player);
     bool isOnBoard(int row, int col, Board *board);
     bool tileFit(Tile *tile, Board *theBoard, Location *loaction);
+    bool checkBothSides(int direction1, int direction2, Location* location, Tile* tile);
+
+    bool compareTiles(std::vector<Tile*>* tileInLine);
+    void checkDirection(int direction1, Location* location, std::vector<Tile*>* tileInLine);
 
     bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
     bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);

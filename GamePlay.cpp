@@ -157,46 +157,65 @@ bool GamePlay::isOnBoard(int row, int col, Board *board)
 bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location* location)
 {
    bool check = true;
-   bool doesFit = false;
+   // bool doesFit = false;
+   // bool up = false;
+   // bool right = false;
+   // bool down = false;
+   // bool left = false;
 
-   Location *checkLocation = new Location(location->row, location->col);
+
+
+   // Location *checkLocation = new Location(location->row, location->col);
 
    if (!theBoard->checkEmpty())
    {
     
-      for (int direction = UP; direction <= LEFT; direction++)
-      {
+      // for (int direction = UP; direction <= LEFT; direction++)
+      // {
          
-         checkLocation->row = location->getNextRow(location->row, direction);
+      //    checkLocation->row = location->getNextRow(location->row, direction);
    
-         checkLocation->col = location->getNextCol(location->col, direction);
-         if (checkLocation->row >=0 && checkLocation-> row < NO_OF_ROWS &&
-         checkLocation->col >=0 && checkLocation->col < NO_OF_COLS)
-         {
-            if (!(theBoard->emptyLocation(checkLocation)))
-            {
-               if (!(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation)))
-               {
-                  check = false; 
-               }
-               // Get to here is colour or shape matches
-               else if (!theBoard->lineCheck(location, direction, tile))
-               {
-                  check = false;
-               }
-               else if(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation))
-               {
-                  doesFit = true;
-               }
+      //    checkLocation->col = location->getNextCol(location->col, direction);
+      //    if (checkLocation->row >=0 && checkLocation-> row < NO_OF_ROWS &&
+      //    checkLocation->col >=0 && checkLocation->col < NO_OF_COLS)
+      //    {
+      //       if (!(theBoard->emptyLocation(checkLocation)))
+      //       {
 
-            }
-         }
-      }
 
-      if(doesFit == false)
+
+               // if (!(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation)))
+               // {
+               //    check = false; 
+               // }
+               // // Get to here is colour or shape matches
+               // else if (!theBoard->lineCheck(location, direction, tile))
+               // {
+               //    check = false;
+               // }
+               // else if(tile->getColour() == theBoard->checkColour(checkLocation) || tile->getShape() == theBoard->checkShape(checkLocation))
+               // {
+               //    doesFit = true;
+               // }
+
+      //       }
+      //    }
+      // }
+      if(checkBothSides(UP, DOWN, location, tile))
       {
          check = false;
       }
+
+      if(checkBothSides(RIGHT, LEFT, location, tile))
+      {
+         check = false;
+      }
+
+
+      // if(!doesFit)
+      // {
+      //    check = false;
+      // }
 
    }
 
@@ -272,6 +291,75 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Pl
 
    return rtnReplaced;
 }
+
+bool GamePlay::checkBothSides(int direction1, int direction2, Location* location, Tile* tile)
+{
+   Location* checkLocation = new Location();
+   bool check = false;
+   checkLocation->row = location->getNextRow(location->row, direction1);
+   checkLocation->col = location->getNextCol(location->col, direction1);
+
+   std::vector<Tile*>* tileInLine = new std::vector<Tile*>();
+   tileInLine->push_back(tile);
+   checkDirection(direction1, location, tileInLine);
+   checkDirection(direction2, location, tileInLine);
+   check =compareTiles(tileInLine);
+
+   for (int i = 0; i< tileInLine->size(); i++)
+   {
+      tileInLine->pop_back();
+   }
+   delete tileInLine;
+   
+   return check;
+}
+
+void GamePlay::checkDirection(int direction1, Location* location, std::vector<Tile*>* tileInLine)
+{
+   Location* checkLocation = new Location();
+   checkLocation->row = location->getNextRow(location->row, direction1);
+   checkLocation->col = location->getNextCol(location->col, direction1);
+
+   bool empty = false;
+   while(!empty)
+   {
+      if (checkLocation->row >=0 && checkLocation-> row < NO_OF_ROWS &&
+            checkLocation->col >=0 && checkLocation->col < NO_OF_COLS)
+      {
+         if(!theBoard->emptyLocation(checkLocation))
+         {
+            theBoard->getTile(checkLocation->row,checkLocation->col);
+            tileInLine->push_back(theBoard->getTile(checkLocation->row,checkLocation->col));
+
+            checkLocation->row = checkLocation->getNextRow(checkLocation->row, direction1);
+            checkLocation->col = checkLocation->getNextCol(checkLocation->col, direction1);
+         }
+         else 
+         {
+            empty = true;
+         }
+      }
+   }
+}
+
+bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
+{
+   bool match = false;
+   for(int i = 0; i < tileInLine->size(); i++)
+   {
+      for(int j = i + 1; j < tileInLine->size(); j++)
+      {
+         if(tileInLine->at(i)->compareTile(tileInLine->at(j)))
+         {
+            match = true;
+         }
+      }
+   }
+
+   return match;
+}
+
+
 
 void GamePlay::HandPlayerTile(Player* player, Board* theBoard)
 {

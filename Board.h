@@ -33,7 +33,7 @@ public:
    Colour checkColour(Location* location);
    Shape checkShape(Location* location);
 
-   bool lineCheck(Location* location, int direction, Tile* tile);
+   // bool lineCheck(Location* location, int direction, Tile* tile);
 
    std::string saveBoard();
    void setRow(int row);
@@ -41,6 +41,8 @@ public:
 
    int getRows();
    int getCols();
+
+   Tile* getTile(int Row, int Column);
 
 private:
    std::vector <std::vector<Tile*> > theBoard;
