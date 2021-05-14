@@ -1,6 +1,7 @@
 #include "Board.h"
 
-
+// Board object holds the board as a 2d Vector of tile pointers
+// Size can be set at intialisation, knows if no tiles have been placed
 Board::Board()
 {
    theBoard.resize(NO_OF_ROWS, std::vector<Tile *>(NO_OF_COLS, nullptr));
@@ -21,6 +22,22 @@ Board::Board(int row, int col)
 
 Board::~Board()
 {
+   clear();
+}
+
+void Board::clear()
+{
+   for (int i = 0; i < row; i++)
+   {
+      for(int j = 0; j <col; j++)
+      {
+         if(theBoard[row][col] != nullptr)
+         {
+            Tile* tile = getTile(row, col);
+            delete tile;
+         }
+      }
+   }
 }
 
 void Board::setRow(int row)
@@ -164,38 +181,6 @@ Shape Board::checkShape(Location location)
 
    return theBoard[location.col][location.row]->getShape();
 }
-
-// bool Board::lineCheck(Location* location, int direction, Tile* tile)
-// {
-//    Shape nextShape;
-//    Colour nextColour;
-//    bool check = true;
-
-//    Shape shape = tile->getShape();
-//    Colour colour = tile->getColour();
-
-//    Location* nextLocation = new Location(location->row, location->col);
-
-   
-
-//    while(theBoard[nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)] != nullptr && check)
-//    {
-      
-//          nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
-//          nextLocation->col = nextLocation->getNextCol(nextLocation->col,direction);
-//          nextShape = checkShape(nextLocation);
-//          nextColour = checkColour(nextLocation);
-         
-//          if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
-//          {
-//             check = false;
-//          }
-      
-      
-//    }
-
-//    return check;
-// }
 
 std::string Board::saveBoard()
 {

@@ -18,6 +18,7 @@ public:
    Board();
    Board(int row, int col);
    ~Board();
+   void clear();
    void setBag(LinkedList* linkedList);
    void toString();
    void placeTile(Tile* theTile, int Row, int Column);
