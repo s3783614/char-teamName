@@ -26,7 +26,8 @@ public:
    void removeFront();
    void removeBack();
    void removeAt(int index);
-   
+   void printLL();
+
    bool isInLinkedList(Tile* tile);
 
    std::string llToString();

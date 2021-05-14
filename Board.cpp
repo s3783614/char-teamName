@@ -80,7 +80,7 @@ void Board::toString()
    }
    boardPrint += "\n";
 
-   for (int i = 0; i < NO_OF_COLS * 3; i++)
+   for (int i = 0; i < (NO_OF_COLS + 1) * 3; i++)
    {
       boardPrint.append("-");
    }
@@ -110,7 +110,12 @@ void Board::toString()
       }
       boardPrint += "|\n";
    }
-   std::cout << boardPrint;
+   for (int i = 0; i < (NO_OF_COLS + 1) * 3; i++)
+   {
+      boardPrint.append("-");
+   }
+   std::cout << boardPrint << std::endl;
+
 }
 
 void Board::placeTile(Tile *newTile, int Row, int Column)

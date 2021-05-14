@@ -248,3 +248,8 @@ std::string LinkedList::llToString()
    }
    return llTiles;
 }
+
+void LinkedList::printLL()
+{
+   std::cout << llToString() << std::endl;
+}

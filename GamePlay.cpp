@@ -14,6 +14,16 @@ GamePlay::~GamePlay()
 
 }
 
+void GamePlay::setQuit(bool quit)
+{
+   this.quit = quit;
+}
+
+bool GamePlay::getQuit()
+{
+   return quit;
+}
+
 bool GamePlay::playerMove(Menu* menu, int playerTurn)
 {
    bool tilePlaced = false;
@@ -36,9 +46,9 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       player = player2;
       playerTwo = player1;
    }
-   std::cout << player->getName() << " it is your turn" << std::endl;
+   std::cout << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
-   player->getHand()->llToString();
+   player->getHand()->printLL();
    std::cout << std::endl;
    std::cout << "What would you like to play and where?" << std::endl;
 
@@ -246,8 +256,8 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location* location
 {
    Location* checkLocation = new Location();
    bool check = false;
-   checkLocation->row = location->getNextRow(location->row, direction1);
-   checkLocation->col = location->getNextCol(location->col, direction1);
+   checkLocation->row = location->getNextRow(direction1);
+   checkLocation->col = location->getNextCol(direction1);
 
    std::vector<Tile*>* tileInLine = new std::vector<Tile*>();
    tileInLine->push_back(tile);
@@ -267,8 +277,8 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location* location
 void GamePlay::checkDirection(int direction1, Location* location, std::vector<Tile*>* tileInLine)
 {
    Location* checkLocation = new Location();
-   checkLocation->row = location->getNextRow(location->row, direction1);
-   checkLocation->col = location->getNextCol(location->col, direction1);
+   checkLocation->row = location->getNextRow(direction1);
+   checkLocation->col = location->getNextCol(direction1);
 
    bool empty = false;
    while(!empty)
@@ -281,8 +291,8 @@ void GamePlay::checkDirection(int direction1, Location* location, std::vector<Ti
             theBoard->getTile(checkLocation->row,checkLocation->col);
             tileInLine->push_back(theBoard->getTile(checkLocation->row,checkLocation->col));
 
-            checkLocation->row = checkLocation->getNextRow(checkLocation->row, direction1);
-            checkLocation->col = checkLocation->getNextCol(checkLocation->col, direction1);
+            checkLocation->row = checkLocation->getNextRow(direction1);
+            checkLocation->col = checkLocation->getNextCol(direction1);
          }
          else 
          {
@@ -426,8 +436,8 @@ int GamePlay::scoreDirection(int direction, Location* location)
    int score = 0;
    while(!Empty)
    {
-      location->col = location->getNextCol(location->col, direction);
-      location->row = location->getNextRow(location->row, direction);
+      location->col = location->getNextCol(direction);
+      location->row = location->getNextRow(direction);
       if((location->col > 0) && (location->row > 0) && (location->col < theBoard->getCols()) && (location->row < theBoard->getRows()))
       {
          Empty = theBoard->emptyLocation(location);

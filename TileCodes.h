@@ -36,31 +36,31 @@ struct Location
       this->col = col;
    }
 
-   int getNextRow(int currentRow, int direction)
+   int getNextRow(int direction)
    {
-      int rtnRow = currentRow;
+      int rtnRow = row;
       if (direction == UP)
       {
-         rtnRow = currentRow - 1;
+         rtnRow = row - 1;
       }
       else if (direction == DOWN)
       {
-         rtnRow = currentRow + 1;
+         rtnRow = row + 1;
       }
 
       return rtnRow;
    }
 
-   int getNextCol(int currentCol, int direction)
+   int getNextCol (int direction)
    {
-      int rtnCol = currentCol;
+      int rtnCol = col;
       if (direction == LEFT)
       {
-         rtnCol = currentCol - 1;
+         rtnCol = col - 1;
       }
       else if (direction == RIGHT)
       {
-         rtnCol = currentCol + 1;
+         rtnCol = col + 1;
       }
 
       return rtnCol;

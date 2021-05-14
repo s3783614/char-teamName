@@ -6,6 +6,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "GamePlay.h"
+
 class Menu{
     public:
     void printMenu();
@@ -13,9 +15,9 @@ class Menu{
 
     void quit();
 
-    std::vector<std::string> takeLineInput(char charToSplit);
+    std::vector<std::string> takeLineInput(char charToSplit, GamePlay* theGame);
 
-    std::string getName();
+    std::string getName(GamePlay* theGame);
 
 
     private:
