@@ -38,7 +38,7 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
    }
    std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
-   player->getHand()->llToString();
+   player->getHand()->printLL();
    std::cout << std::endl;
    std::cout << "What would you like to play and where?" << std::endl;
 
@@ -145,7 +145,7 @@ bool GamePlay::isOnBoard(int row, int col, Board *board)
    return onBoard;
 }
 
-bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location* location)
+bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location location)
 {
    bool check = true;
 
@@ -183,12 +183,12 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
    checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1] - 48);
 
    // Converts inputted location from char to ints of board location
-   Location *toPlace = convertInputLoc(wordsIn[3]);
-   locExists = isOnBoard(toPlace->row, toPlace->col, theBoard);
+   Location toPlace = convertInputLoc(wordsIn[3]);
+   locExists = isOnBoard(toPlace, theBoard);
    // takes correct location and looks for empty position on the Board
    if (locExists)
    {
-      isSpotTaken = theBoard->isSpotTaken(toPlace->row, toPlace->col);
+      isSpotTaken = theBoard->isSpotTaken(toPlace);
       acceptableLoc = tileFit(checkTile, theBoard, toPlace);
    }
 
@@ -242,12 +242,12 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Pl
    return rtnReplaced;
 }
 
-bool GamePlay::checkBothSides(int direction1, int direction2, Location* location, Tile* tile)
+bool GamePlay::checkBothSides(int direction1, int direction2, Location location, Tile* tile)
 {
-   Location* checkLocation = new Location();
+   Location checkLocation;
    bool check = false;
-   checkLocation->row = location->getNextRow(location->row, direction1);
-   checkLocation->col = location->getNextCol(location->col, direction1);
+   checkLocation.row = location.getNextRow(location.row, direction1);
+   checkLocation.col = location.getNextCol(location.col, direction1);
 
    std::vector<Tile*>* tileInLine = new std::vector<Tile*>();
    tileInLine->push_back(tile);
@@ -264,17 +264,17 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location* location
    return check;
 }
 
-void GamePlay::checkDirection(int direction1, Location* location, std::vector<Tile*>* tileInLine)
+void GamePlay::checkDirection(int direction1, Location location, std::vector<Tile*>* tileInLine)
 {
-   Location* checkLocation = new Location();
-   checkLocation->row = location->getNextRow(location->row, direction1);
-   checkLocation->col = location->getNextCol(location->col, direction1);
+   Location checkLocation;
+   checkLocation.row = location.getNextRow(location.row, direction1);
+   checkLocation.col = location.getNextCol(location.col, direction1);
 
    bool empty = false;
    while(!empty)
    {
-      if (checkLocation->row >=0 && checkLocation-> row < NO_OF_ROWS &&
-            checkLocation->col >=0 && checkLocation->col < NO_OF_COLS)
+      if (checkLocation.row >=0 && checkLocation.row < NO_OF_ROWS &&
+            checkLocation.col >=0 && checkLocation.col < NO_OF_COLS)
       {
          if(!theBoard->emptyLocation(checkLocation))
          {

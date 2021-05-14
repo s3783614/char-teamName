@@ -22,16 +22,16 @@ public:
    void toString();
    void placeTile(Tile* theTile, int Row, int Column);
    LinkedList* getBag();
-   bool isSpotTaken(int Row, int Column);
+   bool isSpotTaken(Location location);
    
    // void setEmpty();S
 
    bool checkEmpty();
 
-   bool emptyLocation(Location* location);
+   bool emptyLocation(Location location);
 
-   Colour checkColour(Location* location);
-   Shape checkShape(Location* location);
+   Colour checkColour(Location location);
+   Shape checkShape(Location location);
 
    // bool lineCheck(Location* location, int direction, Tile* tile);
 

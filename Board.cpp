@@ -48,11 +48,11 @@ Tile* Board::getTile(int Row, int Column)
    return theBoard[Column][Row];
 }
 
-bool Board::isSpotTaken(int Row, int Column)
+bool Board::isSpotTaken(Location location)
 {
    // std::cout << "row: "<<row<<" col: " << col <<std::endl;
    bool check = false;
-   if (theBoard[Column][Row] != nullptr)
+   if (theBoard[location.col][location.row] != nullptr)
    {
       check = true;
    }
@@ -80,7 +80,7 @@ void Board::toString()
    }
    boardPrint += "\n";
 
-   for (int i = 0; i < NO_OF_COLS * 3; i++)
+   for (int i = 0; i < (NO_OF_COLS + 1) * 3; i++)
    {
       boardPrint.append("-");
    }
@@ -110,7 +110,11 @@ void Board::toString()
       }
       boardPrint += "|\n";
    }
-   std::cout << boardPrint;
+   for (int i = 0; i < (NO_OF_COLS + 1) * 3; i++)
+   {
+      boardPrint.append("-");
+   }
+   std::cout << boardPrint << std::endl;
 }
 
 void Board::placeTile(Tile *newTile, int Row, int Column)
@@ -135,30 +139,30 @@ bool Board::checkEmpty()
    return isEmpty;
 }
 
-bool Board::emptyLocation(Location *location)
+bool Board::emptyLocation(Location location)
 {
    bool isEmpty = false;
 
-   if(theBoard[location->col][location->row] == nullptr)
+   if(theBoard[location.col][location.row] == nullptr)
    {
       isEmpty = true;
    }
    return isEmpty;
 }
 
-Colour Board::checkColour(Location *location)
+Colour Board::checkColour(Location location)
 {
    //TODO
    //WRITE CONTRACT
-   return theBoard[location->col][location->row]->getColour();
+   return theBoard[location.col][location.row]->getColour();
 }
 
-Shape Board::checkShape(Location *location)
+Shape Board::checkShape(Location location)
 {
    //TODO
    //WRITE CONTRACT
 
-   return theBoard[location->col][location->row]->getShape();
+   return theBoard[location.col][location.row]->getShape();
 }
 
 // bool Board::lineCheck(Location* location, int direction, Tile* tile)
@@ -196,14 +200,14 @@ Shape Board::checkShape(Location *location)
 std::string Board::saveBoard()
 {
    std::string boardLocation = "";
-   Location* location = new Location();
+   Location location;
    bool firstTile = true;
    for (int row = 0; row < NO_OF_ROWS; row++)
    {
       for (int col = 0; col < NO_OF_COLS; col++)
       {
-         location->row = row;
-         location->col = col;
+         location.row = row;
+         location.col = col;
          
          if(!emptyLocation(location))
          {
