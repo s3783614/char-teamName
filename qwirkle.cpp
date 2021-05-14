@@ -182,7 +182,7 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
    {
       
       quit = onePlayerTurn(theBoard, player1, player2,gameTime, theMenu);
-      if (quit != true)
+      if (quit != true && player1->getHand()->size() != 0)
       {
          quit = onePlayerTurn(theBoard, player2, player1,gameTime, theMenu);
       }

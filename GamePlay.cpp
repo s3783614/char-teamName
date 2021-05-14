@@ -48,7 +48,6 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       
       std::vector<std::string> wordsIn = menu->takeLineInput(' ');
       triedToSaveGame = false;
-      // std::cout << wordsIn.size() << wordsIn[0] << std::endl;
 
       if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
       {
@@ -73,13 +72,13 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       {
          std::cout << "Failed to save!" << std::endl;
       }
-      else if(tilePlaced == false && tileReplaced == false && !triedToSaveGame && !gameQuit)
-      {
-         std::cout << std::endl;
-         std::cout << "That is not a legal move" << std::endl;
-         std::cout << "Please input a different move in the form:" << std::endl;
-         std::cout << "> Place 'Tile' at 'location'" << std::endl;
-      }
+      // else if(tilePlaced == false && tileReplaced == false && !triedToSaveGame && !gameQuit)
+      // {
+      //    std::cout << std::endl;
+      //    std::cout << "That is not a legal move" << std::endl;
+      //    std::cout << "Please input a different move in the form:" << std::endl;
+      //    std::cout << "> Place 'Tile' at 'location'" << std::endl;
+      // }
 
    }
 
@@ -140,7 +139,7 @@ Location* GamePlay::convertInputLoc(std::string inputLocation)
    return location;
 }
 
-
+// Method necessary?
 bool GamePlay::isOnBoard(int row, int col, Board *board)
 {
    bool onBoard = false;
@@ -262,6 +261,11 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
       delete toPlace;
       
    }
+   else
+   {
+      std::cout << std::endl;
+      std::cout << "Tile cannot be placed there!" << std::endl;
+   }
    return moveMade;
 }
 
@@ -310,7 +314,7 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location* location
       tileInLine->pop_back();
    }
    delete tileInLine;
-   
+
    return check;
 }
 
