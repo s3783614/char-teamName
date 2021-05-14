@@ -113,37 +113,25 @@ Tile* GamePlay::turnInputToTile(std::string tiledata)
 //CHANGE LATER --ASCII MAGIC
 // check letter is shape and number is Colour
 //CHANGE LATER --ASCII MAGIC
-Location* GamePlay::convertInputLoc(std::string inputLocation)
+Location GamePlay::convertInputLoc(std::string inputLocation)
 {
-   Location *location = new Location();
-   location->row = (int)inputLocation[0] - 65;
+   Location location;
+   location.row = (int)inputLocation[0] - 65;
 
    if (inputLocation.size() == 3)
    {
       int tens = (int)inputLocation[1] - 48;
       int ones = (int)inputLocation[2] - 48 - 1;
-      location->col = (10 * tens) + (ones);
+      location.col = (10 * tens) + (ones);
    }
    else
    {
-      location->col = (int)inputLocation[1] - 48 - 1;
+      location.col = (int)inputLocation[1] - 48 - 1;
    }
    return location;
 }
 
-// Method necessary?
-bool GamePlay::isOnBoard(int row, int col, Board *board)
-{
-   bool onBoard = false;
-   if (row < NO_OF_ROWS && row >= 0)
-   {
-      if (col < NO_OF_COLS && col >= 0)
-      {
-         onBoard = true;
-      }
-   }
-   return onBoard;
-}
+
 
 bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location location)
 {
@@ -184,7 +172,7 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
 
    // Converts inputted location from char to ints of board location
    Location toPlace = convertInputLoc(wordsIn[3]);
-   locExists = isOnBoard(toPlace, theBoard);
+   locExists = theBoard->isOnBoard(toPlace, theBoard);
    // takes correct location and looks for empty position on the Board
    if (locExists)
    {
@@ -198,13 +186,12 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
    {
       int tileIndex = player->getHand()->findSpecificTile(checkTile);
       player->getHand()->removeAt(tileIndex);
-      theBoard->placeTile(checkTile, toPlace->row, toPlace->col);
+      theBoard->placeTile(checkTile, toPlace);
 
       // Hand new tile to the player SHOULD BE A METHOD
       HandPlayerTile(player, theBoard);
       player->addScore(score(toPlace, theBoard));
       moveMade = true;
-      delete toPlace;
       
    }
    else
@@ -246,8 +233,8 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location location,
 {
    Location checkLocation;
    bool check = false;
-   checkLocation.row = location.getNextRow(location.row, direction1);
-   checkLocation.col = location.getNextCol(location.col, direction1);
+   checkLocation.row = location.getNextRow(direction1);
+   checkLocation.col = location.getNextCol(direction1);
 
    std::vector<Tile*>* tileInLine = new std::vector<Tile*>();
    tileInLine->push_back(tile);
@@ -267,22 +254,21 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location location,
 void GamePlay::checkDirection(int direction1, Location location, std::vector<Tile*>* tileInLine)
 {
    Location checkLocation;
-   checkLocation.row = location.getNextRow(location.row, direction1);
-   checkLocation.col = location.getNextCol(location.col, direction1);
+   checkLocation.row = location.getNextRow(direction1);
+   checkLocation.col = location.getNextCol(direction1);
 
    bool empty = false;
    while(!empty)
    {
-      if (checkLocation.row >=0 && checkLocation.row < NO_OF_ROWS &&
-            checkLocation.col >=0 && checkLocation.col < NO_OF_COLS)
+      if (theBoard->isOnBoard(checkLocation, theBoard))
       {
          if(!theBoard->emptyLocation(checkLocation))
          {
-            theBoard->getTile(checkLocation->row,checkLocation->col);
-            tileInLine->push_back(theBoard->getTile(checkLocation->row,checkLocation->col));
+            theBoard->getTile(checkLocation);
+            tileInLine->push_back(theBoard->getTile(checkLocation));
 
-            checkLocation->row = checkLocation->getNextRow(checkLocation->row, direction1);
-            checkLocation->col = checkLocation->getNextCol(checkLocation->col, direction1);
+            checkLocation.row = checkLocation.getNextRow( direction1);
+            checkLocation.col = checkLocation.getNextCol( direction1);
          }
          else 
          {
@@ -324,7 +310,7 @@ void GamePlay::HandPlayerTile(Player* player, Board* theBoard)
 bool GamePlay::saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2)
 {
 
-bool saveCheck = false;
+   bool saveCheck = false;
    std::string fileExtension = ".save";
    std::string fileName = wordsIn[1];
 
@@ -370,28 +356,28 @@ bool saveCheck = false;
    return saveCheck;
 }
 
-int GamePlay::score(Location* location, Board* theBoard)
+int GamePlay::score(Location location, Board* theBoard)
 {
    int score  = 0;
-   Location* nextLocation = new Location();
+   Location nextLocation;
 
    
    for (int direction = UP; direction <= RIGHT; direction++)
    {
       
-      nextLocation->row = location->row;
-      nextLocation->col = location->col;
+      nextLocation.row = location.row;
+      nextLocation.col = location.col;
       
       int counter = 0;
       counter += scoreDirection(direction, nextLocation);
-      nextLocation->row = location->row;
-      nextLocation->col = location->col;
+      nextLocation.row = location.row;
+      nextLocation.col = location.col;
       if (direction == UP)
       {
          counter +=scoreDirection(DOWN, nextLocation);
       }
-      nextLocation->row = location->row;
-      nextLocation->col = location->col;
+      nextLocation.row = location.row;
+      nextLocation.col = location.col;
       if (direction == RIGHT)
       {
          counter += scoreDirection(LEFT, nextLocation);
@@ -420,15 +406,15 @@ int GamePlay::score(Location* location, Board* theBoard)
    return score;
 }
 
-int GamePlay::scoreDirection(int direction, Location* location)
+int GamePlay::scoreDirection(int direction, Location location)
 {
    bool Empty = false;
    int score = 0;
    while(!Empty)
    {
-      location->col = location->getNextCol(location->col, direction);
-      location->row = location->getNextRow(location->row, direction);
-      if((location->col > 0) && (location->row > 0) && (location->col < theBoard->getCols()) && (location->row < theBoard->getRows()))
+      location.col = location.getNextCol(direction);
+      location.row = location.getNextRow(direction);
+      if(theBoard->isOnBoard(location, theBoard))
       {
          Empty = theBoard->emptyLocation(location);
          if (!Empty)

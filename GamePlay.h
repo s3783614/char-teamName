@@ -24,19 +24,16 @@ class GamePlay
     bool check(char *s);
     void NewGame();
 
-
-
-
     std::vector<Tile *> initialiseTileBag();
     
     bool playerMove(Menu* menu, int playerTurn);
     bool tileInputtedIsOkay(std::string tileString, Player *player);
-    bool isOnBoard(int row, int col, Board *board);
-    bool tileFit(Tile *tile, Board *theBoard, Location *loaction);
-    bool checkBothSides(int direction1, int direction2, Location* location, Tile* tile);
+    
+    bool tileFit(Tile *tile, Board *theBoard, Location loaction);
+    bool checkBothSides(int direction1, int direction2, Location location, Tile* tile);
 
     bool compareTiles(std::vector<Tile*>* tileInLine);
-    void checkDirection(int direction1, Location* location, std::vector<Tile*>* tileInLine);
+    void checkDirection(int direction1, Location location, std::vector<Tile*>* tileInLine);
 
     bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
     bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
@@ -45,31 +42,26 @@ class GamePlay
     int convertToRow(char row);
     int convertToCol(char col);
 
-    //MOVE LATER
-    int getRow(int currentRow, int direction);
-    int getCol(int currentCol, int direction);
+    // int getRow(int currentRow, int direction);
+    // int getCol(int currentCol, int direction);
 
     Tile *turnInputToTile(std::string tiledata);
 
-    Location *convertInputLoc(std::string inputLocation);
+    Location convertInputLoc(std::string inputLocation);
 
-    int score(Location* location, Board* theBoard);
+    int score(Location location, Board* theBoard);
 
     void HandPlayerTile(Player* player, Board* theBoard);
     void setPlayer(Player* player);
 
     void setBoard(Board* theBoard);
-    int scoreDirection(int direction, Location* location);
+    int scoreDirection(int direction, Location location);
 
-    // Board* theBoard;
-    // Player* player1;
-    // Player* player2;
     private:
     Menu* menu ;
     Board* theBoard;
     Player* player1;
     Player* player2;
-
 
 };
 

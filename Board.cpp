@@ -31,9 +31,10 @@ void Board::clear()
    {
       for(int j = 0; j <col; j++)
       {
-         if(theBoard[row][col] != nullptr)
+         if(theBoard[col][row] != nullptr)
          {
-            Tile* tile = getTile(row, col);
+            Location location(row,col);
+            Tile* tile = getTile(location);
             delete tile;
          }
       }
@@ -60,9 +61,9 @@ LinkedList *Board::getBag()
    return bag;
 }
 
-Tile* Board::getTile(int Row, int Column)
+Tile* Board::getTile(Location location)
 {
-   return theBoard[Column][Row];
+   return theBoard[location.col][location.row];
 }
 
 bool Board::isSpotTaken(Location location)
@@ -134,9 +135,9 @@ void Board::toString()
    std::cout << boardPrint << std::endl;
 }
 
-void Board::placeTile(Tile *newTile, int Row, int Column)
+void Board::placeTile(Tile *newTile, Location location)
 {
-   theBoard[Column][Row] = newTile;
+   theBoard[location.col][location.row] = newTile;
 }
 
 bool Board::checkEmpty()
@@ -228,4 +229,18 @@ int Board::getRows()
 int Board::getCols()
 {
    return col;
+}
+
+// Method necessary?
+bool Board::isOnBoard(Location location, Board *board)
+{
+   bool onBoard = false;
+   if (location.row < board->getRows() && location.row >= 0)
+   {
+      if (location.col < board->getCols() && location.col >= 0)
+      {
+         onBoard = true;
+      }
+   }
+   return onBoard;
 }

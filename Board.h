@@ -21,7 +21,7 @@ public:
    void clear();
    void setBag(LinkedList* linkedList);
    void toString();
-   void placeTile(Tile* theTile, int Row, int Column);
+   void placeTile(Tile* theTile, Location location);
    LinkedList* getBag();
    bool isSpotTaken(Location location);
    
@@ -43,7 +43,9 @@ public:
    int getRows();
    int getCols();
 
-   Tile* getTile(int Row, int Column);
+   Tile* getTile(Location location);
+
+   bool isOnBoard(Location location, Board *board);
 
 private:
    std::vector <std::vector<Tile*> > theBoard;

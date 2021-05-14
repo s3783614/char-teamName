@@ -393,8 +393,8 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       {
          col = (int)locationsW[i][4] - 48;
       }
-      
-      theBoard->placeTile(tile, row, col);
+      Location location(row,col);
+      theBoard->placeTile(tile, location);
    }
    bagTiles = splitString(theBagString, ",");
 
