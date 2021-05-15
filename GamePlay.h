@@ -29,15 +29,15 @@ class GamePlay
     bool playerMove(Menu* menu, int playerTurn);
     bool tileInputtedIsOkay(std::string tileString, Player *player);
     
-    bool tileFit(Tile *tile, Board *theBoard, Location loaction);
+    bool tileFit(Tile *tile, Location loaction);
     bool checkBothSides(int direction1, int direction2, Location location, Tile* tile);
 
     bool compareTiles(std::vector<Tile*>* tileInLine);
     void checkDirection(int direction1, Location location, std::vector<Tile*>* tileInLine);
 
-    bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
-    bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
-    bool saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2);
+    bool placeTile(std::vector<std::string> wordsIn, Player *player);
+    bool replaceTile(std::vector<std::string> wordsIn, Player *player);
+    bool saveGame(std::vector<std::string> wordsIn, Player *player, Player* player2);
 
     int convertToRow(char row);
     int convertToCol(char col);
@@ -49,9 +49,9 @@ class GamePlay
 
     Location convertInputLoc(std::string inputLocation);
 
-    int score(Location location, Board* theBoard);
+    int score(Location location);
 
-    void HandPlayerTile(Player* player, Board* theBoard);
+    void HandPlayerTile(Player* player);
     void setPlayer(Player* player);
 
     void setBoard(Board* theBoard);
