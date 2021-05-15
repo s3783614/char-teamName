@@ -1,6 +1,7 @@
 #include "Board.h"
 
-
+// Board object holds the board as a 2d Vector of tile pointers
+// Size can be set at intialisation, knows if no tiles have been placed
 Board::Board()
 {
    theBoard.resize(NO_OF_ROWS, std::vector<Tile *>(NO_OF_COLS, nullptr));
@@ -21,6 +22,23 @@ Board::Board(int row, int col)
 
 Board::~Board()
 {
+   clear();
+}
+
+void Board::clear()
+{
+   for (int i = 0; i < row; i++)
+   {
+      for(int j = 0; j <col; j++)
+      {
+         if(theBoard[col][row] != nullptr)
+         {
+            Location location(row,col);
+            Tile* tile = getTile(location);
+            delete tile;
+         }
+      }
+   }
 }
 
 void Board::setRow(int row)
@@ -43,16 +61,16 @@ LinkedList *Board::getBag()
    return bag;
 }
 
-Tile* Board::getTile(int Row, int Column)
+Tile* Board::getTile(Location location)
 {
-   return theBoard[Column][Row];
+   return theBoard[location.col][location.row];
 }
 
-bool Board::isSpotTaken(int Row, int Column)
+bool Board::isSpotTaken(Location location)
 {
    // std::cout << "row: "<<row<<" col: " << col <<std::endl;
    bool check = false;
-   if (theBoard[Column][Row] != nullptr)
+   if (theBoard[location.col][location.row] != nullptr)
    {
       check = true;
    }
@@ -115,12 +133,11 @@ void Board::toString()
       boardPrint.append("-");
    }
    std::cout << boardPrint << std::endl;
-
 }
 
-void Board::placeTile(Tile *newTile, int Row, int Column)
+void Board::placeTile(Tile *newTile, Location location)
 {
-   theBoard[Column][Row] = newTile;
+   theBoard[location.col][location.row] = newTile;
 }
 
 bool Board::checkEmpty()
@@ -140,75 +157,43 @@ bool Board::checkEmpty()
    return isEmpty;
 }
 
-bool Board::emptyLocation(Location *location)
+bool Board::emptyLocation(Location location)
 {
    bool isEmpty = false;
 
-   if(theBoard[location->col][location->row] == nullptr)
+   if(theBoard[location.col][location.row] == nullptr)
    {
       isEmpty = true;
    }
    return isEmpty;
 }
 
-Colour Board::checkColour(Location *location)
+Colour Board::checkColour(Location location)
 {
    //TODO
    //WRITE CONTRACT
-   return theBoard[location->col][location->row]->getColour();
+   return theBoard[location.col][location.row]->getColour();
 }
 
-Shape Board::checkShape(Location *location)
+Shape Board::checkShape(Location location)
 {
    //TODO
    //WRITE CONTRACT
 
-   return theBoard[location->col][location->row]->getShape();
+   return theBoard[location.col][location.row]->getShape();
 }
-
-// bool Board::lineCheck(Location* location, int direction, Tile* tile)
-// {
-//    Shape nextShape;
-//    Colour nextColour;
-//    bool check = true;
-
-//    Shape shape = tile->getShape();
-//    Colour colour = tile->getColour();
-
-//    Location* nextLocation = new Location(location->row, location->col);
-
-   
-
-//    while(theBoard[nextLocation->getNextCol(nextLocation->col,direction)][nextLocation->getNextRow(nextLocation->row,direction)] != nullptr && check)
-//    {
-      
-//          nextLocation->row = nextLocation->getNextRow(nextLocation->row,direction);
-//          nextLocation->col = nextLocation->getNextCol(nextLocation->col,direction);
-//          nextShape = checkShape(nextLocation);
-//          nextColour = checkColour(nextLocation);
-         
-//          if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
-//          {
-//             check = false;
-//          }
-      
-      
-//    }
-
-//    return check;
-// }
 
 std::string Board::saveBoard()
 {
    std::string boardLocation = "";
-   Location* location = new Location();
+   Location location;
    bool firstTile = true;
    for (int row = 0; row < NO_OF_ROWS; row++)
    {
       for (int col = 0; col < NO_OF_COLS; col++)
       {
-         location->row = row;
-         location->col = col;
+         location.row = row;
+         location.col = col;
          
          if(!emptyLocation(location))
          {
@@ -245,3 +230,48 @@ int Board::getCols()
 {
    return col;
 }
+
+// Method necessary?
+bool Board::isOnBoard(Location location, Board *board)
+{
+   bool onBoard = false;
+   if (location.row < board->getRows() && location.row >= 0)
+   {
+      if (location.col < board->getCols() && location.col >= 0)
+      {
+         onBoard = true;
+      }
+   }
+   return onBoard;
+}
+
+// bool Board::lineCheck(Location location, int direction, Tile* tile)
+// {
+//    Shape nextShape;
+//    Colour nextColour;
+//    bool check = true;
+//    // bool 
+
+//    Shape shape = tile->getShape();
+//    Colour colour = tile->getColour();
+
+//    Location nextLocation(location.row, location.col);
+
+//    while(theBoard[nextLocation.getNextCol(direction)][nextLocation.getNextRow(direction)] != nullptr && check)
+//    {
+//          if()
+//          {
+//             nextLocation.row = nextLocation.getNextRow(direction);
+//             nextLocation.col = nextLocation.getNextCol(direction);
+//          }  
+//          nextShape = checkShape(nextLocation);
+//          nextColour = checkColour(nextLocation);
+         
+//          if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
+//          {
+//             check = false;
+//          }
+//    }
+
+//    return check;
+// }

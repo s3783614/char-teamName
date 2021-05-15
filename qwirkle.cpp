@@ -73,6 +73,7 @@ int main(void)
    }
    delete gameTime;
    delete theMenu;
+   // std::cout <<std::endl;
    std::cout << "GoodBye!" << std::endl;
    return EXIT_SUCCESS;
 }
@@ -188,26 +189,41 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
       }
       ++i;
    }
+   
    if (!quit)
    {
       std::string winnerName;
       int winnerScore;
+      std::string loserName;
+      int loserScore;
       if (player1->getScore() > player2->getScore())
       {
          winnerName = player1->getName();
          winnerScore = player1->getScore();
+         loserName = player2->getName();
+         loserScore = player2->getScore();
+
+         std::cout << "Congratulations " << winnerName << " won with a score of: " << winnerScore << std::endl;
+         std::cout << "Better luck next time " << loserName << " lost by: " << (winnerScore - loserScore) << std::endl;
       }
       else if (player2->getScore() > player1->getScore())
       {
          winnerName = player2->getName();
          winnerScore = player2->getScore();
+         loserName = player1->getName();
+         loserScore = player1->getScore();
+
+         std::cout << "Congratulations " << winnerName << " won with a score of: " << winnerScore << std::endl;
+         std::cout << "Better luck next time " << loserName << " lost by: " << winnerScore - loserScore << std::endl;
+
       }
       else
       {
-         winnerName = "... It's tie! You both scorede:";
-         winnerScore = player1->getScore();
+         std::cout << "... It's tie! You both scored: " << player1->getScore() << std::endl;
       }
-      std::cout << "Congratulations " << winnerName << " won with a score of: " << winnerScore << std::endl;
+      quit = true;
+
+
    }
 
    return quit;
@@ -216,20 +232,21 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
 bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime, Menu* theMenu)
 {
    bool quit = false;
-   
    if(currentPlayer->getNumber() == 1)
    {
       std::cout << currentPlayer->getName() << " it is your turn" << std::endl;
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
       std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
    }
-   else
-   {
+   else{
       std::cout << currentPlayer->getName() << " it is your turn" << std::endl;
       std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
    }
    theBoard->toString();
+
+   // std::cout << currentPlayer->getNumber() <<std::endl;
+   
    quit = gameTime->playerMove(theMenu,currentPlayer->getNumber() );
    return quit;
 }
@@ -360,6 +377,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    int row = 0;
    int col = 0;
    std::string dimentions = "";
+
    //Read data for player one
    if (saveFile.is_open())
    {
@@ -381,7 +399,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    {
       Colour colour = locationsW[i][0];
       
-      Shape shape= (int)locationsW[i][1] -48;
+      Shape shape= (int)locationsW[i][1] - 48;
       Tile* tile = new Tile(colour, shape);
       
       row = (int)locationsW[i][3] - 65;
@@ -393,10 +411,11 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       }
       else
       {
-         col = (int)locationsW[i][4] - 48;
+         // -1 adjusts col we forgot lel
+         col = (int)locationsW[i][4] - 48 - 1;
       }
-      
-      theBoard->placeTile(tile, row, col);
+      Location location(row,col);
+      theBoard->placeTile(tile, location);
    }
    bagTiles = splitString(theBagString, ",");
 

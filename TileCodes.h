@@ -51,7 +51,7 @@ struct Location
       return rtnRow;
    }
 
-   int getNextCol (int direction)
+   int getNextCol(int direction)
    {
       int rtnCol = col;
       if (direction == LEFT)

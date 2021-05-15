@@ -18,22 +18,23 @@ public:
    Board();
    Board(int row, int col);
    ~Board();
+   void clear();
    void setBag(LinkedList* linkedList);
    void toString();
-   void placeTile(Tile* theTile, int Row, int Column);
+   void placeTile(Tile* theTile, Location location);
    LinkedList* getBag();
-   bool isSpotTaken(int Row, int Column);
+   bool isSpotTaken(Location location);
    
    // void setEmpty();S
 
    bool checkEmpty();
 
-   bool emptyLocation(Location* location);
+   bool emptyLocation(Location location);
 
-   Colour checkColour(Location* location);
-   Shape checkShape(Location* location);
+   Colour checkColour(Location location);
+   Shape checkShape(Location location);
 
-   // bool lineCheck(Location* location, int direction, Tile* tile);
+   bool lineCheck(Location location, int direction, Tile* tile);
 
    std::string saveBoard();
    void setRow(int row);
@@ -42,7 +43,9 @@ public:
    int getRows();
    int getCols();
 
-   Tile* getTile(int Row, int Column);
+   Tile* getTile(Location location);
+
+   bool isOnBoard(Location location, Board *board);
 
 private:
    std::vector <std::vector<Tile*> > theBoard;
