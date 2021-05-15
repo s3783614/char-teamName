@@ -73,6 +73,7 @@ int main(void)
    }
    delete gameTime;
    delete theMenu;
+   // std::cout <<std::endl;
    std::cout << "GoodBye!" << std::endl;
    return EXIT_SUCCESS;
 }
@@ -218,12 +219,11 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
       }
       else
       {
-         winnerName = "... It's tie! You both scored:";
-         winnerScore = player1->getScore();
+         std::cout << "... It's tie! You both scored: " << player1->getScore() << std::endl;
       }
       quit = true;
 
-      
+
    }
 
    return quit;

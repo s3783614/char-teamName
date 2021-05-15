@@ -51,6 +51,10 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
       {
          tilePlaced = placeTile(wordsIn, player);
+         if(player->getHand()->getSize() == 0)
+         {
+            theBoard->toString();
+         }
       }
       else if (wordsIn.size() == 2 && wordsIn[0] == "Replace")
       {
