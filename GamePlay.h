@@ -29,7 +29,7 @@ class GamePlay
     bool playerMove(Menu* menu, int playerTurn);
     bool tileInputtedIsOkay(std::string tileString, Player *player);
     
-    bool tileFit(Tile *tile, Location loaction);
+    bool tileFit(Tile *tile, Location location);
     bool checkBothSides(int direction1, int direction2, Location location, Tile* tile);
 
     bool compareTiles(std::vector<Tile*>* tileInLine);
