@@ -314,25 +314,31 @@ bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
    // Colour nextColour;
 
 
-   Shape shape = tileInLine->at(0)->getShape();
-   Colour colour = tileInLine->at(0)->getColour();
+   Shape shape;
+   Colour colour;
 
    bool shapeCheck = true;
    bool colourCheck = true;
 
-   for(long unsigned int i = 0; i < tileInLine->size(); i++)
+   for(long unsigned int i = 0; i < tileInLine->size() - 1; i++)
    {
-      if(tileInLine->at(i)->getShape() != shape)
+      shape = tileInLine->at(i)->getShape();
+      colour = tileInLine->at(i)->getColour();
+
+      for (long unsigned int j = i + 1; j < tileInLine->size(); j++)
       {
-         shapeCheck = false;
-      }
-      if(tileInLine->at(0)->getColour() != colour)
-      {
-         colourCheck = false;
-      }
-      if(tileInLine->at(i)->getShape() == shape && tileInLine->at(0)->getColour() == colour)
-      {
-         match = true;
+         if(tileInLine->at(j)->getShape() != shape)
+         {
+            shapeCheck = false;
+         }
+         if(tileInLine->at(j)->getColour() != colour)
+         {
+            colourCheck = false;
+         }
+         if(tileInLine->at(j)->getShape() == shape && tileInLine->at(j)->getColour() == colour)
+         {
+            match = true;
+         }
       }
    }
 
