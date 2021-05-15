@@ -50,15 +50,15 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
 
       if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
       {
-         tilePlaced = placeTile(wordsIn, theBoard, player);
+         tilePlaced = placeTile(wordsIn, player);
       }
       else if (wordsIn.size() == 2 && wordsIn[0] == "Replace")
       {
-         tileReplaced = replaceTile(wordsIn, theBoard, player);
+         tileReplaced = replaceTile(wordsIn, player);
       }
       else if(wordsIn.size() == 2 && wordsIn[0] == "Save")
       {
-         gameSaved = saveGame(wordsIn, theBoard, player, playerTwo);
+         gameSaved = saveGame(wordsIn, player, playerTwo);
          std::cout << "Game successfully saved" <<std::endl;
          triedToSaveGame = true;
       }
@@ -133,7 +133,7 @@ Location GamePlay::convertInputLoc(std::string inputLocation)
 
 
 
-bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location location)
+bool GamePlay::tileFit(Tile* tile, Location location)
 {
    bool check = true;
 
@@ -154,7 +154,7 @@ bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location location)
 }
 
 //TODO CHECKLOC
-bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
+bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
 {
    Tile *checkTile = nullptr;
 
@@ -175,7 +175,7 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
    if (locExists)
    {
       isSpotTaken = theBoard->isSpotTaken(toPlace);
-      acceptableLoc = tileFit(checkTile, theBoard, toPlace);
+      acceptableLoc = tileFit(checkTile, toPlace);
    }
 
 
@@ -187,8 +187,8 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
       theBoard->placeTile(checkTile, toPlace);
 
       // Hand new tile to the player SHOULD BE A METHOD
-      HandPlayerTile(player, theBoard);
-      player->addScore(score(toPlace, theBoard));
+      HandPlayerTile(player);
+      player->addScore(score(toPlace));
       moveMade = true;
       
    }
@@ -200,7 +200,7 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Board *theBoard, Play
    return moveMade;
 }
 
-bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player)
+bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Player *player)
 {
    bool rtnReplaced = false;
 
@@ -215,7 +215,7 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Pl
       player->getHand()->removeAt(tileIndex);
       theBoard->getBag()->addBack(playersTile);
 
-      HandPlayerTile(player, theBoard);
+      HandPlayerTile(player);
 
       rtnReplaced = true;
    }
@@ -320,7 +320,7 @@ bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
 
 
 
-void GamePlay::HandPlayerTile(Player* player, Board* theBoard)
+void GamePlay::HandPlayerTile(Player* player)
 {
    if (theBoard->getBag()->getSize() != 0)
    {
@@ -330,7 +330,7 @@ void GamePlay::HandPlayerTile(Player* player, Board* theBoard)
    }
 }
 
-bool GamePlay::saveGame(std::vector<std::string> wordsIn, Board *theBoard, Player *player, Player* player2)
+bool GamePlay::saveGame(std::vector<std::string> wordsIn, Player *player, Player* player2)
 {
 
    bool saveCheck = false;
@@ -379,7 +379,7 @@ bool GamePlay::saveGame(std::vector<std::string> wordsIn, Board *theBoard, Playe
    return saveCheck;
 }
 
-int GamePlay::score(Location location, Board* theBoard)
+int GamePlay::score(Location location)
 {
    int score  = 0;
    Location nextLocation;
