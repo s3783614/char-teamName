@@ -20,8 +20,6 @@ class GamePlay
     GamePlay();
     ~GamePlay();
 
-    void setQuit(bool quit);
-    bool getQuit();
 
     bool check(char *s);
     void NewGame();
@@ -61,9 +59,8 @@ class GamePlay
     int scoreDirection(int direction, Location location);
 
     private:
-    bool quit;
-    // Menu* menu ;
-    // Board* theBoard;
+    Menu* menu ;
+    Board* theBoard;
     Player* player1;
     Player* player2;
 

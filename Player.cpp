@@ -58,4 +58,3 @@ int Player::getNumber()
 {
    return playerNumber;
 }
-

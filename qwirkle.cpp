@@ -11,10 +11,10 @@ void menu();
 
 void credits();
 bool NewGame(Menu *menu, GamePlay *gameTime);
+bool LoadGame(Menu* menu);
 std::vector<Tile *> initialiseTileBag();
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
 bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay *gameTime, Menu *theMenu);
-bool LoadGame(Menu* menu, GamePlay* play);
 Player* loadInPlayer(std::ifstream& saveFile, Menu* menu);
 Board* loadInBoard(std::ifstream& saveFile, Menu* menu);
 std::vector<std::string> splitString(std::string string, std::string delim);
@@ -36,8 +36,8 @@ int main(void)
    {
       theMenu->printMenu();
 
-      userString = theMenu->takeLineInput(' ', gameTime);
-      if (userString.size() == 1 && !gameTime->getQuit())
+      userString = theMenu->takeLineInput(' ');
+      if (userString.size() == 1 && userString[0] != std::to_string(EOF))
       {
          if (userString.size() == 1)
          {
@@ -51,7 +51,7 @@ int main(void)
          }
          else if (userInput == "2")
          {
-            quit = LoadGame(theMenu, gameTime);
+            quit = LoadGame(theMenu);
          }
          else if (userInput == "3")
          {
@@ -88,14 +88,14 @@ bool NewGame(Menu *menu, GamePlay *gameTime)
    std::cout << "Starting a New Game" << std::endl
              << std::endl;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   name1 = menu->getName(gameTime);
+   name1 = menu->getName();
    if (name1 != std::to_string(EOF))
    {
       Player *player1 = new Player(name1);
       player1->setNumber(1);
       std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
       std::cout << ">";
-      name2 = menu->getName(gameTime);
+      name2 = menu->getName();
       if (name2 != std::to_string(EOF))
       {
          Player *player2 = new Player(name2);
@@ -251,9 +251,9 @@ bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, 
    return quit;
 }
 
-bool LoadGame(Menu* menu, GamePlay* play)
+bool LoadGame(Menu* menu)
 {
-   // GamePlay* play = new GamePlay();
+   GamePlay* play = new GamePlay();
    bool quit = false;
    std::vector<std::string> filename;
    std::string file;
@@ -262,7 +262,7 @@ bool LoadGame(Menu* menu, GamePlay* play)
    Board* theBoard;
 
     std::cout << "Enter the filename from which to load a game" << std::endl;
-    filename = menu->takeLineInput(' ', play);
+    filename = menu->takeLineInput(' ');
     if(filename.size() == 1 && filename[0] != std::to_string(EOF))
     {
       file = filename[0];

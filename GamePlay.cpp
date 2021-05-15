@@ -14,16 +14,6 @@ GamePlay::~GamePlay()
 
 }
 
-void GamePlay::setQuit(bool quit)
-{
-   this.quit = quit;
-}
-
-bool GamePlay::getQuit()
-{
-   return quit;
-}
-
 bool GamePlay::playerMove(Menu* menu, int playerTurn)
 {
    bool tilePlaced = false;
