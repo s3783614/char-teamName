@@ -179,7 +179,6 @@ Shape Board::checkShape(Location location)
 {
    //TODO
    //WRITE CONTRACT
-
    return theBoard[location.col][location.row]->getShape();
 }
 

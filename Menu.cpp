@@ -15,7 +15,24 @@ void Menu::printMenu()
 void Menu::printCredits()
 {
    std::cout << "CREDITS" << std::endl;
-   std::cout << "-------" << std::endl;
+   std::cout << "-------------------------------------------" << std::endl;
+   std::cout << "Name:       " << "Aidan McGinniss" << std::endl;
+   std::cout << "Student Id: " << "s3545999" << std::endl;
+   std::cout << "Email:      " << "s3545999@student.rmit.edu.au" << std::endl;
+   std::cout << std::endl;
+   std::cout << "Name:       " << "Ashwin Venkita Subharaman" << std::endl;
+   std::cout << "Student Id: " << "s3783614" << std::endl;
+   std::cout << "Email:      " << "s3783614@student.rmit.edu.au" << std::endl;
+   std::cout << std::endl;
+   std::cout << "Name:       " << "Shewit Tikue" << std::endl;
+   std::cout << "Student Id: " << "s3545853" << std::endl;
+   std::cout << "Email:      " << "s3545853@student.rmit.edu.au" << std::endl;
+   std::cout << std::endl;
+   std::cout << "Name:       " << "Hamida Ehsani" << std::endl;
+   std::cout << "Student Id: " << "s3653728" << std::endl;
+   std::cout << "Email:      " << "s3653728@student.rmit.edu.au" << std::endl;
+   std::cout << "-------------------------------------------" << std::endl;
+   
 }
 
 // Asks the User for an Input and takes an entire line with spaces

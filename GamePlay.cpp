@@ -36,7 +36,7 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       player = player2;
       playerTwo = player1;
    }
-   // std::cout << player->getName() << " it is your turn" << std::endl;
+
    std::cout << player->getName() << ". Your hand is: " << std::endl;
    player->getHand()->printLL();
    std::cout << std::endl;
@@ -44,7 +44,7 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
 
    while (!tileReplaced && !tilePlaced && !gameQuit)
    {
-      
+
       std::vector<std::string> wordsIn = menu->takeLineInput(' ');
       triedToSaveGame = false;
 
@@ -80,7 +80,6 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
 
   return gameQuit;
 }
-
 
 // Takes the tile inputted and determines if it is a real tile
 // And if the tile is in the players hand
@@ -143,13 +142,7 @@ bool GamePlay::tileFit(Tile* tile, Location location)
 
    if (!theBoard->checkEmpty())
    {
-      // for (int i = UP; i <= LEFT; i++)
-      // {
-      //    // if(!theBoard->lineCheck(location, i, tile))
-      //    // {
-      //    //    check = false;
-      //    // }
-      // }
+
       if(!checkBothSides(UP, DOWN, location, tile) || !checkBothSides(RIGHT, LEFT, location, tile))
       {
          check = false;
