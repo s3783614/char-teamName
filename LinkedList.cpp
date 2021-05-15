@@ -20,20 +20,6 @@ LinkedList::~LinkedList()
    clear();
 }
 
-// int LinkedList::size()
-// {
-//    int counter = 0;
-//    Node *current = head;
-
-//    while (current != nullptr)
-//    {
-//       current = current->next;
-//       counter++;
-//    }
-
-//    return counter;
-// }
-
 int LinkedList::getSize()
 {
    return size;

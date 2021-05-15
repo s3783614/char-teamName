@@ -171,6 +171,7 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
       }
       success = true;
    }
+   delete theTile;
    return success;
 }
 
@@ -306,7 +307,7 @@ bool LoadGame(Menu* menu, GamePlay* play)
    {
       quit = true;
    }
-
+   // delete theBoard;
    return quit;
 }
 //Loads in player
@@ -358,9 +359,12 @@ Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)
       Shape shape = (int)playerHandVector[i][1] - 48;
       Tile* newTile = new Tile(colour, shape);
       player1Hand->addBack(newTile);
+      // delete newTile;
+      
    }
 
    Player* playerOne = new Player(playerName, player1score, player1Hand);
+   // delete player1Hand;
    return playerOne;
 }
 //Loads in the tiles placed on the board
@@ -417,15 +421,17 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       }
       Location location(row,col);
       theBoard->placeTile(tile, location);
+      delete tile;
    }
    bagTiles = splitString(theBagString, ",");
 
    for (unsigned int i =0; i < bagTiles.size(); i++)
    {
       Colour colour = bagTiles[i][0];
-      Shape shape= (int)bagTiles[i][1] -48;
+      Shape shape = (int)bagTiles[i][1] -48;
       Tile* newTile = new Tile(colour, shape);
       theBag->addBack(newTile);
+      // delete newTile;
    }
    theBoard->setBag(theBag);
 

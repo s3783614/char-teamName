@@ -56,7 +56,7 @@ class GamePlay
     int scoreDirection(int direction, Location location);
 
     private:
-    Menu* menu ;
+    // Menu* menu ;
     Board* theBoard;
     Player* player1;
     Player* player2;

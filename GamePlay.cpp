@@ -12,6 +12,8 @@ GamePlay::GamePlay()
 GamePlay::~GamePlay()
 {
    delete theBoard;
+   delete player1;
+   delete player2;
 }
 
 bool GamePlay::playerMove(Menu* menu, int playerTurn)
@@ -197,13 +199,16 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
       HandPlayerTile(player);
       player->addScore(score(toPlace));
       moveMade = true;
+      // delete checkTile;
       
    }
    else
    {
       std::cout << std::endl;
       std::cout << "Tile cannot be placed there!" << std::endl;
+      // delete checkTile;
    }
+   // delete checkTile;
    return moveMade;
 }
 
@@ -273,6 +278,7 @@ bool GamePlay::checkIfNextToTiles(Location location)
    {
       check = false;
    }
+   delete tileInLine;
    return check;
 }
 
