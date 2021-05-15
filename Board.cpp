@@ -23,6 +23,7 @@ Board::Board(int row, int col)
 Board::~Board()
 {
    clear();
+   delete bag;
 }
 
 void Board::clear()

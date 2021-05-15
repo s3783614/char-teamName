@@ -11,7 +11,7 @@ void menu();
 
 void credits();
 bool NewGame(Menu *menu, GamePlay *gameTime);
-bool LoadGame(Menu* menu);
+bool LoadGame(Menu* menu, GamePlay* gameTime);
 std::vector<Tile *> initialiseTileBag();
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
 bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay *gameTime, Menu *theMenu);
@@ -51,7 +51,7 @@ int main(void)
          }
          else if (userInput == "2")
          {
-            quit = LoadGame(theMenu);
+            quit = LoadGame(theMenu, gameTime);
          }
          else if (userInput == "3")
          {
@@ -252,9 +252,9 @@ bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, 
 }
 
 //Loading saved game details from a save file
-bool LoadGame(Menu* menu)
+bool LoadGame(Menu* menu, GamePlay* play)
 {
-   GamePlay* play = new GamePlay();
+   // GamePlay* play = new GamePlay();
    bool quit = false;
    std::vector<std::string> filename;
    std::string file;

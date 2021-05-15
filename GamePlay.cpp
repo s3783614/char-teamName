@@ -11,7 +11,7 @@ GamePlay::GamePlay()
 
 GamePlay::~GamePlay()
 {
-
+   delete theBoard;
 }
 
 bool GamePlay::playerMove(Menu* menu, int playerTurn)
