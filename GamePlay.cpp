@@ -317,38 +317,29 @@ bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
    Shape shape = tileInLine->at(0)->getShape();
    Colour colour = tileInLine->at(0)->getColour();
 
-
+   bool shapeCheck = true;
+   bool colourCheck = true;
 
    for(long unsigned int i = 0; i < tileInLine->size(); i++)
    {
-      // for(long unsigned int j = i + 1; j < tileInLine->size(); j++)
-      // {
-      //    if(tileInLine->at(i)->compareTile(tileInLine->at(j)))
-      //    {
-      //       match = true;
-      //    }
-      // }
-
-      if(!((tileInLine->at(i)->getShape() == shape && tileInLine->at(0)->getColour() != colour) || (tileInLine->at(i)->getShape() != shape && tileInLine->at(i)->getColour() == colour)))
+      if(tileInLine->at(i)->getShape() != shape)
       {
-         match = false;
+         shapeCheck = false;
+      }
+      if(tileInLine->at(0)->getColour() != colour)
+      {
+         colourCheck = false;
+      }
+      if(tileInLine->at(i)->getShape() == shape && tileInLine->at(0)->getColour() == colour)
+      {
+         match = true;
       }
    }
 
-   // Location nextLocation(location.row, location.col);
-
-   // while(theBoard[nextLocation.getNextCol(direction)][nextLocation.getNextRow(direction)] != nullptr && check)
-   // {
-   //       // if()
-   //       // {
-   //          nextLocation.row = nextLocation.getNextRow(direction);
-   //          nextLocation.col = nextLocation.getNextCol(direction);
-   //       // }  
-   //       nextShape = checkShape(nextLocation);
-   //       nextColour = checkColour(nextLocation);
-         
-        
-   // }
+   if(!colourCheck && !shapeCheck)
+   {
+      match = true;
+   }
 
    return match;
 }
