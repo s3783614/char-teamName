@@ -139,7 +139,13 @@ bool GamePlay::tileFit(Tile* tile, Location location)
 
    if (!theBoard->checkEmpty())
    {
-
+      for (int i = UP; i <= LEFT; i++)
+      {
+         if(!theBoard->lineCheck(location, i, tile))
+         {
+            check = false;
+         }
+      }
       if(!checkBothSides(UP, DOWN, location, tile) || !checkBothSides(RIGHT, LEFT, location, tile))
       {
          check = false;

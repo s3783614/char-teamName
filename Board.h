@@ -34,7 +34,7 @@ public:
    Colour checkColour(Location location);
    Shape checkShape(Location location);
 
-   // bool lineCheck(Location* location, int direction, Tile* tile);
+   bool lineCheck(Location location, int direction, Tile* tile);
 
    std::string saveBoard();
    void setRow(int row);
