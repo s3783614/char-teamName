@@ -245,30 +245,33 @@ bool Board::isOnBoard(Location location, Board *board)
    return onBoard;
 }
 
-bool Board::lineCheck(Location location, int direction, Tile* tile)
-{
-   Shape nextShape;
-   Colour nextColour;
-   bool check = true;
+// bool Board::lineCheck(Location location, int direction, Tile* tile)
+// {
+//    Shape nextShape;
+//    Colour nextColour;
+//    bool check = true;
+//    // bool 
 
-   Shape shape = tile->getShape();
-   Colour colour = tile->getColour();
+//    Shape shape = tile->getShape();
+//    Colour colour = tile->getColour();
 
-   Location nextLocation(location.row, location.col);
+//    Location nextLocation(location.row, location.col);
 
-   while(theBoard[nextLocation.getNextCol(direction)][nextLocation.getNextRow(direction)] != nullptr && check)
-   {
-      
-         nextLocation.row = nextLocation.getNextRow(direction);
-         nextLocation.col = nextLocation.getNextCol(direction);
-         nextShape = checkShape(nextLocation);
-         nextColour = checkColour(nextLocation);
+//    while(theBoard[nextLocation.getNextCol(direction)][nextLocation.getNextRow(direction)] != nullptr && check)
+//    {
+//          if()
+//          {
+//             nextLocation.row = nextLocation.getNextRow(direction);
+//             nextLocation.col = nextLocation.getNextCol(direction);
+//          }  
+//          nextShape = checkShape(nextLocation);
+//          nextColour = checkColour(nextLocation);
          
-         if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
-         {
-            check = false;
-         }
-   }
+//          if(!((shape == nextShape && colour != nextColour) || (shape != nextShape && colour == nextColour)))
+//          {
+//             check = false;
+//          }
+//    }
 
-   return check;
-}
+//    return check;
+// }

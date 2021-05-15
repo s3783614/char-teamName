@@ -139,13 +139,13 @@ bool GamePlay::tileFit(Tile* tile, Location location)
 
    if (!theBoard->checkEmpty())
    {
-      for (int i = UP; i <= LEFT; i++)
-      {
-         if(!theBoard->lineCheck(location, i, tile))
-         {
-            check = false;
-         }
-      }
+      // for (int i = UP; i <= LEFT; i++)
+      // {
+      //    // if(!theBoard->lineCheck(location, i, tile))
+      //    // {
+      //    //    check = false;
+      //    // }
+      // }
       if(!checkBothSides(UP, DOWN, location, tile) || !checkBothSides(RIGHT, LEFT, location, tile))
       {
          check = false;
@@ -310,16 +310,45 @@ void GamePlay::checkDirection(int direction1, Location location, std::vector<Til
 bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
 {
    bool match = false;
+   // Shape nextShape;
+   // Colour nextColour;
+
+
+   Shape shape = tileInLine->at(0)->getShape();
+   Colour colour = tileInLine->at(0)->getColour();
+
+
+
    for(long unsigned int i = 0; i < tileInLine->size(); i++)
    {
-      for(long unsigned int j = i + 1; j < tileInLine->size(); j++)
+      // for(long unsigned int j = i + 1; j < tileInLine->size(); j++)
+      // {
+      //    if(tileInLine->at(i)->compareTile(tileInLine->at(j)))
+      //    {
+      //       match = true;
+      //    }
+      // }
+
+      if(!((tileInLine->at(i)->getShape() == shape && tileInLine->at(0)->getColour() != colour) || (tileInLine->at(i)->getShape() != shape && tileInLine->at(i)->getColour() == colour)))
       {
-         if(tileInLine->at(i)->compareTile(tileInLine->at(j)))
-         {
-            match = true;
-         }
+         match = false;
       }
    }
+
+   // Location nextLocation(location.row, location.col);
+
+   // while(theBoard[nextLocation.getNextCol(direction)][nextLocation.getNextRow(direction)] != nullptr && check)
+   // {
+   //       // if()
+   //       // {
+   //          nextLocation.row = nextLocation.getNextRow(direction);
+   //          nextLocation.col = nextLocation.getNextCol(direction);
+   //       // }  
+   //       nextShape = checkShape(nextLocation);
+   //       nextColour = checkColour(nextLocation);
+         
+        
+   // }
 
    return match;
 }
