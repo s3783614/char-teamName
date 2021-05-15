@@ -29,7 +29,9 @@ void LinkedList::clear()
 {
    while (head != nullptr)
    {
+      delete head->tile;
       removeFront();
+
    }
    size = 0;
 }

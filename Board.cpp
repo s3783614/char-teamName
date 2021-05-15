@@ -5,7 +5,7 @@
 Board::Board()
 {
    theBoard.resize(NO_OF_ROWS, std::vector<Tile *>(NO_OF_COLS, nullptr));
-   bag = new LinkedList();
+   // bag = new LinkedList();
    empty = true;
    this->row = NO_OF_ROWS;
    this->col = NO_OF_COLS;
@@ -14,7 +14,7 @@ Board::Board()
 Board::Board(int row, int col)
 {
    theBoard.resize(NO_OF_ROWS, std::vector<Tile *>(NO_OF_COLS, nullptr));
-   bag = new LinkedList();
+   // bag = new LinkedList();
    empty = true;
    this->row = row;
    this->col = col;
@@ -33,12 +33,11 @@ void Board::clear()
    {
       for(int j = 0; j < col; j++)
       {
-         Location location(i, j);
-         Tile* tile = getTile(location);
-         if(tile != nullptr)
-         {
-            delete tile;
-         }
+            delete theBoard[i][j];    
+            theBoard[i][j] = nullptr;
+            // delete tile;
+            // tile = nullptr;
+         
       }
    }
 }

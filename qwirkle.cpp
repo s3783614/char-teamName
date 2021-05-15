@@ -296,6 +296,7 @@ bool LoadGame(Menu* menu, GamePlay* play)
          {
             quit = playingTheGame(player2, player1, theBoard, play, menu);
          }
+         // delete theBoard;
       }
       else
       {
@@ -421,7 +422,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       }
       Location location(row,col);
       theBoard->placeTile(tile, location);
-      delete tile;
+      // delete tile;
    }
    bagTiles = splitString(theBagString, ",");
 

@@ -209,7 +209,7 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
    {
       std::cout << std::endl;
       std::cout << "Tile cannot be placed there!" << std::endl;
-      // delete checkTile;
+      delete checkTile;
    }
    // delete checkTile;
    return moveMade;
