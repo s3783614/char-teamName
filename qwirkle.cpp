@@ -285,7 +285,7 @@ bool LoadGame(Menu* menu)
          play->setPlayer(player1);
          play->setPlayer(player2);
          play->setBoard(theBoard);
-         // std::getline(saveFile, 
+
          if(player1->getName() == playerTurn)
          {
             quit = playingTheGame(player1, player2, theBoard, play, menu);

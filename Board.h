@@ -24,8 +24,6 @@ public:
    void placeTile(Tile* theTile, Location location);
    LinkedList* getBag();
    bool isSpotTaken(Location location);
-   
-   // void setEmpty();S
 
    bool checkEmpty();
 

@@ -43,9 +43,6 @@ class GamePlay
     int convertToRow(char row);
     int convertToCol(char col);
 
-    // int getRow(int currentRow, int direction);
-    // int getCol(int currentCol, int direction);
-
     Tile *turnInputToTile(std::string tiledata);
 
     Location convertInputLoc(std::string inputLocation);

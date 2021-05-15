@@ -32,9 +32,6 @@ public:
 
    std::string llToString();
 
-
-
-
 private:
    int size;
    Node* head;

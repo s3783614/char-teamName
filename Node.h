@@ -12,7 +12,6 @@ public:
    
    void printNode();
 
-
    Tile*    tile;
    Node*    next;
 };
