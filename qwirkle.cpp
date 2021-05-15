@@ -188,26 +188,42 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
       }
       ++i;
    }
+   
    if (!quit)
    {
       std::string winnerName;
       int winnerScore;
+      std::string loserName;
+      int loserScore;
       if (player1->getScore() > player2->getScore())
       {
          winnerName = player1->getName();
          winnerScore = player1->getScore();
+         loserName = player2->getName();
+         loserScore = player2->getScore();
+
+         std::cout << "Congratulations " << winnerName << " won with a score of: " << winnerScore << std::endl;
+         std::cout << "Better luck next time " << loserName << " lost by: " << (winnerScore - loserScore) << std::endl;
       }
       else if (player2->getScore() > player1->getScore())
       {
          winnerName = player2->getName();
          winnerScore = player2->getScore();
+         loserName = player1->getName();
+         loserScore = player1->getScore();
+
+         std::cout << "Congratulations " << winnerName << " won with a score of: " << winnerScore << std::endl;
+         std::cout << "Better luck next time " << loserName << " lost by: " << winnerScore - loserScore << std::endl;
+
       }
       else
       {
-         winnerName = "... It's tie! You both scorede:";
+         winnerName = "... It's tie! You both scored:";
          winnerScore = player1->getScore();
       }
-      std::cout << "Congratulations " << winnerName << " won with a score of: " << winnerScore << std::endl;
+      quit = true;
+
+      
    }
 
    return quit;
