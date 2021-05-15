@@ -24,6 +24,7 @@ Board::~Board()
 {
    clear();
    delete bag;
+   bag = nullptr;
 }
 
 void Board::clear()

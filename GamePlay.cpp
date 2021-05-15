@@ -12,8 +12,11 @@ GamePlay::GamePlay()
 GamePlay::~GamePlay()
 {
    delete theBoard;
+   theBoard = nullptr;
    delete player1;
+   player1 = nullptr;
    delete player2;
+   player2 = nullptr;
 }
 
 bool GamePlay::playerMove(Menu* menu, int playerTurn)

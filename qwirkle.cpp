@@ -157,9 +157,10 @@ std::vector<Tile *> initialiseTileBag()
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 {
    bool success = false;
-   Tile *theTile;
+   
    if (theBoard->getBag()->getSize() >= 12)
    {
+      Tile *theTile;
       for (int i = 0; i < 6; i++)
       {
          theTile = theBoard->getBag()->getFront();
@@ -171,7 +172,6 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
       }
       success = true;
    }
-   delete theTile;
    return success;
 }
 

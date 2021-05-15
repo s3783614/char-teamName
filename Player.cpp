@@ -18,6 +18,7 @@ Player::Player(std::string name, int score, LinkedList* hand)
 Player::~Player()
 {
    delete hand;
+   hand = nullptr;
 }
 
 // Update the name of a player with a string input
