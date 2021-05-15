@@ -1,7 +1,7 @@
 2
 tests/replaceTest
-Place G6 at G5
-Place O6 at G6
-Replace B1
-Place B6 at H6
+place G6 at G5
+place O6 at G6
+replace B1
+place B6 at H6
 ^D

@@ -251,6 +251,7 @@ bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, 
    return quit;
 }
 
+//Loading saved game details from a save file
 bool LoadGame(Menu* menu)
 {
    GamePlay* play = new GamePlay();
@@ -308,7 +309,7 @@ bool LoadGame(Menu* menu)
 
    return quit;
 }
-
+//Loads in player
 Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)
 {
 //Read data for player one and two
@@ -362,7 +363,7 @@ Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)
    Player* playerOne = new Player(playerName, player1score, player1Hand);
    return playerOne;
 }
-
+//Loads in the tiles placed on the board
 Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
 {
    std::vector<std::string> boardDimentions;

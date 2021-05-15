@@ -1,6 +1,6 @@
 2
 tests/EOF
-Place G6 at O11
-Place O6 at O12
-Place O2 at N12
+place G6 at O11
+place O6 at O12
+place O2 at N12
 ^D

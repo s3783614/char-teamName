@@ -48,7 +48,7 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       std::vector<std::string> wordsIn = menu->takeLineInput(' ');
       triedToSaveGame = false;
 
-      if (wordsIn.size() == 4 && wordsIn[0] == "Place" && wordsIn[2] == "at")
+      if (wordsIn.size() == 4 && wordsIn[0] == "place" && wordsIn[2] == "at")
       {
          tilePlaced = placeTile(wordsIn, player);
          if(player->getHand()->getSize() == 0)
@@ -56,11 +56,11 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
             theBoard->toString();
          }
       }
-      else if (wordsIn.size() == 2 && wordsIn[0] == "Replace")
+      else if (wordsIn.size() == 2 && wordsIn[0] == "replace")
       {
          tileReplaced = replaceTile(wordsIn, player);
       }
-      else if(wordsIn.size() == 2 && wordsIn[0] == "Save")
+      else if(wordsIn.size() == 2 && wordsIn[0] == "save")
       {
          gameSaved = saveGame(wordsIn, player, playerTwo);
          std::cout << "Game successfully saved" <<std::endl;
