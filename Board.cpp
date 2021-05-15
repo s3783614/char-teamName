@@ -30,12 +30,12 @@ void Board::clear()
 {
    for (int i = 0; i < row; i++)
    {
-      for(int j = 0; j <col; j++)
+      for(int j = 0; j < col; j++)
       {
-         if(theBoard[col][row] != nullptr)
+         Location location(i, j);
+         Tile* tile = getTile(location);
+         if(tile != nullptr)
          {
-            Location location(row,col);
-            Tile* tile = getTile(location);
             delete tile;
          }
       }

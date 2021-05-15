@@ -70,7 +70,11 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       {
          gameQuit = true;
       }
-      
+      else
+      {
+         std::cout << "Incorrect Input!" << std::endl;
+         std::cout << "Please input again" << std::endl;
+      }
       if(triedToSaveGame && !gameSaved && !gameQuit)
       {
          std::cout << "Failed to save!" << std::endl;
