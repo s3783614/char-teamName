@@ -216,18 +216,21 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
 bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime, Menu* theMenu)
 {
    bool quit = false;
-   theBoard->toString();
    if(currentPlayer->getNumber() == 1)
    {
+      std::cout << currentPlayer->getName() << " it is your turn" << std::endl;
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
       std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
    }
    else{
+      std::cout << currentPlayer->getName() << " it is your turn" << std::endl;
       std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
    }
-   std::cout << currentPlayer->getNumber() <<std::endl;
+   theBoard->toString();
 
+   // std::cout << currentPlayer->getNumber() <<std::endl;
+   
    quit = gameTime->playerMove(theMenu,currentPlayer->getNumber() );
    return quit;
 }
@@ -358,6 +361,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    int row = 0;
    int col = 0;
    std::string dimentions = "";
+
    //Read data for player one
    if (saveFile.is_open())
    {
@@ -379,7 +383,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    {
       Colour colour = locationsW[i][0];
       
-      Shape shape= (int)locationsW[i][1] -48;
+      Shape shape= (int)locationsW[i][1] - 48;
       Tile* tile = new Tile(colour, shape);
       
       row = (int)locationsW[i][3] - 65;
@@ -391,7 +395,8 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       }
       else
       {
-         col = (int)locationsW[i][4] - 48;
+         // -1 adjusts col we forgot lel
+         col = (int)locationsW[i][4] - 48 - 1;
       }
       Location location(row,col);
       theBoard->placeTile(tile, location);

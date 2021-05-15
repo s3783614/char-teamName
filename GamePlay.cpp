@@ -36,7 +36,7 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
       player = player2;
       playerTwo = player1;
    }
-   std::cout << player->getName() << " it is your turn" << std::endl;
+   // std::cout << player->getName() << " it is your turn" << std::endl;
    std::cout << player->getName() << ". Your hand is: " << std::endl;
    player->getHand()->printLL();
    std::cout << std::endl;
