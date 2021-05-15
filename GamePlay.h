@@ -34,6 +34,7 @@ class GamePlay
 
     bool compareTiles(std::vector<Tile*>* tileInLine);
     void checkDirection(int direction1, Location location, std::vector<Tile*>* tileInLine);
+    bool checkIfNextToTiles(Location location);
 
     bool placeTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);
     bool replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Player *player);

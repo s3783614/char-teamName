@@ -140,16 +140,14 @@ bool GamePlay::tileFit(Tile* tile, Board* theBoard, Location location)
    if (!theBoard->checkEmpty())
    {
 
-      if(checkBothSides(UP, DOWN, location, tile))
+      if(!checkBothSides(UP, DOWN, location, tile) || !checkBothSides(RIGHT, LEFT, location, tile))
       {
          check = false;
       }
-
-      if(checkBothSides(RIGHT, LEFT, location, tile))
+      if (!checkIfNextToTiles(location))
       {
          check = false;
       }
-
    }
 
    return check;
@@ -229,10 +227,11 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Board *theBoard, Pl
    return rtnReplaced;
 }
 
+// returns false if tile shouldnt be placed because of tiles around it
 bool GamePlay::checkBothSides(int direction1, int direction2, Location location, Tile* tile)
 {
    Location checkLocation;
-   bool check = false;
+   bool check = true;
    checkLocation.row = location.getNextRow(direction1);
    checkLocation.col = location.getNextCol(direction1);
 
@@ -240,14 +239,33 @@ bool GamePlay::checkBothSides(int direction1, int direction2, Location location,
    tileInLine->push_back(tile);
    checkDirection(direction1, location, tileInLine);
    checkDirection(direction2, location, tileInLine);
-   check = compareTiles(tileInLine);
+
+   check = !compareTiles(tileInLine);
 
    for (long unsigned int i = 0; i< tileInLine->size(); i++)
    {
       tileInLine->pop_back();
    }
    delete tileInLine;
+   
+   return check;
+}
 
+// Return false if not next to any tiles
+bool GamePlay::checkIfNextToTiles(Location location)
+{
+   Location checkLocation;
+   bool check = true;
+   std::vector<Tile*>* tileInLine = new std::vector<Tile*>();
+   for(int i =UP; i<= LEFT; i++)
+   {
+      checkLocation.row = location.getNextRow(i);
+      checkDirection(i, location, tileInLine);
+   }
+   if (tileInLine->size() == 0)
+   {
+      check = false;
+   }
    return check;
 }
 
@@ -275,9 +293,14 @@ void GamePlay::checkDirection(int direction1, Location location, std::vector<Til
             empty = true;
          }
       }
+      else
+      {
+         empty = true;
+      }
    }
 }
 
+// Returns true if two tiles in array are the same
 bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
 {
    bool match = false;
