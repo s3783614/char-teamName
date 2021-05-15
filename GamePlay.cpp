@@ -348,7 +348,6 @@ bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
 }
 
 
-
 void GamePlay::HandPlayerTile(Player* player)
 {
    if (theBoard->getBag()->getSize() != 0)
