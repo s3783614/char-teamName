@@ -30,6 +30,13 @@ This will get the game up and running. To use any of the test cases you can do o
 ## Tests
 All the tests from this project are load files. This is done to eliminate the randomness of the tile bag when the game begins. This also allows us to set the size for the bag of tiles, how many tiles are on the board, which player's turn it is and how many tiles are contained within the players hands, basically making testing our program a lot simpler.
 
+To compare the outputs of the test cases run the following commands:
+```
+./qwirkle < tests/<testname>.input > tests/<testname>.gameout
+diff -w tests/<testname>.output tests/<testname>.gameout
+```
+
+
 - **EOF -** The purpose of this test is to check if the program ends with `>GoodBye` when the program is terminated by the `EOF` character. Since all linux files have end of file characters running this test is super simple the program will run till there is some text in the `.input` file. This is the same case for all the other test cases as well. To run this test run the following command:
     - `./qwirkle <tests/EOF.input`
 
