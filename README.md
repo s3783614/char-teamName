@@ -19,7 +19,7 @@ To run this project you will need to compile the entire code, this can be done u
 - `./qwirkle`
 
 This will get the game up and running. To use any of the test cases you can do one of two things:
-- ***Option 1:*** you will need start the game then select `2` once your on the menu and provide the following command.
+- ***Option 1:*** you will need start the game then select `2` once your on the menu and provide the following command. Type the name of a .save file without the .save.
     - `tests/<testName>` - the names of the various tests can be found in the `tests` folder.
 
 - ***Option 2:*** when running the program using `./qwirkle`, you can input the `.input` file as well, this will make the program run itself as the `.input` file provides commands to the program to run the game til the test is completed. This can be done using the following command:
@@ -28,14 +28,16 @@ This will get the game up and running. To use any of the test cases you can do o
 <hr></hr>
 
 ## Tests
-All the tests fro this project are load files. This is done to eliminate the randomness of the tile bag when the game begins. This also allows us to set the size for the bag of tiles, how many tiles are on the board, which player's turn it is and how many tiles are contained within the players hands, basically making testing our program a lot simpler.
+All the tests from this project are load files. This is done to eliminate the randomness of the tile bag when the game begins. This also allows us to set the size for the bag of tiles, how many tiles are on the board, which player's turn it is and how many tiles are contained within the players hands, basically making testing our program a lot simpler.
 
-- **cornerTesting -** This test contains all tiles places in the 4 corners of the board. The primary purpose of this test was to check whether placing the tiles in any edge would cause to crash the program. To run this test run the following command:
-    - `./qwirkle <tests/cornerTesting.input`
-- **doubleQwirkle -** This test basically check the scoring system, both players start off with a score of zero, and the player NATHAN is given the tile that `O5` which can be placed at location `A26` on the board. If the score of NATHAN's score changes to `24` it means the test was successfull and there is no error when achieving qwirkle. The file is terminated using the `end of file character`. To run this test run the following command:
-    - `./qwirkle <tests/doubleQwirkle.input`
 - **EOF -** The purpose of this test is to check if the program ends with `>GoodBye` when the program is terminated by the `EOF` character. Since all linux files have end of file characters running this test is super simple the program will run till there is some text in the `.input` file. This is the same case for all the other test cases as well. To run this test run the following command:
     - `./qwirkle <tests/EOF.input`
+
+- **cornerTesting -** This test contains all tiles places in the 4 corners of the board. This position would not be possible to reach threw new game and is only for testing purposes. The primary purpose of this test was to check whether placing the tiles in any edge would cause to crash the program. To run this test run the following command:
+    - `./qwirkle <tests/cornerTesting.input`
+- **doubleQwirkle -** This test basically check the scoring system, both players start off with a score of zero, and the player NATHAN is given the tile that `O5` which can be placed at location `A26` on the board. If the score of NATHAN's score changes to `24` it means the test was successful and there is no error when achieving qwirkle, as `6` points are gained for each line, and `6` for each Quirkle. The file is terminated using the `end of file character`. To run this test run the following command:
+    - `./qwirkle <tests/doubleQwirkle.input`
+
 - **fullGame -** This test runs an entire game this was done primarly to check the multiple levels of vaidation when tiles are placed next to one another. As it can be seen from the test the check methods implemented check wheter it is possible to place a tile in all possible directions. To run this test run the following command:
     - `./qwirkle <tests/fullGame.input`
 - **middleQwirkle -** This test is very similar to the `doubleQwirkle` test as the whole purpose of this test is to check if placing a tile in the middle of a row with tiles on either sides will pass the checks required to place a specific tile in that position. To run this test run the following command:
