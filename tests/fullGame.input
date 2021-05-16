@@ -36,6 +36,7 @@ place O6 at K14
 place P4 at L15
 place B2 at O16
 place Y1 at P8
+save tests/fullGameSave
 place Y3 at M13
 place O1 at P14
 place B6 at N16

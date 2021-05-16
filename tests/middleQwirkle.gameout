@@ -8,8 +8,8 @@ Menu
 3. Credits (Show student information)
 4. Quit
 
->Enter the filename from which to load a game
->CHUN it is your turn
+> Enter the filename from which to load a game
+> CHUN it is your turn
 CHUN's score: 0
 LI's score: 0
    1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
@@ -45,8 +45,9 @@ CHUN. Your hand is:
 O6
 
 What would you like to play and where?
->
+> 
 QWIRKLE!!!
+
    1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
 ---------------------------------------------------------------------------------
 A |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
@@ -76,6 +77,6 @@ X |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  
 Y |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 Z |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 ---------------------------------------------------------------------------------
-Congratulations CHUN won with a score of: 12
-Better luck next time LI lost by: 12
+Congratulations CHUN won with a score of: 18
+Better luck next time LI lost by: 18
 GoodBye!

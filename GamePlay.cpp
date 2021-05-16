@@ -94,6 +94,7 @@ bool GamePlay::playerMove(int playerTurn)
             tilePlaced = placeTile(wordsIn, player);
             if(player->getHand()->getSize() == 0)
             {
+               std::cout << std::endl;
                theBoard->toString();
             }
          }
