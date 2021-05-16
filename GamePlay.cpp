@@ -233,6 +233,7 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Player *player)
       HandPlayerTile(player);
 
       rtnReplaced = true;
+      delete checkTile;
    }
    else
    {

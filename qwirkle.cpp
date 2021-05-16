@@ -104,6 +104,8 @@ bool NewGame(Menu *menu, GamePlay *gameTime)
          Board *board = new Board();
 
          std::vector<Tile *> tPtrs = initialiseTileBag();
+         LinkedList* bag = new LinkedList();
+         board->setBag(bag);
          for (Tile *tile : tPtrs)
          {
             board->getBag()->addFront(tile);
@@ -156,6 +158,7 @@ std::vector<Tile *> initialiseTileBag()
 
 bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 {
+   
    bool success = false;
    
    if (theBoard->getBag()->getSize() >= 12)
