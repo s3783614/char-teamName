@@ -204,7 +204,7 @@ int LinkedList::findSpecificTile(Tile *tile)
    Node *current = head;
 
    int counter = 0;
-   while (current != nullptr)
+   while (index == -1)
    {
       if (current->tile->compareTile(tile))
       {

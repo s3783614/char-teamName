@@ -51,7 +51,7 @@ std::vector<std::string> Menu::takeLineInput(char charToSplit)
    std::vector<std::string> wordsIn;
    std::string theMove = "";
 
-   std::cout << ">";
+   std::cout << "> ";
    std::getline(std::cin, theMove);
 
    // Check that eof character not inputted

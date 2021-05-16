@@ -24,7 +24,7 @@ int main(void)
    bool quit = false;
    Menu *theMenu = new Menu();
    GamePlay *gameTime = new GamePlay();
-
+   gameTime->setMenu(theMenu);
    std::cout << "Welcome to Qwirkle!" << std::endl;
    std::cout << "-------------------" << std::endl;
 
@@ -71,7 +71,7 @@ int main(void)
       }
    }
    delete gameTime;
-   delete theMenu;
+   // delete theMenu;
    // std::cout <<std::endl;
    std::cout << "GoodBye!" << std::endl;
    return EXIT_SUCCESS;
@@ -420,7 +420,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
       }
       else
       {
-         // -1 adjusts col we forgot lel
+
          col = menu->charToInt(locationsW[i][4]) - INDEXING;
       }
       Location location(row,col);
@@ -432,7 +432,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    for (unsigned int i =0; i < bagTiles.size(); i++)
    {
       Colour colour = bagTiles[i][0];
-      Shape shape = (int)bagTiles[i][1] - ASCII_A;
+      Shape shape = menu->charToInt(bagTiles[i][1]);
       Tile* newTile = new Tile(colour, shape);
       theBag->addBack(newTile);
 

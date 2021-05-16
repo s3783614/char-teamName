@@ -17,6 +17,8 @@ GamePlay::~GamePlay()
    player1 = nullptr;
    delete player2;
    player2 = nullptr;
+   delete menu;
+   menu = nullptr;
 }
 
 bool GamePlay::playerMove(Menu* menu, int playerTurn)
@@ -96,7 +98,7 @@ bool GamePlay::tileInputtedIsOkay(std::string tileString, Player *player)
 {
    bool isOkay = false;
    char colour = tileString[0];
-   int shape = (int)(tileString[1] - 48);
+   int shape = menu->charToInt(tileString[1]);
 
    if (tileString.size() == 2 && shape >= CIRCLE && shape <= CLOVER)
    {
@@ -117,7 +119,7 @@ bool GamePlay::tileInputtedIsOkay(std::string tileString, Player *player)
 Tile* GamePlay::turnInputToTile(std::string tiledata)
 {
    char colour = tiledata[0];
-   int shape = (int)(tiledata[1] - 48);
+   int shape = menu->charToInt(tiledata[1]);
    Tile *tile = new Tile(colour, shape);
    return tile;
 }
@@ -132,13 +134,13 @@ Location GamePlay::convertInputLoc(std::string inputLocation)
 
    if (inputLocation.size() == 3)
    {
-      int tens = (int)inputLocation[1] - 48;
-      int ones = (int)inputLocation[2] - 48 - 1;
+      int tens = menu->charToInt(inputLocation[1]);
+      int ones = menu->charToInt(inputLocation[2]) - INDEXING;
       location.col = (10 * tens) + (ones);
    }
    else
    {
-      location.col = (int)inputLocation[1] - 48 - 1;
+      location.col = menu->charToInt(inputLocation[1] ) - INDEXING;
    }
    return location;
 }
@@ -178,7 +180,7 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
 
    // Check if inputted tile is real and in players hand
    acceptableTile = tileInputtedIsOkay(wordsIn[1], player);
-   checkTile = new Tile(wordsIn[1][0], (int)wordsIn[1][1] - 48);
+   checkTile = new Tile(wordsIn[1][0], menu->charToInt(wordsIn[1][1]));
 
    // Converts inputted location from char to ints of board location
    Location toPlace = convertInputLoc(wordsIn[3]);
@@ -516,4 +518,9 @@ void GamePlay::setPlayer(Player* player)
 void GamePlay::setBoard(Board* board)
 {
    theBoard = board;
+}
+
+void GamePlay::setMenu(Menu* menu)
+{
+   this->menu = menu;
 }
