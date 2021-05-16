@@ -150,11 +150,11 @@ bool GamePlay::legalMove(Player* player)
    if(!theBoard->checkEmpty())
    {
 
-      for (unsigned long int i=0; i < theBoard->getRows() && check == false; i++)
+      for (int i=0; i < theBoard->getRows() && check == false; i++)
       {
-         for (unsigned long int j=0; j < theBoard->getCols() && check == false; j++)
+         for (int j=0; j < theBoard->getCols() && check == false; j++)
          {
-            for (unsigned long int k=0; k < player->getHand()->getSize() && check == false; k++)
+            for (int k=0; k < player->getHand()->getSize() && check == false; k++)
             {
                Location location(i,j);
                Tile* tile = player->getHand()->get(k);
