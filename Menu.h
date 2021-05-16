@@ -9,10 +9,13 @@
 
 class Menu{
     public:
+
+    Menu();
+
+    bool getQuit();
+    void setQuit(bool quitBool);
     void printMenu();
     void printCredits();
-
-    void quit();
 
     std::vector<std::string> takeLineInput(char charToSplit);
 
@@ -22,6 +25,8 @@ class Menu{
 
 
     private:
+    bool quit;
+
 };
 
 #endif //MENU_H

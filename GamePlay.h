@@ -21,15 +21,17 @@ class GamePlay
     ~GamePlay();
 
    void setMenu(Menu* menu);
+   Menu* getMenu();
     void setPlayer(Player* player);
     void setBoard(Board* theBoard);
+    Board* getBoard();
 
     bool check(char *s);
     void NewGame();
 
     std::vector<Tile *> initialiseTileBag();
     
-    bool playerMove(Menu* menu, int playerTurn);
+    bool playerMove(int playerTurn);
     bool tileInputtedIsOkay(std::string tileString, Player *player);
     
     bool tileFit(Tile *tile, Location location);

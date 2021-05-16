@@ -37,20 +37,29 @@ void GamePlay::setBoard(Board* board)
    theBoard = board;
 }
 
+Board* GamePlay::getBoard()
+{
+   return theBoard;
+}
+
 void GamePlay::setMenu(Menu* menu)
 {
    this->menu = menu;
 }
 
+Menu* GamePlay::getMenu()
+{
+   return menu;
+}
+
 // One players turn
 // Will loop until successful move or quit
-bool GamePlay::playerMove(Menu* menu, int playerTurn)
+bool GamePlay::playerMove(int playerTurn)
 {
    bool tilePlaced = false;
    bool tileReplaced = false;
    bool gameSaved = false;
    bool triedToSaveGame = false;
-   bool gameQuit = false;
 
    Player* player;
    Player* playerTwo;
@@ -67,51 +76,48 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
    }
 
    std::cout << player->getName() << ". Your hand is: " << std::endl;
-   player->getHand()->printLL();
+   std::cout << player->getHand()->llToString() << std::endl;
    std::cout << std::endl;
    std::cout << "What would you like to play and where?" << std::endl;
 
-   while (!tileReplaced && !tilePlaced && !gameQuit)
+   while (!tileReplaced && !tilePlaced && !menu->getQuit())
    {
 
       std::vector<std::string> wordsIn = menu->takeLineInput(' ');
       triedToSaveGame = false;
-
-      if (wordsIn.size() == 4 && wordsIn[0] == "place" && wordsIn[2] == "at")
+      if (!menu->getQuit())
       {
-         tilePlaced = placeTile(wordsIn, player);
-         if(player->getHand()->getSize() == 0)
+         if (wordsIn.size() == 4 && wordsIn[0] == "place" && wordsIn[2] == "at")
          {
-            theBoard->toString();
+            tilePlaced = placeTile(wordsIn, player);
+            if(player->getHand()->getSize() == 0)
+            {
+               theBoard->toString();
+            }
+         }
+         else if (wordsIn.size() == 2 && wordsIn[0] == "replace")
+         {
+            tileReplaced = replaceTile(wordsIn, player);
+         }
+         else if(wordsIn.size() == 2 && wordsIn[0] == "save")
+         {
+            gameSaved = saveGame(wordsIn, player, playerTwo);
+            std::cout << "Game successfully saved" <<std::endl;
+            triedToSaveGame = true;
+         }
+         else
+         {
+            std::cout << "Incorrect Input!" << std::endl;
+            std::cout << "Please input again" << std::endl;
+         }
+         if(triedToSaveGame && !gameSaved)
+         {
+            std::cout << "Failed to save!" << std::endl;
          }
       }
-      else if (wordsIn.size() == 2 && wordsIn[0] == "replace")
-      {
-         tileReplaced = replaceTile(wordsIn, player);
-      }
-      else if(wordsIn.size() == 2 && wordsIn[0] == "save")
-      {
-         gameSaved = saveGame(wordsIn, player, playerTwo);
-         std::cout << "Game successfully saved" <<std::endl;
-         triedToSaveGame = true;
-      }
-      else if(wordsIn.size() == 1 && wordsIn[0] == std::to_string(EOF) )
-      {
-         gameQuit = true;
-      }
-      else
-      {
-         std::cout << "Incorrect Input!" << std::endl;
-         std::cout << "Please input again" << std::endl;
-      }
-      if(triedToSaveGame && !gameSaved && !gameQuit)
-      {
-         std::cout << "Failed to save!" << std::endl;
-      }
-
    }
 
-  return gameQuit;
+  return !menu->getQuit();
 }
 
 // Takes the tile inputted and determines if it is in the players hand

@@ -9,15 +9,15 @@
 void menu();
 
 void credits();
-bool NewGame(Menu *menu, GamePlay *gameTime);
-bool LoadGame(Menu* menu, GamePlay* gameTime);
+void NewGame(GamePlay *gameTime);
+void LoadGame(GamePlay* gameTime);
 std::vector<Tile *> initialiseTileBag();
-bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
-bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay *gameTime, Menu *theMenu);
+void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
+void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime);
 Player* loadInPlayer(std::ifstream& saveFile, Menu* menu);
 Board* loadInBoard(std::ifstream& saveFile, Menu* menu);
 std::vector<std::string> splitString(std::string string, std::string delim);
-bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime, Menu* theMenu);
+void onePlayerTurn(Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime);
 
 int main(void)
 {
@@ -31,55 +31,51 @@ int main(void)
    std::vector<std::string> userString;
    std::string userInput = "";
 
-   while (!quit)
+   while (!theMenu->getQuit())
    {
       theMenu->printMenu();
-
       userString = theMenu->takeLineInput(' ');
-      if (userString.size() == 1 && userString[0] != std::to_string(EOF))
+      if(!theMenu->getQuit())
       {
          if (userString.size() == 1)
          {
-            // set the one word to the menu choice
-            userInput = userString[0];
-         }
+            if (userString.size() == 1)
+            {
+               // set the one word to the menu choice
+               userInput = userString[0];
+            }
 
-         if (userInput == "1")
-         {
-            quit = NewGame(theMenu, gameTime);
+            if (userInput == "1")
+            {
+               NewGame(gameTime);
+            }
+            else if (userInput == "2")
+            {
+               LoadGame(gameTime);
+            }
+            else if (userInput == "3")
+            {
+               theMenu->printCredits();
+            }
+            else if (userInput == "4")
+            {
+               quit = true;
+            }
+            else
+            {
+               std::cout << "Invalid Input!" << std::endl;
+            }
          }
-         else if (userInput == "2")
-         {
-            quit = LoadGame(theMenu, gameTime);
-         }
-         else if (userInput == "3")
-         {
-            theMenu->printCredits();
-         }
-         else if (userInput == "4")
-         {
-            quit = true;
-         }
-         else
-         {
-            std::cout << "Invalid Input!" << std::endl;
-         }
-      }
-      else
-      {
-         quit = true;
       }
    }
    delete gameTime;
-   // delete theMenu;
-   // std::cout <<std::endl;
+
    std::cout << "GoodBye!" << std::endl;
    return EXIT_SUCCESS;
 }
 
-bool NewGame(Menu *menu, GamePlay *gameTime)
+void NewGame(GamePlay* gameTime)
 {
-   bool gameQuit = false;
    std::string name1 = "";
    std::string name2 = "";
 
@@ -87,15 +83,17 @@ bool NewGame(Menu *menu, GamePlay *gameTime)
    std::cout << "Starting a New Game" << std::endl
              << std::endl;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   name1 = menu->getName();
-   if (name1 != std::to_string(EOF))
+   name1 = gameTime->getMenu()->getName();
+
+   if (!gameTime->getMenu()->getQuit())
    {
       Player *player1 = new Player(name1);
       player1->setNumber(1);
       std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
       std::cout << ">";
-      name2 = menu->getName();
-      if (name2 != std::to_string(EOF))
+      name2 = gameTime->getMenu()->getName();
+
+      if (!gameTime->getMenu()->getQuit())
       {
          Player *player2 = new Player(name2);
          player2->setNumber(2);
@@ -105,6 +103,7 @@ bool NewGame(Menu *menu, GamePlay *gameTime)
          std::vector<Tile *> tPtrs = initialiseTileBag();
          LinkedList* bag = new LinkedList();
          board->setBag(bag);
+
          for (Tile *tile : tPtrs)
          {
             board->getBag()->addFront(tile);
@@ -114,19 +113,9 @@ bool NewGame(Menu *menu, GamePlay *gameTime)
          gameTime->setPlayer(player1);
          gameTime->setPlayer(player2);
          gameTime->setBoard(board);
-         gameQuit = playingTheGame(player1, player2, board, gameTime, menu);
-      }
-      else
-      {
-         gameQuit = true;
+         playingTheGame(player1, player2, gameTime);
       }
    }
-   else
-   {
-      gameQuit = true;
-   }
-
-   return gameQuit;
 }
 
 std::vector<Tile *> initialiseTileBag()
@@ -155,11 +144,9 @@ std::vector<Tile *> initialiseTileBag()
    // shuffleTiles(orderedTiles);
 }
 
-bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
+void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 {
-   
-   bool success = false;
-   
+
    if (theBoard->getBag()->getSize() >= 12)
    {
       Tile *theTile;
@@ -172,28 +159,24 @@ bool handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
          player2->getHand()->addFront(theTile);
          theBoard->getBag()->removeFront();
       }
-      success = true;
    }
-   return success;
 }
 
-bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay *gameTime, Menu *theMenu)
+void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime)
 {
-   bool quit = false;
-   int i = 0;
 
-   while (player1->getHand()->getSize() != 0 && player2->getHand()->getSize() != 0 && !quit)
+   while (player1->getHand()->getSize() != 0 && player2->getHand()->getSize() != 0 && !gameTime->getMenu()->getQuit())
    {
       
-      quit = onePlayerTurn(theBoard, player1, player2,gameTime, theMenu);
-      if (quit != true && player1->getHand()->getSize() != 0)
+      onePlayerTurn(player1, player2, gameTime);
+
+      if (gameTime->getMenu()->getQuit() && player1->getHand()->getSize() != 0)
       {
-         quit = onePlayerTurn(theBoard, player2, player1,gameTime, theMenu);
+         onePlayerTurn(player2, player1, gameTime);
       }
-      ++i;
    }
    
-   if (!quit)
+   if (!gameTime->getMenu()->getQuit())
    {
       std::string winnerName;
       int winnerScore;
@@ -224,41 +207,33 @@ bool playingTheGame(Player *player1, Player *player2, Board *theBoard, GamePlay 
       {
          std::cout << "... It's tie! You both scored: " << player1->getScore() << std::endl;
       }
-      quit = true;
-
-
+      gameTime->getMenu()->setQuit(true);
    }
-
-   return quit;
 }
 
-bool onePlayerTurn(Board* theBoard, Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime, Menu* theMenu)
+void onePlayerTurn(Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime)
 {
-   bool quit = false;
    if(currentPlayer->getNumber() == 1)
    {
       std::cout << currentPlayer->getName() << " it is your turn" << std::endl;
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
       std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
    }
-   else{
+   else
+   {
       std::cout << currentPlayer->getName() << " it is your turn" << std::endl;
       std::cout << otherPlayer->getName() << "'s score: " << otherPlayer->getScore() << std::endl;
       std::cout << currentPlayer->getName() << "'s score: " << currentPlayer->getScore() << std::endl;
    }
-   theBoard->toString();
+   gameTime->getBoard()->toString();
 
-   // std::cout << currentPlayer->getNumber() <<std::endl;
-   
-   quit = gameTime->playerMove(theMenu,currentPlayer->getNumber() );
-   return quit;
+   gameTime->playerMove(currentPlayer->getNumber());
 }
 
 //Loading saved game details from a save file
-bool LoadGame(Menu* menu, GamePlay* play)
+void LoadGame(GamePlay* play)
 {
-   // GamePlay* play = new GamePlay();
-   bool quit = false;
+
    std::vector<std::string> filename;
    std::string file;
    Player* player2;
@@ -266,8 +241,8 @@ bool LoadGame(Menu* menu, GamePlay* play)
    Board* theBoard;
 
     std::cout << "Enter the filename from which to load a game" << std::endl;
-    filename = menu->takeLineInput(' ');
-    if(filename.size() == 1 && filename[0] != std::to_string(EOF))
+    filename = play->getMenu()->takeLineInput(' ');
+    if(filename.size() == 1 && !play->getMenu()->getQuit())
     {
       file = filename[0];
       file += ".save";
@@ -276,11 +251,11 @@ bool LoadGame(Menu* menu, GamePlay* play)
       if(saveFile.is_open())
       {
 
-         player1 = loadInPlayer(saveFile, menu);
+         player1 = loadInPlayer(saveFile, play->getMenu());
          player1->setNumber(1);
-         player2 = loadInPlayer(saveFile, menu);
+         player2 = loadInPlayer(saveFile, play->getMenu());
          player2->setNumber(2);
-         theBoard = loadInBoard(saveFile, menu);
+         theBoard = loadInBoard(saveFile, play->getMenu());
 
          std::string playerTurn = "";
 
@@ -292,13 +267,12 @@ bool LoadGame(Menu* menu, GamePlay* play)
 
          if(player1->getName() == playerTurn)
          {
-            quit = playingTheGame(player1, player2, theBoard, play, menu);
+            playingTheGame(player1, player2, play);
          }
          else
          {
-            quit = playingTheGame(player2, player1, theBoard, play, menu);
+            playingTheGame(player2, player1, play);
          }
-         // delete theBoard;
       }
       else
       {
@@ -306,12 +280,6 @@ bool LoadGame(Menu* menu, GamePlay* play)
          std::cout << "File does not exist!" << std::endl;
       }
    }
-   else
-   {
-      quit = true;
-   }
-   // delete theBoard;
-   return quit;
 }
 //Loads in player
 Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)

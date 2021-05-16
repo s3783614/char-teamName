@@ -1,5 +1,20 @@
 #include "Menu.h"
 
+Menu::Menu()
+{
+   quit = false;
+}
+
+
+bool Menu::getQuit()
+{
+   return quit;
+}
+void Menu::setQuit(bool quitBool)
+{
+   quit = quitBool;
+}
+// Prints out a menu
 void Menu::printMenu()
 {
    std::cout << std::endl;
@@ -12,6 +27,7 @@ void Menu::printMenu()
    std::cout << std::endl;
 }
 
+// Prints the credits 
 void Menu::printCredits()
 {
    std::cout << "CREDITS" << std::endl;
@@ -35,10 +51,9 @@ void Menu::printCredits()
    
 }
 
+// Converts a char of an integer to an integer
 int Menu::charToInt(char character)
 {
-
-   // int tens = (int)locationsW[i][4] - 48;
    return (int)character - ASCII_ZERO;
 }
 
@@ -67,7 +82,7 @@ std::vector<std::string> Menu::takeLineInput(char charToSplit)
    }
    else
    {
-      wordsIn.push_back(std::to_string(EOF));
+      quit = true;
    }
    return wordsIn;
 }
