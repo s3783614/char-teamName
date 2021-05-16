@@ -171,15 +171,36 @@ void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 // Playing the game
 void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime)
 {
-
-   while (player1->getHand()->getSize() != 0 && player2->getHand()->getSize() != 0 && !gameTime->getMenu()->getQuit())
+   bool gameover = false;
+   while (player1->getHand()->getSize() != 0 && player2->getHand()->getSize() != 0 && !gameTime->getMenu()->getQuit() && gameover == false)
    {
-      
-      onePlayerTurn(player1, player2, gameTime);
-
-      if (!gameTime->getMenu()->getQuit() && player1->getHand()->getSize() != 0)
+      if(gameTime->getBoard()->getBag()->getSize() != 0 || gameTime->legalMove(player1))
       {
-         onePlayerTurn(player2, player1, gameTime);
+         onePlayerTurn(player1, player2, gameTime);
+      }
+      else
+      {
+         gameover = true;
+
+         std::cout << std::endl;
+         std::cout << "You have no legal moves" << std::endl;
+         std::cout << "Therefore the game is over!" << std::endl << std::endl;
+      }
+
+      if (!gameTime->getMenu()->getQuit() && player1->getHand()->getSize() != 0 && gameover == false)
+      {
+         if(gameTime->getBoard()->getBag()->getSize() != 0 || gameTime->legalMove(player2))
+         {
+            onePlayerTurn(player2, player1, gameTime);
+         }
+         else
+         {
+            gameover = true;
+            std::cout << std::endl;
+            std::cout << "You have no legal moves" << std::endl;
+            std::cout << "Therefore the game is over!" << std::endl << std::endl;
+         }
+         
       }
    }
    
