@@ -11,7 +11,6 @@ class LinkedList {
 public:
 
    LinkedList();
-   LinkedList(LinkedList& other);
    ~LinkedList();
 
    int getSize();
@@ -26,7 +25,6 @@ public:
    void removeFront();
    void removeBack();
    void removeAt(int index);
-   void printLL();
 
    bool isInLinkedList(Tile* tile);
 

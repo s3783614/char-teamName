@@ -1,18 +1,11 @@
-// #include "Node.h"
 #include "LinkedList.h"
-
 
 #include <iostream>
 
 LinkedList::LinkedList()
 {
-
    head = nullptr;
    size = 0;
-}
-
-LinkedList::LinkedList(LinkedList &other) : head(other.head)
-{
 }
 
 LinkedList::~LinkedList()
@@ -20,22 +13,24 @@ LinkedList::~LinkedList()
    clear();
 }
 
+// Return the size of the linked list
 int LinkedList::getSize()
 {
    return size;
 }
 
+// Removes all nodes and tiles from the linked list
 void LinkedList::clear()
 {
    while (head != nullptr)
    {
       delete head->tile;
       removeFront();
-
    }
    size = 0;
 }
 
+// Get a tile at a node index
 Tile *LinkedList::get(int index)
 {
    int counter = 0;
@@ -45,7 +40,6 @@ Tile *LinkedList::get(int index)
 
    if (index < size)
    {
-
       while (counter < index)
       {
          counter++;
@@ -61,6 +55,7 @@ Tile *LinkedList::get(int index)
    return returnTile;
 }
 
+// Place a tile at the front of the linkedlist
 void LinkedList::addFront(Tile *tile)
 {
    Node *addedTile = new Node(tile, nullptr);
@@ -72,17 +67,15 @@ void LinkedList::addFront(Tile *tile)
    else
    {
       addedTile->next = head;
-      // reassign the head position to the added tile
       head = addedTile;
    }
    size++;
 }
 
+// Add a tile at the back of the linked list
 void LinkedList::addBack(Tile *tile)
 {
    Node *addedTile = new Node(tile, nullptr);
-   // addedTile->tile = tile;
-   // addedTile->next = nullptr;
 
    if (head == nullptr)
    {
@@ -90,19 +83,19 @@ void LinkedList::addBack(Tile *tile)
    }
    else
    {
-      //for head is not null
       Node *temp = head;
       while (temp->next != nullptr)
       {
-         //traverses to the end of the list
+
          temp = temp->next;
       }
-      //add the addedTile to the end of the list
+
       temp->next = addedTile;
    }
    size++;
 }
 
+// Remove the front node and tile
 void LinkedList::removeFront()
 {
    if (head != nullptr)
@@ -114,6 +107,7 @@ void LinkedList::removeFront()
    size--;
 }
 
+// Remove the last tile in the linkedlist
 void LinkedList::removeBack()
 {
    if (head != nullptr)
@@ -133,6 +127,7 @@ void LinkedList::removeBack()
    size--;
 }
 
+// remove a tile at index
 void LinkedList::removeAt(int index)
 {
    // std::cout << "size: " <<size()<<std::endl;
@@ -169,6 +164,7 @@ void LinkedList::removeAt(int index)
 
 }
 
+// Returns the front tile in a linkedList
 Tile *LinkedList::getFront()
 {
    Tile *returnTile = nullptr;
@@ -180,6 +176,7 @@ Tile *LinkedList::getFront()
    return returnTile;
 }
 
+// Finds if a tile in the linkedlist and returns whether it is successful
 bool LinkedList::isInLinkedList(Tile *tile)
 {
    bool isIn = false;
@@ -197,6 +194,7 @@ bool LinkedList::isInLinkedList(Tile *tile)
    return isIn;
 }
 
+// Return the index of a tile in the linkedlist
 int LinkedList::findSpecificTile(Tile *tile)
 {
    int index = -1;
@@ -218,7 +216,7 @@ int LinkedList::findSpecificTile(Tile *tile)
    return index;
 }
 
-
+// Prints a string of the linkedlist
 std::string LinkedList::llToString()
 {
 
@@ -235,9 +233,4 @@ std::string LinkedList::llToString()
 
    }
    return llTiles;
-}
-
-void LinkedList::printLL()
-{
-   std::cout << llToString() << std::endl;
 }
