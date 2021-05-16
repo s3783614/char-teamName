@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
+#include <random>
 
 #include "GamePlay.h"
 // #include "Menu.h"
@@ -140,8 +142,9 @@ std::vector<Tile *> initialiseTileBag()
          }
       }
    }
-
-   std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
+   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+   auto rng = std::default_random_engine {seed};
+   std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), rng);
 
    return orderedTiles;
 }
