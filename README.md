@@ -33,7 +33,7 @@ All the tests from this project are load files. This is done to eliminate the ra
 - **EOF -** The purpose of this test is to check if the program ends with `>GoodBye` when the program is terminated by the `EOF` character. Since all linux files have end of file characters running this test is super simple the program will run till there is some text in the `.input` file. This is the same case for all the other test cases as well. To run this test run the following command:
     - `./qwirkle <tests/EOF.input`
 
-- **cornerTesting -** This test contains all tiles places in the 4 corners of the board. This position would not be possible to reach threw a new game and is only for testing purposes. The primary purpose of this test was to check whether placing the tiles in any edge would cause to crash the program. To run this test run the following command:
+- **cornerTesting -** This test contains all tiles places in the 4 corners of the board. This position would not be possible to reach threw a new game and is only for testing purposes. The primary purpose of this test was to check whether placing the tiles in any edge would cause to crash the program. This test case alse checks that the player who first finishes the game is awarded an additional 6 points. To run this test run the following command:
     - `./qwirkle <tests/cornerTesting.input`
 
 - **doubleQwirkle -** This test basically check the scoring system, both players start off with a score of zero, and the player NATHAN is given the tile that `O5` which can be placed at location `A26` on the board. If the score of NATHAN's score changes to `24` it means the test was successful and there is no error when achieving qwirkle, as `6` points are gained for each line, and `6` for each Quirkle. The file is terminated using the `end of file character`. To run this test run the following command:
@@ -74,4 +74,4 @@ All the tests from this project are load files. This is done to eliminate the ra
 
 ## Credits
 Some of the references that we used were:
-- `https://stackoverflow.com/questions/6926433/how-to-shuffle-a-stdvector`
+- std::vector?, H. and Fide, M., 2021. How to shuffle a std::vector?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/6926433/how-to-shuffle-a-stdvector> [Accessed 16 May 2021].
