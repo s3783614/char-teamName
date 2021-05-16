@@ -201,12 +201,12 @@ void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime)
             std::cout << "You have no legal moves" << std::endl;
             std::cout << "Therefore the game is over!" << std::endl << std::endl;
          }
-         
       }
    }
    
    if (!gameTime->getMenu()->getQuit())
    {
+      gameTime->handOutBonusPoints();
       std::string winnerName;
       int winnerScore;
       std::string loserName;

@@ -559,3 +559,15 @@ int GamePlay::scoreDirection(int direction, Location location)
 
    return score;
 }
+
+void GamePlay::handOutBonusPoints()
+{
+   if(player1->getHand()->getSize() == 0)
+   {
+      player1->addScore(6);
+   }
+   else if (player2->getHand()->getSize() == 0)
+   {
+      player2->addScore(6);
+   }
+}
