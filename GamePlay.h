@@ -56,6 +56,7 @@ class GamePlay
     void HandPlayerTile(Player* player);
 
     int scoreDirection(int direction, Location location);
+    void handOutBonusPoints();
 
     private:
     Menu* menu ;
