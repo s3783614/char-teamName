@@ -74,6 +74,8 @@ bool GamePlay::playerMove(int playerTurn)
       player = player2;
       playerTwo = player1;
    }
+   
+
 
    std::cout << player->getName() << ". Your hand is: " << std::endl;
    std::cout << player->getHand()->llToString() << std::endl;
@@ -116,7 +118,6 @@ bool GamePlay::playerMove(int playerTurn)
          }
       }
    }
-
   return !menu->getQuit();
 }
 
@@ -141,6 +142,32 @@ bool GamePlay::tileInputtedIsOkay(std::string tileString, Player *player)
       }
    }
    return isOkay;
+}
+
+bool GamePlay::legalMove(Player* player)
+{
+   bool check = false;
+   if(!theBoard->checkEmpty())
+   {
+
+      for (unsigned long int i=0; i < theBoard->getRows() && check == false; i++)
+      {
+         for (unsigned long int j=0; j < theBoard->getCols() && check == false; j++)
+         {
+            for (unsigned long int k=0; k < player->getHand()->getSize() && check == false; k++)
+            {
+               Location location(i,j);
+               Tile* tile = player->getHand()->get(k);
+               check = tileFit(tile, location);
+            }
+         }
+      }
+   }
+   else
+   {
+      check = true;
+   }
+   return check;
 }
 
 // Changes an input string to a real tile

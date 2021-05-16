@@ -28,11 +28,10 @@ class GamePlay
 
     bool check(char *s);
     void NewGame();
-
-    std::vector<Tile *> initialiseTileBag();
     
     bool playerMove(int playerTurn);
     bool tileInputtedIsOkay(std::string tileString, Player *player);
+    bool legalMove(Player* player);
     
     bool tileFit(Tile *tile, Location location);
     bool checkBothSides(int direction1, int direction2, Location location, Tile* tile);
