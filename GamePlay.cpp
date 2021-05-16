@@ -226,19 +226,24 @@ bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Player *player)
 
       Tile *checkTile = turnInputToTile(wordsIn[1]);
       int tileIndex = player->getHand()->findSpecificTile(checkTile);
-      Tile *playersTile = player->getHand()->get(tileIndex);
+      // Tile *playersTile = player->getHand()->get(tileIndex);
       player->getHand()->removeAt(tileIndex);
-      theBoard->getBag()->addBack(playersTile);
+      theBoard->getBag()->addBack(checkTile);
 
       HandPlayerTile(player);
 
       rtnReplaced = true;
-      delete checkTile;
+      // delete checkTile;
    }
-   else
+   else if(theBoard->getBag()->getSize() == 0)
    {
       std::cout << "The bag is empty!" <<std::endl;
    }
+   else
+   {
+      std::cout << "That tile is not in your hand!" << std::endl;
+   }
+
 
    return rtnReplaced;
 }

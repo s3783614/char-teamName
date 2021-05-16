@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include "TileCodes.h"
 
 class Menu{
     public:
@@ -16,6 +17,8 @@ class Menu{
     std::vector<std::string> takeLineInput(char charToSplit);
 
     std::string getName();
+    int charToInt(char character);
+
 
 
     private:

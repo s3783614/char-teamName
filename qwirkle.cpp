@@ -2,8 +2,7 @@
 #include <fstream>
 
 #include "GamePlay.h"
-#include "Menu.h"
-#include "LinkedList.h"
+// #include "Menu.h"
 
 #define EXIT_SUCCESS 0
 
@@ -138,7 +137,7 @@ std::vector<Tile *> initialiseTileBag()
 
    std::vector<Tile *> orderedTiles;
 
-   for (int i = 0; i < 2; i++)
+   for (int i = 0; i < NO_OF_TILESETS; i++)
    {
       for (Colour colour : tileColours)
       {
@@ -337,15 +336,15 @@ Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)
 
    if (playerScore.size() == 3)
    {
-      hundreds = (int)playerScore[0] - 48;
-      tens = (int)playerScore[1] - 48;
-      ones = (int)playerScore[2] - 48;
+      hundreds = menu->charToInt(playerScore[0]);
+      tens = menu->charToInt(playerScore[1]);
+      ones = menu->charToInt(playerScore[2]);
       player1score = (100*hundreds)+(10 * tens) + (ones);
    }
    else if(playerScore.size() == 2)
    {
-      tens = (int)playerScore[0] - 48;
-      ones = (int)playerScore[1] - 48;
+      tens = menu->charToInt(playerScore[0]);
+      ones = menu->charToInt(playerScore[1]);
       player1score = (10 * tens) + (ones);
    }
    else
@@ -360,7 +359,7 @@ Player* loadInPlayer(std::ifstream& saveFile, Menu* menu)
    {
 
       Colour colour = playerHandVector[i][0];
-      Shape shape = (int)playerHandVector[i][1] - 48;
+      Shape shape = menu->charToInt(playerHandVector[i][1]);
       Tile* newTile = new Tile(colour, shape);
       player1Hand->addBack(newTile);
       // delete newTile;
@@ -399,29 +398,30 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    
    if (boardDimentions.size() ==2)
    {
-      row = (int)boardDimentions[0][0] - 48;
-      col = (int)boardDimentions[1][0] - 48;
-      
+      row = menu->charToInt(boardDimentions[0][0]);
+      col = menu->charToInt(boardDimentions[1][0]);
+
    }
    
    for (unsigned int i =0; i < locationsW.size(); i++)
    {
       Colour colour = locationsW[i][0];
       
-      Shape shape= (int)locationsW[i][1] - 48;
+      Shape shape= menu->charToInt(locationsW[i][1]);
       Tile* tile = new Tile(colour, shape);
       
-      row = (int)locationsW[i][3] - 65;
+      row = (int)locationsW[i][3] - ASCII_A;
+      //changes input location to board location
       if (locationsW[i].size() == 6)
       {
-         int tens = (int)locationsW[i][4] - 48;
-         int ones = (int)locationsW[i][5] - 48 - 1;
-         col = 10* tens + ones;
+         int tens = menu->charToInt(locationsW[i][4]);
+         int ones = menu->charToInt(locationsW[i][5]) - INDEXING;
+         col = 10 * tens + ones;
       }
       else
       {
          // -1 adjusts col we forgot lel
-         col = (int)locationsW[i][4] - 48 - 1;
+         col = menu->charToInt(locationsW[i][4]) - INDEXING;
       }
       Location location(row,col);
       theBoard->placeTile(tile, location);
@@ -432,16 +432,17 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    for (unsigned int i =0; i < bagTiles.size(); i++)
    {
       Colour colour = bagTiles[i][0];
-      Shape shape = (int)bagTiles[i][1] -48;
+      Shape shape = (int)bagTiles[i][1] - ASCII_A;
       Tile* newTile = new Tile(colour, shape);
       theBag->addBack(newTile);
-      // delete newTile;
+
    }
    theBoard->setBag(theBag);
 
 
    return theBoard;
-}  
+}
+
     
 std::vector<std::string> splitString(std::string string, std::string delim)
 {

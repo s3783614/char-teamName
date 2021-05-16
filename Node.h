@@ -2,6 +2,8 @@
 #ifndef ASSIGN2_NODE_H
 #define ASSIGN2_NODE_H
 
+#include <iostream>
+
 #include "Tile.h"
 
 class Node {

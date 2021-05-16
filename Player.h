@@ -2,6 +2,7 @@
 #define ASSIGN2_PLAYER_H
 
 #include <string>
+#include <iostream>
 
 #include "LinkedList.h"
 

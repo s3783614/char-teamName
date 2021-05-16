@@ -35,6 +35,13 @@ void Menu::printCredits()
    
 }
 
+int Menu::charToInt(char character)
+{
+
+   // int tens = (int)locationsW[i][4] - 48;
+   return (int)character - ASCII_ZERO;
+}
+
 // Asks the User for an Input and takes an entire line with spaces
 // Splits the input to individual words by spaces
 // Puts each word in order into a vector
