@@ -28,6 +28,7 @@ const int RIGHT = 1;
 const int DOWN = 2;
 const int LEFT = 3;
 
+// Location struct to hold locations board positions
 struct Location
 {
    int row;

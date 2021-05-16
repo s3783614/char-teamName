@@ -74,6 +74,8 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
+
+// Starting a new game, setting up everything
 void NewGame(GamePlay* gameTime)
 {
    std::string name1 = "";
@@ -118,6 +120,7 @@ void NewGame(GamePlay* gameTime)
    }
 }
 
+// Places tiles into a vector and returns it
 std::vector<Tile *> initialiseTileBag()
 {
 
@@ -141,9 +144,9 @@ std::vector<Tile *> initialiseTileBag()
    std::shuffle(std::begin(orderedTiles), std::end(orderedTiles), std::default_random_engine());
 
    return orderedTiles;
-   // shuffleTiles(orderedTiles);
 }
 
+// Places tiles from the bag into players hand
 void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
 {
 
@@ -162,6 +165,7 @@ void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard)
    }
 }
 
+// Playing the game
 void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime)
 {
 
@@ -211,6 +215,7 @@ void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime)
    }
 }
 
+// Start of a players turn
 void onePlayerTurn(Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime)
 {
    if(currentPlayer->getNumber() == 1)
@@ -411,7 +416,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    return theBoard;
 }
 
-    
+// Splits a string by a character inputted, returns a vector
 std::vector<std::string> splitString(std::string string, std::string delim)
 {
    std::vector<std::string> playerHandVector;

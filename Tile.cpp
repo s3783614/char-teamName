@@ -36,10 +36,10 @@ Shape Tile::getShape()
     return shape;
 }
 
+// Compares a tile to the current tile
 bool Tile::compareTile(Tile *tile)
 {
     bool checker = false;
-
     if (this->getColour() == tile->getColour() && this->getShape() == tile->getShape())
     {
         checker = true;

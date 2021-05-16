@@ -16,6 +16,8 @@ public:
    
    int getScore();
 
+   int getNumber();
+   void setNumber(int playerNumber);
    void setName(std::string newName);
    void printHand();
    void addTile(Tile* newTile);
@@ -27,8 +29,7 @@ public:
 
    std::string handToString();
 
-   int getNumber();
-   void setNumber(int playerNumber);
+   
 
 private:
    std::string name;

@@ -44,10 +44,12 @@ int Player::getScore()
    return this->score;
 }
 
+// Returns the players hand
 LinkedList* Player::getHand()
 {
    return hand;
 }
+
 
 void Player::setNumber(int playerNumber)
 {
