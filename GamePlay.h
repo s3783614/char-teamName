@@ -20,6 +20,9 @@ class GamePlay
     GamePlay();
     ~GamePlay();
 
+   void setMenu(Menu* menu);
+    void setPlayer(Player* player);
+    void setBoard(Board* theBoard);
 
     bool check(char *s);
     void NewGame();
@@ -50,12 +53,8 @@ class GamePlay
     int score(Location location);
 
     void HandPlayerTile(Player* player);
-    void setPlayer(Player* player);
 
-    void setBoard(Board* theBoard);
     int scoreDirection(int direction, Location location);
-
-    void setMenu(Menu* menu);
 
     private:
     Menu* menu ;

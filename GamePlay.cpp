@@ -1,6 +1,4 @@
-
 #include <fstream>
-// #include <ofstream>
 
 #include "GamePlay.h"
 
@@ -21,13 +19,37 @@ GamePlay::~GamePlay()
    menu = nullptr;
 }
 
+
+void GamePlay::setPlayer(Player* player)
+{
+   if(player->getNumber() == 1)
+   {
+      this->player1 = player;
+   }
+   else
+   {
+      this->player2 = player;
+   }
+}
+
+void GamePlay::setBoard(Board* board)
+{
+   theBoard = board;
+}
+
+void GamePlay::setMenu(Menu* menu)
+{
+   this->menu = menu;
+}
+
+// One players turn
+// Will loop until successful move or quit
 bool GamePlay::playerMove(Menu* menu, int playerTurn)
 {
    bool tilePlaced = false;
    bool tileReplaced = false;
    bool gameSaved = false;
    bool triedToSaveGame = false;
-
    bool gameQuit = false;
 
    Player* player;
@@ -92,8 +114,7 @@ bool GamePlay::playerMove(Menu* menu, int playerTurn)
   return gameQuit;
 }
 
-// Takes the tile inputted and determines if it is a real tile
-// And if the tile is in the players hand
+// Takes the tile inputted and determines if it is in the players hand
 bool GamePlay::tileInputtedIsOkay(std::string tileString, Player *player)
 {
    bool isOkay = false;
@@ -116,6 +137,8 @@ bool GamePlay::tileInputtedIsOkay(std::string tileString, Player *player)
    return isOkay;
 }
 
+// Changes an input string to a real tile
+// Only called if the tile is a possible tile
 Tile* GamePlay::turnInputToTile(std::string tiledata)
 {
    char colour = tiledata[0];
@@ -124,14 +147,13 @@ Tile* GamePlay::turnInputToTile(std::string tiledata)
    return tile;
 }
 
-//CHANGE LATER --ASCII MAGIC
-// check letter is shape and number is Colour
-//CHANGE LATER --ASCII MAGIC
+// Converts an input location string to a location
 Location GamePlay::convertInputLoc(std::string inputLocation)
 {
    Location location;
    location.row = (int)inputLocation[0] - 65;
 
+   // Depending on whether inputted string is 2 or 3 digits
    if (inputLocation.size() == 3)
    {
       int tens = menu->charToInt(inputLocation[1]);
@@ -145,29 +167,7 @@ Location GamePlay::convertInputLoc(std::string inputLocation)
    return location;
 }
 
-
-
-bool GamePlay::tileFit(Tile* tile, Location location)
-{
-   bool check = true;
-
-   if (!theBoard->checkEmpty())
-   {
-
-      if(!checkBothSides(UP, DOWN, location, tile) || !checkBothSides(RIGHT, LEFT, location, tile))
-      {
-         check = false;
-      }
-      if (!checkIfNextToTiles(location))
-      {
-         check = false;
-      }
-   }
-
-   return check;
-}
-
-//TODO CHECKLOC
+// Places a tile in a location if it is an acceptable location
 bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
 {
    Tile *checkTile = nullptr;
@@ -178,17 +178,18 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
    bool locExists = false;
    bool acceptableLoc = false;
 
-   // Check if inputted tile is real and in players hand
+
    acceptableTile = tileInputtedIsOkay(wordsIn[1], player);
    checkTile = new Tile(wordsIn[1][0], menu->charToInt(wordsIn[1][1]));
 
-   // Converts inputted location from char to ints of board location
+
    Location toPlace = convertInputLoc(wordsIn[3]);
-   locExists = theBoard->isOnBoard(toPlace, theBoard);
-   // takes correct location and looks for empty position on the Board
+   locExists = theBoard->isOnBoard(toPlace);
+
+   // takes correct location and looks if it is an empty position on the Board
    if (locExists)
    {
-      isSpotTaken = theBoard->isSpotTaken(toPlace);
+      isSpotTaken = !theBoard->emptyLocation(toPlace);
       acceptableLoc = tileFit(checkTile, toPlace);
    }
 
@@ -203,9 +204,7 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
       // Hand new tile to the player SHOULD BE A METHOD
       HandPlayerTile(player);
       player->addScore(score(toPlace));
-      moveMade = true;
-      // delete checkTile;
-      
+      moveMade = true;   
    }
    else
    {
@@ -213,10 +212,31 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
       std::cout << "Tile cannot be placed there!" << std::endl;
       delete checkTile;
    }
-   // delete checkTile;
+
    return moveMade;
 }
 
+// Checks if a tile can legally be placed in a location
+bool GamePlay::tileFit(Tile* tile, Location location)
+{
+   bool check = true;
+
+   if (!theBoard->checkEmpty())
+   {
+      if(!checkBothSides(UP, DOWN, location, tile) || !checkBothSides(RIGHT, LEFT, location, tile))
+      {
+         check = false;
+      }
+      if (!checkIfNextToTiles(location))
+      {
+         check = false;
+      }
+   }
+
+   return check;
+}
+
+// Replaces a tile in a players hand if legal to do
 bool GamePlay::replaceTile(std::vector<std::string> wordsIn, Player *player)
 {
    bool rtnReplaced = false;
@@ -293,6 +313,7 @@ bool GamePlay::checkIfNextToTiles(Location location)
    return check;
 }
 
+// Adds all tiles in one direction from a location into a vector
 void GamePlay::checkDirection(int direction1, Location location, std::vector<Tile*>* tileInLine)
 {
    Location checkLocation;
@@ -302,7 +323,7 @@ void GamePlay::checkDirection(int direction1, Location location, std::vector<Til
    bool empty = false;
    while(!empty)
    {
-      if (theBoard->isOnBoard(checkLocation, theBoard))
+      if (theBoard->isOnBoard(checkLocation))
       {
          if(!theBoard->emptyLocation(checkLocation))
          {
@@ -368,7 +389,7 @@ bool GamePlay::compareTiles(std::vector<Tile*>* tileInLine)
    return match;
 }
 
-
+// Hands the first tile from the bag to the player
 void GamePlay::HandPlayerTile(Player* player)
 {
    if (theBoard->getBag()->getSize() != 0)
@@ -379,6 +400,7 @@ void GamePlay::HandPlayerTile(Player* player)
    }
 }
 
+// Saves a game into a file
 bool GamePlay::saveGame(std::vector<std::string> wordsIn, Player *player, Player* player2)
 {
 
@@ -428,6 +450,7 @@ bool GamePlay::saveGame(std::vector<std::string> wordsIn, Player *player, Player
    return saveCheck;
 }
 
+// Determines the score of a move
 int GamePlay::score(Location location)
 {
    int score  = 0;
@@ -478,6 +501,7 @@ int GamePlay::score(Location location)
    return score;
 }
 
+// Determines the score in a single direction from a tile
 int GamePlay::scoreDirection(int direction, Location location)
 {
    bool Empty = false;
@@ -486,7 +510,7 @@ int GamePlay::scoreDirection(int direction, Location location)
    {
       location.col = location.getNextCol(direction);
       location.row = location.getNextRow(direction);
-      if(theBoard->isOnBoard(location, theBoard))
+      if(theBoard->isOnBoard(location))
       {
          Empty = theBoard->emptyLocation(location);
          if (!Empty)
@@ -501,26 +525,4 @@ int GamePlay::scoreDirection(int direction, Location location)
    }
 
    return score;
-}
-
-void GamePlay::setPlayer(Player* player)
-{
-   if(player->getNumber() == 1)
-   {
-      this->player1 = player;
-   }
-   else
-   {
-      this->player2 = player;
-   }
-}
-
-void GamePlay::setBoard(Board* board)
-{
-   theBoard = board;
-}
-
-void GamePlay::setMenu(Menu* menu)
-{
-   this->menu = menu;
 }

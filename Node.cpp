@@ -7,7 +7,6 @@ Node::Node(){
    this->next = nullptr;
 }
 
-
 Node::Node(Tile* tile, Node* next)
 {
 
@@ -20,9 +19,4 @@ Node::Node(Node& other):
    tile(other.tile),
    next(other.next)
 {
-}
-
-void Node::printNode()
-{
-   tile->printTile();
 }

@@ -11,8 +11,6 @@ public:
    Node();
    Node(Tile* tile, Node* next);
    Node(Node& other);
-   
-   void printNode();
 
    Tile*    tile;
    Node*    next;
