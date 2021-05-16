@@ -21,7 +21,7 @@ void onePlayerTurn(Player* currentPlayer, Player* otherPlayer, GamePlay* gameTim
 
 int main(void)
 {
-   bool quit = false;
+   // bool quit = false;
    Menu *theMenu = new Menu();
    GamePlay *gameTime = new GamePlay();
    gameTime->setMenu(theMenu);
@@ -59,7 +59,7 @@ int main(void)
             }
             else if (userInput == "4")
             {
-               quit = true;
+               // quit = true;
             }
             else
             {
@@ -174,7 +174,7 @@ void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime)
       
       onePlayerTurn(player1, player2, gameTime);
 
-      if (gameTime->getMenu()->getQuit() && player1->getHand()->getSize() != 0)
+      if (!gameTime->getMenu()->getQuit() && player1->getHand()->getSize() != 0)
       {
          onePlayerTurn(player2, player1, gameTime);
       }
