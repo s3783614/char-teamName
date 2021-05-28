@@ -112,12 +112,7 @@ void Board::toString()
 
          if (theBoard[j][i] != nullptr)
          {
-            std::string colour(1, theBoard[j][i]->getColour());
-            boardPrint.append(colour);
-
-            int theShape = theBoard[j][i]->getShape();
-            std::string shape = std::to_string(theShape);
-            boardPrint.append(shape);
+            boardPrint.append(getTileWithColor(theBoard[j][i]));
          }
          else
          {

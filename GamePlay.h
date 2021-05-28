@@ -40,7 +40,8 @@ class GamePlay
     void checkDirection(int direction1, Location location, std::vector<Tile*>* tileInLine);
     bool checkIfNextToTiles(Location location);
 
-    bool placeTile(std::vector<std::string> wordsIn, Player *player);
+    //bool placeTile(std::vector<std::string> wordsIn, Player *player);
+    bool placeTile(const std::string&, const std::string&, Player*);
     bool replaceTile(std::vector<std::string> wordsIn, Player *player);
     bool saveGame(std::vector<std::string> wordsIn, Player *player, Player* player2);
 
@@ -66,7 +67,9 @@ class GamePlay
 
 };
 
-
+// tool func for splitting strings
+// Splits a string by a character inputted, returns a vector
+std::vector<std::string> splitString(const std::string&, const std::string&);
 
 
 #endif //GAMEPLAY

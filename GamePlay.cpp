@@ -91,7 +91,17 @@ bool GamePlay::playerMove(int playerTurn)
       {
          if (wordsIn.size() == 4 && wordsIn[0] == "place" && wordsIn[2] == "at")
          {
-            tilePlaced = placeTile(wordsIn, player);
+            const auto vecTileStr = splitString(wordsIn[1], ",");
+            const auto vecPlaceStr = splitString(wordsIn[3], ",");
+            if(vecTileStr.size() != vecPlaceStr.size()) {
+               std::cout << "Incorrect input: indifferent count for tiles and places when adding multiple tiles" << std::endl;
+               continue;
+            } else {
+               for(int i = 0; i != vecTileStr.size(); ++i) {
+                  tilePlaced |= placeTile(vecTileStr[i], vecPlaceStr[i], player);
+               }
+            }
+
             if(player->getHand()->getSize() == 0)
             {
                std::cout << std::endl;
@@ -111,7 +121,8 @@ bool GamePlay::playerMove(int playerTurn)
          else
          {
             std::cout << "Incorrect Input!" << std::endl;
-            std::cout << "Please input again" << std::endl;
+            std::cout << "Please input again, use replace/save/place to continue the game" << std::endl;
+            std::cout << "Type `help' for specific help." << std::endl;
          }
          if(triedToSaveGame && !gameSaved)
          {
@@ -202,7 +213,7 @@ Location GamePlay::convertInputLoc(std::string inputLocation)
 }
 
 // Places a tile in a location if it is an acceptable location
-bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
+bool GamePlay::placeTile(const std::string& tileStr, const std::string& placeStr, Player *player)
 {
    Tile *checkTile = nullptr;
 
@@ -213,11 +224,11 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
    bool acceptableLoc = false;
 
 
-   acceptableTile = tileInputtedIsOkay(wordsIn[1], player);
-   checkTile = new Tile(wordsIn[1][0], menu->charToInt(wordsIn[1][1]));
+   acceptableTile = tileInputtedIsOkay(tileStr, player);
+   checkTile = new Tile(tileStr[0], menu->charToInt(tileStr[1]));
 
 
-   Location toPlace = convertInputLoc(wordsIn[3]);
+   Location toPlace = convertInputLoc(placeStr);
    locExists = theBoard->isOnBoard(toPlace);
 
    // takes correct location and looks if it is an empty position on the Board
@@ -243,7 +254,8 @@ bool GamePlay::placeTile(std::vector<std::string> wordsIn, Player *player)
    else
    {
       std::cout << std::endl;
-      std::cout << "Tile cannot be placed there!" << std::endl;
+      std::cout << "Tile " << getTileWithColor(checkTile) << " cannot be placed at " << placeStr
+                <<  ", check your input!" << std::endl;
       delete checkTile;
    }
 
@@ -571,4 +583,35 @@ void GamePlay::handOutBonusPoints()
    {
       player2->addScore(6);
    }
+}
+
+std::vector<std::string> splitString(const std::string& string, const std::string& delim)
+{
+   std::vector<std::string> playerHandVector;
+   if(string != "")
+   {
+      int start = 0;
+      int end = string.find(delim);
+      int length = string.size();
+      std::string word;
+      if(end != -1)
+      {
+         while(end != -1)
+         {
+            word = string.substr(start, end - start);
+            playerHandVector.push_back(word);
+            start = end + delim.size();
+            end= string.find(delim, start);
+         }
+         
+         word = string.substr(start, length);
+         playerHandVector.push_back(word);
+      }
+      else
+      {
+         playerHandVector.push_back(string);
+      }
+   }   
+   
+   return playerHandVector;
 }

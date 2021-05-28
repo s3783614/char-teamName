@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include "Tile.h"
 
 #include <iostream>
 
@@ -224,8 +225,7 @@ std::string LinkedList::llToString()
    for(int i = 0; i < size; i++)
    {
 
-      llTiles += get(i)->getColour();
-      llTiles += std::to_string(get(i)->getShape());
+      llTiles += getTileWithColor(get(i));
       if(i != size - 1)
       {
          llTiles += ",";

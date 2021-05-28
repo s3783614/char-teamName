@@ -19,7 +19,6 @@ void handingTilesToPlayers(Player *player1, Player *player2, Board *theBoard);
 void playingTheGame(Player *player1, Player *player2, GamePlay *gameTime);
 Player* loadInPlayer(std::ifstream& saveFile, Menu* menu);
 Board* loadInBoard(std::ifstream& saveFile, Menu* menu);
-std::vector<std::string> splitString(std::string string, std::string delim);
 void onePlayerTurn(Player* currentPlayer, Player* otherPlayer, GamePlay* gameTime);
 
 int main(void)
@@ -66,7 +65,7 @@ int main(void)
             }
             else
             {
-               std::cout << "Invalid Input!" << std::endl;
+               std::cout << "Invalid Input: expected number 1-4, actual input is " << userInput << std::endl;
             }
          }
       }
@@ -95,7 +94,7 @@ void NewGame(GamePlay* gameTime)
       Player *player1 = new Player(name1);
       player1->setNumber(1);
       std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-      std::cout << ">";
+      std::cout << "> ";
       name2 = gameTime->getMenu()->getName();
 
       if (!gameTime->getMenu()->getQuit())
@@ -427,7 +426,7 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
    }
    bagTiles = splitString(theBagString, ",");
 
-   for (unsigned int i =0; i < bagTiles.size(); i++)
+   for (unsigned int i = 0; i < bagTiles.size(); i++)
    {
       Colour colour = bagTiles[i][0];
       Shape shape = menu->charToInt(bagTiles[i][1]);
@@ -439,37 +438,4 @@ Board* loadInBoard(std::ifstream& saveFile, Menu* menu)
 
 
    return theBoard;
-}
-
-// Splits a string by a character inputted, returns a vector
-std::vector<std::string> splitString(std::string string, std::string delim)
-{
-   std::vector<std::string> playerHandVector;
-   if(string != "")
-   {
-      int start = 0;
-      int end = string.find(delim);
-      int length = string.size();
-      std::string word;
-      if(end != -1)
-      {
-         while(end != -1)
-         {
-            word = string.substr(start, end - start);
-            playerHandVector.push_back(word);
-            start = end + delim.size();
-            end= string.find(delim, start);
-         }
-         
-         word = string.substr(start, length);
-         playerHandVector.push_back(word);
-      }
-      else
-      {
-         playerHandVector.push_back(string);
-      }
-   }
-   
-   
-   return playerHandVector;
 }

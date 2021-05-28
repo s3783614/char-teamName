@@ -2,6 +2,8 @@
 #ifndef ASSIGN2_TILE_H
 #define ASSIGN2_TILE_H
 
+#include "TileCodes.h"
+
 // Define a Colour type
 typedef char Colour;
 
@@ -25,5 +27,7 @@ private:
    Colour colour;
    Shape  shape;
 };
+
+std::string getTileWithColor(Tile* tile);
 
 #endif // ASSIGN2_TILE_H

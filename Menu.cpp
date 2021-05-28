@@ -84,7 +84,15 @@ std::vector<std::string> Menu::takeLineInput(char charToSplit)
    {
       quit = true;
    }
-   return wordsIn;
+
+   // if the return vector is a vector with only element 'help', print help command
+   if(wordsIn.size() == 1 && wordsIn[0] == "help")
+   {
+      printHelp();
+      return takeLineInput(charToSplit);
+   } 
+   else
+      return wordsIn;
 }
 
 std::string Menu::getName()
@@ -99,42 +107,47 @@ std::string Menu::getName()
       checker = true;
       std::cout << "Enter your name (ONLY CAPITALS AND NO SPACES)" << std::endl;
       wordsIn = takeLineInput(' ');
-      if(wordsIn.size() ==1 && wordsIn[0] != std::to_string(EOF))
+      if(wordsIn.size() == 1 && wordsIn[0] != std::to_string(EOF))
       {
-         // Check only one word inputted
-         if (wordsIn.size() == 1)
+         name = wordsIn[0];
+
+         for (unsigned int i = 0; i < name.length(); i++)
          {
-            name = wordsIn[0];
 
-            for (unsigned int i = 0; i < name.length(); i++)
+            if (name[i] < 65 || name[i] > 90)
             {
-
-               if (name[i] < 65 || name[i] > 90)
-               {
-                  checker = false;
-               }
-            }
-            if (checker == false)
-            {
-               std::cout << "Invalid Input!" << std::endl;
-               std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
-               std::cout << std::endl;
+               checker = false;
+               break;
             }
          }
-         else
+         if (checker == false)
          {
-            checker = false;
             std::cout << "Invalid Input!" << std::endl;
-            std::cout << "Please enter only one name!" << std::endl;
+            std::cout << "Please enter ONLY CAPITAL LETTERS!" << std::endl;
             std::cout << std::endl;
          }
       }
       else
       {
-         name = std::to_string(EOF);
-         checker = true;
+         std::cout << "Invalid Input!" << std::endl
+                   << "Please enter EXACTLY one name!" << std::endl;
+         std::cout << std::endl;
+         checker = false;
       }
       
    }
    return name;
+}
+
+void Menu::printHelp()
+{
+   std::cout << "In menu, enter 1-4 to select options;" << std::endl
+             << "In new game, enter names to start play; " << std::endl
+             << "In load game, enter file name to load a old game; " << std::endl
+             << "After game starts, enter \"place <tile> at <grid location>\" to place a tile" << std::endl
+             << "(or use \"place A1,B2,C2 at D1,F2,K3\" to place at multiple places), or enter" << std::endl
+             << "\"replace <tile>\" to replace a tile, tile and grid format follows <ROW><COL>." << std::endl
+             << "During a game round, enter \"save <filename>\" to save the game to specified" << std::endl
+             << "file, or enter \"quit\" to directly exit the game without saving." << std::endl
+             << "========================= ENJOY THE GAME =========================" << std::endl;
 }

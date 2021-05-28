@@ -47,3 +47,30 @@ bool Tile::compareTile(Tile *tile)
 
     return checker;
 }
+
+std::string getTileWithColor(Tile* tile) {
+   std::string ret;
+
+   switch(tile->getColour()) {
+     case RED:
+      ret += "\e[31m";
+      break;
+     case ORANGE:
+      ret += "\e[36m"; // we don't have a orange color
+      break;
+     case YELLOW:
+      ret += "\e[33m";
+      break;
+     case GREEN:
+      ret += "\e[32m";
+      break;
+     case BLUE:
+      ret += "\e[34m";
+      break;
+     case PURPLE:
+      ret += "\e[35m";
+      break;
+   }
+
+   return ret + tile->getColour() + std::to_string(tile->getShape())  + "\e[0m";
+}

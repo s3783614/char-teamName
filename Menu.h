@@ -27,6 +27,8 @@ class Menu{
     private:
     bool quit;
 
+    void printHelp();
+
 };
 
 #endif //MENU_H
